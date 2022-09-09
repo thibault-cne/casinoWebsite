@@ -1,0 +1,5 @@
+# Ignore .env files
+.env
+
+# Ingnore database file
+*.db
