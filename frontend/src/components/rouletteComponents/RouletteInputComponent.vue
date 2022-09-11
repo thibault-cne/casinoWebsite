@@ -29,19 +29,19 @@
         :color="'red'"
         :playerAmount="this.amount"
         :displayedText="'1 - 7'"
-        :newBet="this.newBet"
+        :newBet="this.newMessage"
       />
       <RoulettePlayersComponent
         :color="'green'"
         :playerAmount="this.amount"
         :displayedText="'0'"
-        :newBet="this.newBet"
+        :newBet="this.newMessage"
       />
       <RoulettePlayersComponent
         :color="'black'"
         :playerAmount="this.amount"
         :displayedText="'8 - 14'"
-        :newBet="this.newBet"
+        :newBet="this.newMessage"
       />
     </div>
   </div>
@@ -72,11 +72,6 @@ export default {
         players: [],
       },
     };
-  },
-  watch: {
-    newMessage: function () {
-      console.log(this.newMessage);
-    },
   },
   methods: {
     clear() {

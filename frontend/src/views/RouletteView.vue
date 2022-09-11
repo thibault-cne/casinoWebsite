@@ -1,6 +1,6 @@
 <template>
   <v-sheet class="bg-deep-purple pa-12" height="90vh" width="100vw">
-    <WheelComponent :isSpinning="isSpinning" :outcome="outcome" />
+    <WheelComponent class="wheel" :isSpinning="isSpinning" :outcome="outcome" />
     <RouletteInputComponent :newMessage="this.newMessage" />
   </v-sheet>
 </template>
@@ -17,17 +17,13 @@ export default {
     connect();
     socket.onmessage = (msg) => {
       let data = JSON.parse(msg.data);
-      switch (data.dataType) {
-        case "endGame":
-          this.outcome = data.data.number;
-          this.roll();
-          break;
-        case "newBet":
-          this.newMessage = data.data;
-          break;
-        default:
-          break;
+
+      if (data.dataType === "endGame") {
+        this.outcome = data.data.number;
+        this.roll();
       }
+
+      this.newMessage = data;
     };
   },
   data() {
@@ -47,4 +43,8 @@ export default {
   },
 };
 </script>
-<style lang="scss"></style>
+<style scoped lang="scss">
+.wheel {
+  padding: 10px;
+}
+</style>
