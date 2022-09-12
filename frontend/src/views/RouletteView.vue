@@ -1,7 +1,11 @@
 <template>
   <v-sheet class="bg-deep-purple pa-12" height="90vh" width="100vw">
     <WheelComponent class="wheel" :isSpinning="isSpinning" :outcome="outcome" />
-    <RouletteInputComponent :newMessage="this.newMessage" :ws="this.ws" />
+    <RouletteInputComponent
+      :newMessage="this.newMessage"
+      :ws="this.ws"
+      :loggedIn="this.loggedIn"
+    />
   </v-sheet>
 </template>
 <script>
@@ -18,6 +22,7 @@ export default {
     let uri = "";
 
     if (authStore.getters.loggedIn) {
+      this.loggedIn = true;
       uri =
         "ws://localhost:5454/api/v1/roulette/connect?accessToken=" +
         authStore.getters.accessToken;
@@ -44,6 +49,7 @@ export default {
       isSpinning: false,
       outcome: 9,
       ws: null,
+      loggedIn: false,
     };
   },
   methods: {

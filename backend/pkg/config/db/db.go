@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"casino.website/pkg/config"
-	"casino.website/pkg/models"
+	clientservices "casino.website/pkg/services/client.services"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -24,11 +24,11 @@ func InitDatabase() {
 	POPULATE_TEST_DATABASE := os.Getenv("POPULATE_TEST_DATABASE")
 
 	if POPULATE_TEST_DATABASE == "true" {
-		db.Migrator().DropTable(&models.Client{})
-		db.AutoMigrate(&models.Client{})
+		db.Migrator().DropTable(&clientservices.Client{})
+		db.AutoMigrate(&clientservices.Client{})
 		populateDatabase()
 	} else {
-		db.AutoMigrate(&models.Client{})
+		db.AutoMigrate(&clientservices.Client{})
 	}
 
 }

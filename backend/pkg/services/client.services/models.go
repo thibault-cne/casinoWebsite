@@ -1,4 +1,4 @@
-package models
+package clientservices
 
 import "gorm.io/gorm"
 

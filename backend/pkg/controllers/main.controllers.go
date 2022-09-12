@@ -12,4 +12,5 @@ func RegisterControllers(rg *gin.RouterGroup) {
 	roulettecontrollers.HandleRouletteGame(rg)
 	oauthcontrollers.LoginRoutesHandler(rg)
 	clientcontrollers.ClientRouteHandler(rg)
+	clientcontrollers.ClientDataHandler(rg)
 }

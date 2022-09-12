@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strconv"
 
 	"casino.website/pkg/models"
+	clientservices "casino.website/pkg/services/client.services"
 	"github.com/gorilla/websocket"
 )
 
@@ -24,7 +26,6 @@ func (rClient *RouletteClient) ReadRouletteClient(rGame *RouletteGame) {
 
 	for {
 		_, p, err := rClient.WsConn.ReadMessage()
-		fmt.Printf("Receiving new message ...\n")
 		if err != nil {
 			log.Println(err)
 			return
@@ -38,22 +39,28 @@ func (rClient *RouletteClient) ReadRouletteClient(rGame *RouletteGame) {
 			return
 		}
 
-		rBet := &models.RouletteBets{
-			ClientId:    rClient.ClientId,
-			BetPosition: frontBet.Color,
-			BetAmount:   frontBet.Amount,
-		}
+		id, _ := strconv.Atoi(rClient.ClientId)
 
-		broadcast := &models.Broadcast{
-			DataType: "newBet",
-			Data: map[string]interface{}{
-				"clientName":  rClient.ClientName,
-				"betPosition": frontBet.Color,
-				"betAmount":   frontBet.Amount,
-			},
-		}
+		c := clientservices.GetClientById(id)
 
-		rGame.RegisterBet <- rBet
-		rGame.Broadcast <- broadcast
+		if c.RemoveMoneyToClient(frontBet.Amount) {
+			rBet := &models.RouletteBets{
+				ClientId:    rClient.ClientId,
+				BetPosition: frontBet.Color,
+				BetAmount:   frontBet.Amount,
+			}
+
+			broadcast := &models.Broadcast{
+				DataType: "newBet",
+				Data: map[string]interface{}{
+					"clientName":  rClient.ClientName,
+					"betPosition": frontBet.Color,
+					"betAmount":   frontBet.Amount,
+				},
+			}
+
+			rGame.RegisterBet <- rBet
+			rGame.Broadcast <- broadcast
+		}
 	}
 }

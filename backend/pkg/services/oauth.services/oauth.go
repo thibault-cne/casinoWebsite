@@ -3,7 +3,6 @@ package oauthservices
 import (
 	"fmt"
 
-	"casino.website/pkg/models"
 	clientservices "casino.website/pkg/services/client.services"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -17,7 +16,7 @@ func CheckUserPassword(username string, password string) bool {
 		return false
 	}
 
-	var user models.Client
+	var user clientservices.Client
 
 	if err := db.Where("username = ?", username).First(&user).Error; err != nil {
 		return false

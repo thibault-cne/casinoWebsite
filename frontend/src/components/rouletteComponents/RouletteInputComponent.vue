@@ -12,14 +12,15 @@
             <v-btn @click="clear">clear</v-btn>
           </template>
         </v-text-field>
+        <div v-if="this.loggedIn">Your wallet : {{ this.playerWallet }}</div>
       </div>
       <div class="buttons">
         <v-btn-toggle tile group>
-          <v-btn @click="addAmount(5)">+5</v-btn>
-          <v-btn @click="addAmount(25)">+25</v-btn>
-          <v-btn @click="addAmount(100)">+100</v-btn>
-          <v-btn @click="multiplyAmount(0.5)">1/2</v-btn>
-          <v-btn @click="multiplyAmount(2)">x2</v-btn>
+          <v-btn @click="this.addAmount(5)">+5</v-btn>
+          <v-btn @click="this.addAmount(25)">+25</v-btn>
+          <v-btn @click="this.addAmount(100)">+100</v-btn>
+          <v-btn @click="this.multiplyAmount(0.5)">1/2</v-btn>
+          <v-btn @click="this.multiplyAmount(2)">x2</v-btn>
           <v-btn>MAX</v-btn>
         </v-btn-toggle>
       </div>
@@ -58,10 +59,17 @@ export default {
   props: {
     newMessage: {},
     ws: WebSocket,
+    loggedIn: Boolean,
+  },
+  watch: {
+    newMessage: function () {
+      if (this.newMessage.dataType === "newBet") {
+        this.playerWallet -= this.newMessage.data.betAmount;
+      }
+    },
   },
   data() {
     return {
-      newBet: {},
       amount: 0,
       redPlayers: {
         maxAmount: 0,
@@ -75,6 +83,7 @@ export default {
         maxAmount: 0,
         players: [],
       },
+      playerWallet: 0,
     };
   },
   methods: {
@@ -85,7 +94,7 @@ export default {
       this.amount += value;
     },
     multiplyAmount(value) {
-      this.amount *= value;
+      this.amount = Math.floor(this.amount * value);
     },
   },
 };

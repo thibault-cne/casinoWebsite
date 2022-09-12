@@ -2,9 +2,11 @@ package rouletteservices
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"casino.website/pkg/models"
+	clientservices "casino.website/pkg/services/client.services"
 	"github.com/gorilla/websocket"
 )
 
@@ -30,7 +32,16 @@ func NewRouletteGame() *RouletteGame {
 	}
 }
 
-func (rGame *RouletteGame) cleanRouletteGame() {
+func (rGame *RouletteGame) cleanRouletteGame(winPos string) {
+	for bet := range rGame.Bets {
+		if bet.BetPosition == winPos {
+			id, _ := strconv.Atoi(bet.ClientId)
+
+			c := clientservices.GetClientById(id)
+			c.AddMoneyToClient(2 * bet.BetAmount)
+		}
+	}
+
 	rGame.Bets = make(map[*models.RouletteBets]bool)
 }
 
@@ -61,13 +72,6 @@ func (rGame *RouletteGame) Start() {
 }
 
 func (rGame *RouletteGame) End() {
-	defer func() {
-		fmt.Printf("Ended a roulette game.\n")
-		rGame.cleanRouletteGame()
-		fmt.Printf("Game cleaned.\n")
-		go rGame.End()
-	}()
-
 	time.Sleep(30 * time.Second)
 
 	result, color := calculateRouletteColor()
@@ -89,4 +93,11 @@ func (rGame *RouletteGame) End() {
 	}
 
 	rGame.Broadcast <- &endBroadcast
+
+	defer func(winPos string) {
+		fmt.Printf("Ended a roulette game.\n")
+		rGame.cleanRouletteGame(winPos)
+		fmt.Printf("Game cleaned.\n")
+		go rGame.End()
+	}(color)
 }

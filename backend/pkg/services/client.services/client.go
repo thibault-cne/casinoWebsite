@@ -3,7 +3,6 @@ package clientservices
 import (
 	"fmt"
 
-	"casino.website/pkg/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -40,7 +39,7 @@ func CheckClientModerationType(userId int) bool {
 		return false
 	}
 
-	var user models.Client
+	var user Client
 
 	if err := db.Where("id = ?", userId).First(&user).Error; err != nil {
 		return false
@@ -53,7 +52,7 @@ func CheckClientModerationType(userId int) bool {
 	return false
 }
 
-func GetClientByUsername(username string) *models.Client {
+func GetClientByUsername(username string) *Client {
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 
 	if err != nil {
@@ -61,7 +60,7 @@ func GetClientByUsername(username string) *models.Client {
 		return nil
 	}
 
-	var user models.Client
+	var user Client
 
 	if err := db.Where("username = ?", username).First(&user).Error; err != nil {
 		return nil
@@ -70,7 +69,7 @@ func GetClientByUsername(username string) *models.Client {
 	return &user
 }
 
-func GetClientById(id int) *models.Client {
+func GetClientById(id int) *Client {
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 
 	if err != nil {
@@ -78,11 +77,42 @@ func GetClientById(id int) *models.Client {
 		return nil
 	}
 
-	var user models.Client
+	var user Client
 
 	if err := db.Where("id = ?", id).First(&user).Error; err != nil {
 		return nil
 	}
 
 	return &user
+}
+
+func (c *Client) AddMoneyToClient(amount int) {
+	c.Wallet += amount
+
+	c.saveClient()
+}
+
+func (c *Client) RemoveMoneyToClient(amount int) bool {
+	if c.checkClientAmount(amount) {
+		c.Wallet -= amount
+
+		c.saveClient()
+		return true
+	}
+
+	return false
+}
+
+func (c *Client) checkClientAmount(amount int) bool {
+	return c.Wallet >= amount
+}
+
+func (c *Client) saveClient() {
+	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+
+	if err != nil {
+		panic(err)
+	}
+
+	db.Save(c)
 }
