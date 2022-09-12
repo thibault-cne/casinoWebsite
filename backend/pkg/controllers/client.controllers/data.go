@@ -16,8 +16,8 @@ func getUserWallet(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"Wallet": c.Wallet})
 }
 
-func ClientDataHandler(rg *gin.RouterGroup) {
-	routerGroup := rg.Group("/client/data")
+func ClientDataHandler(rg *gin.RouterGroup, handlers ...gin.HandlerFunc) {
+	routerGroup := rg.Group("/client/data", handlers...)
 
 	routerGroup.POST("/wallet", getUserWallet)
 }
