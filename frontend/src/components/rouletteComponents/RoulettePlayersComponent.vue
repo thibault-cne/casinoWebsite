@@ -1,5 +1,5 @@
 <template>
-  <v-card class="color-row">
+  <v-card class="color-row" :style="isWinnerComp ? winningStyle : defaultStyle">
     <v-btn
       class="color-btn"
       v-bind:class="this.color"
@@ -26,6 +26,7 @@ export default {
     color: String,
     displayedText: String,
     newBet: {},
+    ws: WebSocket,
   },
   data() {
     return {
@@ -33,6 +34,13 @@ export default {
       bestBet: {
         username: "",
         amount: 0,
+      },
+      isWinnerComp: false,
+      winningStyle: {
+        "background-color": "green",
+      },
+      defaultStyle: {
+        "background-color": "#967ffa",
       },
     };
   },
@@ -45,11 +53,8 @@ export default {
         this.registerNewBet(this.newBet.data);
       }
       if (this.newBet.dataType === "endGame") {
-        this.players = [];
-        this.bestBet = {
-          username: "",
-          amount: 0,
-        };
+        setTimeout(() => this.setColor(), 6000);
+        setTimeout(() => this.resetValues(), 9000);
       }
     },
   },
@@ -59,7 +64,7 @@ export default {
         return;
       }
       let data = { color: this.color, amount: this.playerAmount };
-      sendMsg(JSON.stringify(data));
+      sendMsg(this.ws, JSON.stringify(data));
     },
     registerNewBet(data) {
       if (data.clientName === this.bestBet.username) {
@@ -83,6 +88,19 @@ export default {
       if (!playerAdded) {
         this.players.push(data);
       }
+    },
+    setColor() {
+      if (this.newBet.data.color == this.color) {
+        this.isWinnerComp = true;
+      }
+    },
+    resetValues() {
+      this.players = [];
+      this.bestBet = {
+        username: "",
+        amount: 0,
+      };
+      this.isWinnerComp = false;
     },
   },
   components: { RoulettePlayersList },

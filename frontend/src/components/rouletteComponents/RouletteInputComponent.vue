@@ -30,18 +30,21 @@
         :playerAmount="this.amount"
         :displayedText="'1 - 7'"
         :newBet="this.newMessage"
+        :ws="this.ws"
       />
       <RoulettePlayersComponent
         :color="'green'"
         :playerAmount="this.amount"
         :displayedText="'0'"
         :newBet="this.newMessage"
+        :ws="this.ws"
       />
       <RoulettePlayersComponent
         :color="'black'"
         :playerAmount="this.amount"
         :displayedText="'8 - 14'"
         :newBet="this.newMessage"
+        :ws="this.ws"
       />
     </div>
   </div>
@@ -54,6 +57,7 @@ export default {
   },
   props: {
     newMessage: {},
+    ws: WebSocket,
   },
   data() {
     return {

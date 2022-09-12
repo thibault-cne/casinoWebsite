@@ -1,11 +1,12 @@
 <template>
   <v-sheet class="bg-deep-purple pa-12" height="90vh" width="100vw">
     <WheelComponent class="wheel" :isSpinning="isSpinning" :outcome="outcome" />
-    <RouletteInputComponent :newMessage="this.newMessage" />
+    <RouletteInputComponent :newMessage="this.newMessage" :ws="this.ws" />
   </v-sheet>
 </template>
 <script>
-import { connect, socket } from "@/websocket";
+import { refreshToken } from "@/axios/requests/refreshRequests";
+import { authStore } from "@/store/authStore";
 import WheelComponent from "@/components/rouletteComponents/WheelComponent.vue";
 import RouletteInputComponent from "@/components/rouletteComponents/RouletteInputComponent.vue";
 export default {
@@ -14,8 +15,19 @@ export default {
     RouletteInputComponent,
   },
   created() {
-    connect();
-    socket.onmessage = (msg) => {
+    let uri = "";
+
+    if (authStore.getters.loggedIn) {
+      uri =
+        "ws://localhost:5454/api/v1/roulette/connect?accessToken=" +
+        authStore.getters.accessToken;
+    } else {
+      uri = "ws://localhost:5454/api/v1/roulette/connect";
+    }
+
+    this.ws = new WebSocket(uri);
+    this.connect();
+    this.ws.onmessage = (msg) => {
       let data = JSON.parse(msg.data);
 
       if (data.dataType === "endGame") {
@@ -31,6 +43,7 @@ export default {
       newMessage: "",
       isSpinning: false,
       outcome: 9,
+      ws: null,
     };
   },
   methods: {
@@ -39,6 +52,31 @@ export default {
       setTimeout(() => {
         this.isSpinning = !this.isSpinning;
       }, 6 * 1000);
+    },
+    connect() {
+      console.log("Attempting Connection...");
+
+      this.ws.onopen = () => {
+        console.log("Successfully Connected");
+      };
+
+      this.ws.onmessage = (msg) => {
+        let data = JSON.parse(msg.data);
+        if (data.errorType === 401) {
+          refreshToken().then(() => {
+            this.connect();
+          });
+          return;
+        }
+      };
+
+      this.ws.onclose = (event) => {
+        console.log("Socket Closed Connection: ", event);
+      };
+
+      this.ws.onerror = (error) => {
+        console.log("Socket Error: ", error);
+      };
     },
   },
 };
