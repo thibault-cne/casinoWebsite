@@ -19,5 +19,5 @@ func getUserWallet(ctx *gin.Context) {
 func ClientDataHandler(rg *gin.RouterGroup, handlers ...gin.HandlerFunc) {
 	routerGroup := rg.Group("/client/data", handlers...)
 
-	routerGroup.POST("/wallet", getUserWallet)
+	routerGroup.GET("/wallet", getUserWallet)
 }

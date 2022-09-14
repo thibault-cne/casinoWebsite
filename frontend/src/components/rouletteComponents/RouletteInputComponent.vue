@@ -51,10 +51,14 @@
   </div>
 </template>
 <script>
+import { getRequest } from "@/axios/requests/getRequest";
 import RoulettePlayersComponent from "./RoulettePlayersComponent.vue";
 export default {
   components: {
     RoulettePlayersComponent,
+  },
+  created() {
+    this.updateWallet();
   },
   props: {
     newMessage: {},
@@ -64,7 +68,10 @@ export default {
   watch: {
     newMessage: function () {
       if (this.newMessage.dataType === "newBet") {
-        this.playerWallet -= this.newMessage.data.betAmount;
+        this.updateWallet();
+      }
+      if (this.newMessage.dataType === "endGame") {
+        setTimeout(() => this.updateWallet(), 6000);
       }
     },
   },
@@ -95,6 +102,26 @@ export default {
     },
     multiplyAmount(value) {
       this.amount = Math.floor(this.amount * value);
+    },
+    updateWallet() {
+      if (this.loggedIn) {
+        getRequest("/client/data/wallet").then((r) => {
+          this.playerWallet = r.data.Wallet;
+        });
+      }
+    },
+    setColor(color) {
+      switch (color) {
+        case "green":
+          this.winningRow.green = true;
+          break;
+        case "black":
+          this.winningRow.black = true;
+          break;
+        case "red":
+          this.winningRow.red = true;
+          break;
+      }
     },
   },
 };
