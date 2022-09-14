@@ -9,3 +9,10 @@ type Client struct {
 	AccessType int    `json:"accessType"`
 	Wallet     int    `json:"wallet"`
 }
+
+type ShortClient struct {
+	UserId     uint   `json:"userId"`
+	Username   string `json:"username"`
+	AccessType int    `json:"accessType"`
+	Wallet     int    `json:"wallet"`
+}

@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 
+	clientservices "casino.website/pkg/services/client.services"
 	oauthservices "casino.website/pkg/services/oauth.services"
 	"github.com/gin-gonic/gin"
 )
@@ -13,6 +14,19 @@ func ensureLoggedIn() gin.HandlerFunc {
 		loggedIn := loggedInInterface.(bool)
 		if !loggedIn {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token."})
+		}
+	}
+}
+
+func ensureIsAdmin() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		userIdInterface, _ := ctx.Get("user_id")
+		userId := userIdInterface.(int)
+
+		c := clientservices.GetClientById(userId)
+
+		if c.AccessType != 3 {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "You are not an admin."})
 		}
 	}
 }

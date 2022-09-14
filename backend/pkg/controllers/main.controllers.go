@@ -13,4 +13,5 @@ func RegisterControllers(rg *gin.RouterGroup) {
 	oauthcontrollers.LoginRoutesHandler(rg)
 	clientcontrollers.ClientRouteHandler(rg)
 	clientcontrollers.ClientDataHandler(rg, setUserStatus(), ensureLoggedIn())
+	clientcontrollers.ClientAdminDataHandler(rg, setUserStatus(), ensureLoggedIn(), ensureIsAdmin())
 }

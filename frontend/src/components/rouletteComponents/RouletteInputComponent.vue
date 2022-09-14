@@ -12,7 +12,10 @@
             <v-btn @click="clear">clear</v-btn>
           </template>
         </v-text-field>
-        <div v-if="this.loggedIn">Your wallet : {{ this.playerWallet }}</div>
+        <v-card class="wallet" v-if="this.loggedIn">
+          <div>{{ this.playerWallet }}</div>
+          <div class="currency">$</div></v-card
+        >
       </div>
       <div class="buttons">
         <v-btn-toggle tile group>
@@ -129,7 +132,7 @@ export default {
 <style scoped lang="scss">
 .input {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -137,6 +140,18 @@ export default {
   flex-grow: 0;
   padding: 10px;
   width: 25%;
+}
+
+.wallet {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 5%;
+}
+
+.currency {
+  padding-left: 5px;
+  overflow: hidden;
 }
 
 .buttons {
