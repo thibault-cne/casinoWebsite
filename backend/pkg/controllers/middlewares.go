@@ -23,10 +23,8 @@ func ensureIsAdmin() gin.HandlerFunc {
 		userIdInterface, _ := ctx.Get("user_id")
 		userId := userIdInterface.(int)
 
-		c := clientservices.GetClientById(userId)
-
-		if c.AccessType != 3 {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "You are not an admin."})
+		if !clientservices.CheckClientModerationType(userId) {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "You are not an administrator."})
 		}
 	}
 }

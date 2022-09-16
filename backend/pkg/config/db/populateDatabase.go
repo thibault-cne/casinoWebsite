@@ -7,7 +7,7 @@ import (
 )
 
 func populateDatabase() {
-	password := clientservices.CreateNewClient("test", 3)
+	password, _ := clientservices.CreateNewClient("test", 3)
 	clientservices.CreateNewClient("John Doe", 1)
 	clientservices.CreateNewClient("Gerald Doe", 1)
 	clientservices.CreateNewClient("Christophe Doe", 1)

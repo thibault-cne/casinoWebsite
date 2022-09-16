@@ -11,8 +11,8 @@ type Client struct {
 }
 
 type ShortClient struct {
-	UserId     uint   `json:"userId"`
-	Username   string `json:"username"`
-	AccessType int    `json:"accessType"`
-	Wallet     int    `json:"wallet"`
+	UserId     uint   `json:"userId" form:"userId"`
+	Username   string `json:"username" form:"username"`
+	AccessType int    `json:"accessType" form:"accessType"`
+	Wallet     int    `json:"wallet" form:"wallet"`
 }

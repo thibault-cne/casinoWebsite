@@ -11,7 +11,10 @@ func RegisterControllers(rg *gin.RouterGroup) {
 	// Register all controllers with the router group
 	roulettecontrollers.HandleRouletteGame(rg)
 	oauthcontrollers.LoginRoutesHandler(rg)
-	clientcontrollers.ClientRouteHandler(rg)
+
+	// Client routes
 	clientcontrollers.ClientDataHandler(rg, setUserStatus(), ensureLoggedIn())
+
+	// Admin routes
 	clientcontrollers.ClientAdminDataHandler(rg, setUserStatus(), ensureLoggedIn(), ensureIsAdmin())
 }

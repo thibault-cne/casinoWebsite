@@ -31,3 +31,13 @@ func RetrieveAllClients() []ShortClient {
 
 	return shortClients
 }
+
+func (sc *ShortClient) UpdateClient() {
+	c := GetClientById(int(sc.UserId))
+
+	c.Wallet = sc.Wallet
+	c.AccessType = sc.AccessType
+	c.Username = sc.Username
+
+	c.saveClient()
+}

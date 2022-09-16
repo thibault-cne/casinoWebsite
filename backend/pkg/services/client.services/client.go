@@ -7,15 +7,20 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateNewClient(username string, accessType int) string {
-	// TO DO : check if username is available
+func CreateNewClient(username string, accessType int) (string, bool) {
+	c := GetClientByUsername(username)
+
+	if c != nil {
+		return "", false
+	}
+
 	client := NewClient(username, accessType)
 
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 
 	if err != nil {
 		fmt.Printf("An error occured while openning the database : %s", err.Error())
-		return ""
+		return "", false
 	}
 
 	password := client.Password
@@ -23,12 +28,12 @@ func CreateNewClient(username string, accessType int) string {
 
 	if err != nil {
 		fmt.Printf("An error occured while hashing the password : %s", err.Error())
-		return ""
+		return "", false
 	}
 
 	client.Password = hash
 	db.Save(client)
-	return password
+	return password, true
 }
 
 func CheckClientModerationType(userId int) bool {
