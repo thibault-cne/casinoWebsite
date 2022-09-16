@@ -17,7 +17,7 @@ func login(ctx *gin.Context) {
 	fmt.Printf("Username %s", username)
 
 	if !oauthservices.CheckUserPassword(username, password) {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Bad credentials"})
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Bad credentials"})
 		return
 	}
 
@@ -26,7 +26,7 @@ func login(ctx *gin.Context) {
 	userClaims := oauthservices.NewUserClaims(int(user.ID))
 
 	if userClaims == nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "An error occured while creating the jwt tokens."})
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "An error occured while creating the jwt tokens."})
 		return
 	}
 
@@ -41,7 +41,7 @@ func refreshToken(ctx *gin.Context) {
 	new_access_token, err := oauthservices.RefreshToken(reqToken)
 
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
 		return
 	}
 
