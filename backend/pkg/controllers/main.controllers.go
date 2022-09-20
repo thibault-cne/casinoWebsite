@@ -17,4 +17,5 @@ func RegisterControllers(rg *gin.RouterGroup) {
 
 	// Admin routes
 	clientcontrollers.ClientAdminDataHandler(rg, setUserStatus(), ensureLoggedIn(), ensureIsAdmin())
+	clientcontrollers.ClientSuperAdminDataHandler(rg, setUserStatus(), ensureLoggedIn(), ensureIsSuperAdmin())
 }

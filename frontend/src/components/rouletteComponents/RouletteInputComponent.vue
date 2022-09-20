@@ -24,7 +24,7 @@
           <v-btn @click="this.addAmount(100)">+100</v-btn>
           <v-btn @click="this.multiplyAmount(0.5)">1/2</v-btn>
           <v-btn @click="this.multiplyAmount(2)">x2</v-btn>
-          <v-btn>MAX</v-btn>
+          <v-btn @click="this.addAmount(this.playerWallet)">MAX</v-btn>
         </v-btn-toggle>
       </div>
     </v-card>

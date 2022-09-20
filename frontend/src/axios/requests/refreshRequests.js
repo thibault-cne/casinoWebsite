@@ -14,14 +14,12 @@ function refreshToken() {
       })
       .then((response) => {
         authStore.commit("setAccessToken", response.data.accessToken);
-        location.reload();
         resolve();
       })
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 401) {
             authStore.commit("destroyToken");
-            location.reload();
           }
         }
         reject(error);

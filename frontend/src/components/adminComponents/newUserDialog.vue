@@ -5,7 +5,7 @@
         {{ this.alertMessage }}
       </v-alert>
       <v-progress-circular
-        v-if="this.spinner"
+        v-show="this.spinner"
         class="spinner"
         indeterminate
         color="primary"
@@ -26,7 +26,7 @@
                 class="mr"
               ></v-text-field>
               <v-select
-                :items="['1', '2', '3']"
+                :items="['USER', 'ADMIN', 'SUPER ADMIN']"
                 label="Access Type*"
                 required
                 v-model="this.newUser.accessType"
@@ -39,6 +39,9 @@
           <v-spacer></v-spacer>
           <v-btn color="blue-darken-1" text @click="this.createNewUser()">
             Save
+          </v-btn>
+          <v-btn color="blue-darken-1" text @click="this.close()">
+            Close
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -63,7 +66,7 @@ export default {
       dialogToggle: false,
       newUser: {
         username: "",
-        accessType: 1,
+        accessType: "USER",
       },
       alert: false,
       spinner: false,
@@ -78,14 +81,27 @@ export default {
         return;
       }
 
+      let accessType = 1;
+
+      switch (this.newUser.accessType) {
+        case "ADMIN":
+          accessType = 2;
+          break;
+
+        case "SUPER ADMIN":
+          accessType = 3;
+          break;
+      }
+
+      this.toggleSpinner();
       let data = {
         username: this.newUser.username,
-        accessType: this.newUser.accessType,
+        accessType: accessType,
       };
-      this.spinner = true;
       postRequest(data, "/client/data/admin/create")
         .then((r) => {
           this.$emit("toggle", r.data.pass);
+          this.toggleSpinner();
         })
         .catch((e) => {
           if (e.response) {
@@ -95,11 +111,13 @@ export default {
             }
           }
         });
-      this.spinner = false;
     },
-    notEmpty(v) {
-      console.log(v.length);
-      return v.length > 0 || "Make sure to enter a username";
+    toggleSpinner() {
+      this.spinner = !this.spinner;
+      console.log(this.spinner);
+    },
+    close() {
+      this.$emit("close");
     },
   },
 };

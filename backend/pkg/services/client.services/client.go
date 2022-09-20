@@ -36,7 +36,7 @@ func CreateNewClient(username string, accessType int) (string, bool) {
 	return password, true
 }
 
-func CheckClientModerationType(userId int) bool {
+func CheckClientModerationType(userId int, superAdmin bool) bool {
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 
 	if err != nil {
@@ -50,8 +50,14 @@ func CheckClientModerationType(userId int) bool {
 		return false
 	}
 
-	if user.AccessType >= 2 {
-		return true
+	if superAdmin {
+		if user.AccessType > 2 {
+			return true
+		}
+	} else {
+		if user.AccessType >= 2 {
+			return true
+		}
 	}
 
 	return false

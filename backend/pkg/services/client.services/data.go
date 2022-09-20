@@ -41,3 +41,11 @@ func (sc *ShortClient) UpdateClient() {
 
 	c.saveClient()
 }
+
+func (sc *ShortClient) UpdateWallet() {
+	c := GetClientById(int(sc.UserId))
+
+	c.Wallet = sc.Wallet
+
+	c.saveClient()
+}

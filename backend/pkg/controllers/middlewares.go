@@ -23,7 +23,18 @@ func ensureIsAdmin() gin.HandlerFunc {
 		userIdInterface, _ := ctx.Get("user_id")
 		userId := userIdInterface.(int)
 
-		if !clientservices.CheckClientModerationType(userId) {
+		if !clientservices.CheckClientModerationType(userId, false) {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "You are not an administrator."})
+		}
+	}
+}
+
+func ensureIsSuperAdmin() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		userIdInterface, _ := ctx.Get("user_id")
+		userId := userIdInterface.(int)
+
+		if !clientservices.CheckClientModerationType(userId, true) {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "You are not an administrator."})
 		}
 	}

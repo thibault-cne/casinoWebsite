@@ -28,6 +28,18 @@ func updateUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"status": "success"})
 }
 
+func updateWallet(ctx *gin.Context) {
+	var client clientservices.ShortClient
+
+	if err := ctx.Bind(&client); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	client.UpdateWallet()
+	ctx.JSON(http.StatusOK, gin.H{"status": "success"})
+}
+
 func createNewClient(ctx *gin.Context) {
 	var newClient NewClient
 
@@ -50,6 +62,12 @@ func ClientAdminDataHandler(rg *gin.RouterGroup, handlers ...gin.HandlerFunc) {
 	routerGroup := rg.Group("/client/data/admin", handlers...)
 
 	routerGroup.GET("/all", getAllUsers)
-	routerGroup.POST("/update", updateUser)
+	routerGroup.POST("/update/wallet", updateWallet)
 	routerGroup.POST("/create", createNewClient)
+}
+
+func ClientSuperAdminDataHandler(rg *gin.RouterGroup, handlers ...gin.HandlerFunc) {
+	routerGroup := rg.Group("/client/data/admin", handlers...)
+
+	routerGroup.POST("/update/user", updateUser)
 }
