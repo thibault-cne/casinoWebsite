@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-layout>
-      <v-app-bar color="primary" prominent>
+      <v-app-bar class="header" prominent>
         <v-app-bar-nav-icon
           variant="text"
           @click.stop="drawer = !drawer"
@@ -10,21 +10,29 @@
         <v-toolbar-title>Casino Website</v-toolbar-title>
       </v-app-bar>
 
-      <v-navigation-drawer v-model="drawer" bottom temporary>
+      <v-navigation-drawer color="#424549" v-model="drawer" bottom temporary>
         <v-list>
           <v-list-item v-for="item in items" :key="item.title" :to="item.path">
-            <v-list-item>{{ item.title }}</v-list-item>
+            <v-list-item class="nav-item">{{ item.title }}</v-list-item>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
 
-      <v-main>
+      <v-main class="main">
         <router-view />
       </v-main>
     </v-layout>
-    <v-footer padless>
+    <v-footer app fixed height="50px" class="footer">
       <v-col class="text-center" cols="12">
-        Fait avec ❤️ par <strong>Thibault</strong>
+        <v-btn
+          href="https://github.com/thibault-cne/casinoWebsite"
+          icon
+          variant="text"
+        >
+          <v-icon>mdi-github</v-icon>
+        </v-btn>
+
+        <strong>Fait avec ❤️ par Thibault</strong>
       </v-col>
     </v-footer>
   </v-app>
@@ -60,3 +68,24 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+@use "@/assets/styles/scss/standards/colors";
+
+.header {
+  background-color: colors.$bg-header;
+  color: colors.$header;
+}
+
+.nav-item {
+  color: colors.$text-primary !important;
+}
+
+.main {
+  padding-bottom: 50px;
+}
+
+.footer {
+  background-color: colors.$bg-footer;
+  color: colors.$footer;
+}
+</style>

@@ -1,6 +1,18 @@
 <template>
   <v-card class="list">
-    <v-table fixed-header>
+    <div class="row">
+      <v-btn class="m-10" @click="this.newUserDialog = true">New User</v-btn>
+      <NewUserDialog
+        :toggle="this.newUserDialog"
+        @toggle="(p) => this.togglePassDialog(p)"
+      />
+      <PassDialog
+        :toggle="this.passToggle"
+        :pass="this.newPass"
+        @toggle="this.passToggle = false"
+      />
+    </div>
+    <v-table>
       <thead>
         <tr>
           <th>ID</th>
@@ -17,64 +29,15 @@
           <td>{{ u.accessType }}</td>
           <td>{{ u.wallet }}</td>
           <td>
-            <v-icon class="mr icon" @click="editDialog = true"
+            <v-icon class="mr icon" @click="this.toggle(u.userId)"
               >mdi-pencil
             </v-icon>
             <v-icon class="icon">mdi-delete</v-icon>
-            <div class="text-center">
-              <v-dialog v-model="editDialog">
-                <v-card class="dialog">
-                  <v-card-title>
-                    <span class="text-h5">User Profile</span>
-                  </v-card-title>
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-text-field
-                          label="Username*"
-                          required
-                          v-model="u.username"
-                          class="mr"
-                        ></v-text-field>
-                        <v-select
-                          :items="['1', '2', '3']"
-                          label="Access Type*"
-                          required
-                          v-model="u.accessType"
-                          class=""
-                        ></v-select>
-                      </v-row>
-                      <v-row>
-                        <v-text-field
-                          label="Wallet*"
-                          required
-                          v-model="u.wallet"
-                          class="small-field"
-                        ></v-text-field>
-                      </v-row>
-                    </v-container>
-                    <small>*indicates required field</small>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="blue-darken-1"
-                      text
-                      @click="editDialog = false"
-                    >
-                      Close
-                    </v-btn>
-                    <v-btn
-                      color="blue-darken-1"
-                      text
-                      @click="editDialog = false"
-                    >
-                      Save
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </div>
+            <EditDialog
+              :toggle="this.editDialog[u.userId]"
+              :user="u"
+              @save-user="(u) => this.saveUser(u)"
+            />
           </td>
         </tr>
       </tbody>
@@ -83,18 +46,29 @@
 </template>
 <script>
 import { getRequest } from "@/axios/requests/getRequest";
+import { postRequest } from "@/axios/requests/postRequest";
+import EditDialog from "@/components/adminComponents/editDialog.vue";
+import NewUserDialog from "@/components/adminComponents/newUserDialog.vue";
+import PassDialog from "@/components/adminComponents/passDialog.vue";
 
 export default {
   name: "AdminView",
   data() {
     return {
       users: [],
-      editDialog: false,
-      deleteDialog: false,
+      editDialog: [],
+      deleteDialog: [],
+      newUserDialog: false,
+      newPass: "",
+      passToggle: false,
     };
   },
   created() {
     this.retriveUsers();
+    for (let index = 0; index < this.editDialog.length; index++) {
+      this.editDialog.push(false);
+      this.deleteDialog.push(false);
+    }
   },
   methods: {
     retriveUsers() {
@@ -102,24 +76,43 @@ export default {
         this.users = r.data.clients;
       });
     },
+    saveUser(u) {
+      let data = {
+        userId: u.userId,
+        username: u.username,
+        accessType: u.accessType,
+        wallet: u.wallet,
+      };
+      this.editDialog[u.userId] = false;
+      postRequest(data, "/client/data/admin/update");
+    },
+    toggle(id) {
+      this.editDialog[id] = true;
+    },
+    togglePassDialog(p) {
+      this.newUserDialog = false;
+      this.newPass = p;
+      this.passToggle = true;
+      this.retriveUsers();
+    },
   },
+  components: { EditDialog, NewUserDialog, PassDialog },
 };
 </script>
 <style scoped lang="scss">
-@use "@/assets/styles/scss/standards/mixin";
+@use "@/assets/styles/scss/standards/margin";
+
+.row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .icon {
   cursor: pointer;
 }
 
 .mr {
   margin-right: 8px;
-}
-
-.dialog {
-  min-width: 100vw;
-
-  @include mixin.lg {
-    min-width: 45vw;
-  }
 }
 </style>
