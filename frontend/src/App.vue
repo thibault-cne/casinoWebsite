@@ -10,12 +10,24 @@
         <v-toolbar-title>Casino Website</v-toolbar-title>
       </v-app-bar>
 
-      <v-navigation-drawer color="#424549" v-model="drawer" bottom temporary>
+      <v-navigation-drawer
+        color="#424549"
+        v-model="drawer"
+        bottom
+        temporary
+        class="navbar"
+      >
         <v-list>
           <v-list-item v-for="item in items" :key="item.title" :to="item.path">
             <v-list-item class="nav-item">{{ item.title }}</v-list-item>
           </v-list-item>
         </v-list>
+
+        <template v-slot:append>
+          <div class="bottom-item">
+            <v-btn block> Logout </v-btn>
+          </div>
+        </template>
       </v-navigation-drawer>
 
       <v-main class="main">
@@ -76,6 +88,10 @@ export default {
   color: colors.$header;
 }
 
+.bottom-item {
+  margin-bottom: 60px;
+}
+
 .nav-item {
   color: colors.$text-primary !important;
 }
@@ -85,6 +101,7 @@ export default {
 }
 
 .footer {
+  z-index: 9;
   background-color: colors.$bg-footer;
   color: colors.$footer;
 }

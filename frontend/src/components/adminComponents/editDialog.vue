@@ -30,6 +30,15 @@
                 class="small-field"
               ></v-text-field>
             </v-row>
+            <v-row class="buttons">
+              <v-btn-toggle tile group>
+                <v-btn @click="this.addAmount(5)">+5</v-btn>
+                <v-btn @click="this.addAmount(25)">+25</v-btn>
+                <v-btn @click="this.addAmount(100)">+100</v-btn>
+                <v-btn @click="this.multiplyAmount(0.5)">1/2</v-btn>
+                <v-btn @click="this.multiplyAmount(2)">x2</v-btn>
+              </v-btn-toggle>
+            </v-row>
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
@@ -81,5 +90,12 @@ export default {
   @include mixin.lg {
     min-width: 45vw;
   }
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 }
 </style>
