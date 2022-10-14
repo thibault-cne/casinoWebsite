@@ -1,6 +1,4 @@
 import { getAPI } from "@/axios/axios";
-import { refreshToken } from "@/axios/requests/refreshRequests";
-import { createHeader } from "@/axios/requests/createHeader";
 
 function getRequest(url, params = {}, times = 0) {
   if (times < 0) {

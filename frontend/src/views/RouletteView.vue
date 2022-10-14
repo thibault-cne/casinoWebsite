@@ -9,7 +9,6 @@
   </v-sheet>
 </template>
 <script>
-import { refreshToken } from "@/axios/requests/refreshRequests";
 import WheelComponent from "@/components/rouletteComponents/WheelComponent.vue";
 import RouletteInputComponent from "@/components/rouletteComponents/RouletteInputComponent.vue";
 export default {
@@ -59,9 +58,6 @@ export default {
       this.ws.onmessage = (msg) => {
         let data = JSON.parse(msg.data);
         if (data.errorType === 401) {
-          refreshToken().then(() => {
-            this.connect();
-          });
           return;
         }
       };
