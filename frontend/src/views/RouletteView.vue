@@ -10,7 +10,6 @@
 </template>
 <script>
 import { refreshToken } from "@/axios/requests/refreshRequests";
-import { authStore } from "@/store/authStore";
 import WheelComponent from "@/components/rouletteComponents/WheelComponent.vue";
 import RouletteInputComponent from "@/components/rouletteComponents/RouletteInputComponent.vue";
 export default {
@@ -19,16 +18,7 @@ export default {
     RouletteInputComponent,
   },
   created() {
-    let uri = "";
-
-    if (authStore.getters.loggedIn) {
-      this.loggedIn = true;
-      uri =
-        "ws://localhost:5454/api/v1/roulette/connect?accessToken=" +
-        authStore.getters.accessToken;
-    } else {
-      uri = "ws://localhost:5454/api/v1/roulette/connect";
-    }
+    let uri = "ws://localhost:5454/api/v1/roulette/connect";
 
     this.ws = new WebSocket(uri);
     this.connect();

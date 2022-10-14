@@ -4,8 +4,9 @@ import (
 	"math/rand"
 	"time"
 
-	"casino.website/pkg/config/db"
-	"casino.website/pkg/config/server"
+	"casino.website/pkg/db"
+	"casino.website/pkg/models"
+	"casino.website/pkg/server"
 )
 
 func main() {
@@ -14,6 +15,9 @@ func main() {
 
 	// Init the database
 	db.InitDatabase()
+
+	// Migrate the scheme
+	models.Init(true)
 
 	// Init the htpp server
 	server.InitServer()

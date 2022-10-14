@@ -17,7 +17,6 @@
   </v-card>
 </template>
 <script>
-import { authStore } from "@/store/authStore";
 import { sendMsg } from "@/websocket";
 import RoulettePlayersList from "./RoulettePlayersList.vue";
 export default {
@@ -60,7 +59,7 @@ export default {
   },
   methods: {
     playerBet() {
-      if (this.playerAmount <= 0 || !authStore.getters.loggedIn) {
+      if (this.playerAmount <= 0) {
         return;
       }
       let data = { color: this.color, amount: this.playerAmount };
