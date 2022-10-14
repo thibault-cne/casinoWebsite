@@ -107,7 +107,7 @@ func (rGame *RouletteGame) End() {
 
 	for bet := range rGame.Bets {
 		if bet.BetPosition == rGame.Color {
-			fmt.Printf("Client %s won %d\n", bet.Client.ID, bet.BetAmount)
+			fmt.Printf("Client %d won %d\n", bet.Client.ID, bet.BetAmount)
 		}
 	}
 
