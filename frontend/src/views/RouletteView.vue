@@ -11,26 +11,22 @@
 <script>
 import WheelComponent from "@/components/rouletteComponents/WheelComponent.vue";
 import RouletteInputComponent from "@/components/rouletteComponents/RouletteInputComponent.vue";
+import socket from "@/websocket/roulette";
+
 export default {
   components: {
     WheelComponent,
     RouletteInputComponent,
   },
   created() {
-    let uri = "ws://localhost:5454/api/v1/roulette/connect";
+    socket.connect();
 
-    this.ws = new WebSocket(uri);
-    this.connect();
-    this.ws.onmessage = (msg) => {
-      let data = JSON.parse(msg.data);
-
-      if (data.dataType === "endGame") {
-        this.outcome = data.data.number;
-        this.roll();
-      }
-
-      this.newMessage = data;
-    };
+    socket.on("bet", (msg) => {
+      console.log(msg);
+    });
+  },
+  beforeUnmount() {
+    socket.disconnect();
   },
   data() {
     return {
@@ -47,28 +43,6 @@ export default {
       setTimeout(() => {
         this.isSpinning = !this.isSpinning;
       }, 6 * 1000);
-    },
-    connect() {
-      console.log("Attempting Connection...");
-
-      this.ws.onopen = () => {
-        console.log("Successfully Connected");
-      };
-
-      this.ws.onmessage = (msg) => {
-        let data = JSON.parse(msg.data);
-        if (data.errorType === 401) {
-          return;
-        }
-      };
-
-      this.ws.onclose = (event) => {
-        console.log("Socket Closed Connection: ", event);
-      };
-
-      this.ws.onerror = (error) => {
-        console.log("Socket Error: ", error);
-      };
     },
   },
 };

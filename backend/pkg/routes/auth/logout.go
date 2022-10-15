@@ -1,11 +1,17 @@
 package auth
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+
+	"github.com/gin-gonic/gin"
+)
 
 func logout(ctx *gin.Context) {
-	session, _ := store.Get(ctx.Request, "cookie-name")
+	c, err := ctx.Cookie("session")
 
-	// Revoke users authentication
-	session.Values["authenticated"] = false
-	session.Save(ctx.Request, ctx.Writer)
+	if err != nil {
+		return
+	}
+
+	fmt.Printf("Cookie : %s\n", c)
 }

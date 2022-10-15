@@ -13,6 +13,7 @@ func RouletteGameRoutes(rg *gin.RouterGroup) {
 	subpath.GET("/connect", middlewares.UserStatus(), func(ctx *gin.Context) {
 		connectRoulette(ctx, rGame)
 	})
+	subpath.GET("/ws/", middlewares.UserStatus(), Wrapper())
 
 	go rGame.Start()
 	go rGame.End()

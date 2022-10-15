@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"fmt"
 	"net/http"
 
 	"casino.website/pkg/models"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,28 +12,29 @@ func login(ctx *gin.Context) {
 	username := ctx.PostForm("username")
 	password := ctx.PostForm("password")
 
-	fmt.Printf("Username %s", username)
-
 	if !models.CheckUserPassword(username, password) {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Bad credentials"})
 		return
 	}
 
-	session, _ := store.Get(ctx.Request, "cookie-name")
+	s := sessions.Default(ctx)
 
-	session.Values["authenticated"] = true
-	session.Values["username"] = username
-	session.Save(ctx.Request, ctx.Writer)
+	s.Set("authentificated", true)
+	s.Set("username", username)
+
+	s.Save()
 
 	ctx.Status(http.StatusOK)
 }
 
 func GetUser(ctx *gin.Context) *models.Client {
-	session, _ := store.Get(ctx.Request, "cookie-name")
+	s := sessions.Default(ctx)
 
-	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+	auth := s.Get("authentificated")
+
+	if auth == nil || !auth.(bool) {
 		return nil
 	}
 
-	return models.GetClientByUsername(session.Values["username"].(string))
+	return models.GetClientByUsername(s.Get("username").(string))
 }

@@ -17,7 +17,6 @@
   </v-card>
 </template>
 <script>
-import { sendMsg } from "@/websocket";
 import RoulettePlayersList from "./RoulettePlayersList.vue";
 export default {
   props: {
@@ -63,7 +62,8 @@ export default {
         return;
       }
       let data = { color: this.color, amount: this.playerAmount };
-      sendMsg(this.ws, JSON.stringify(data));
+      console.log(data);
+      // sendMsg(this.ws, JSON.stringify(data));
     },
     registerNewBet(data) {
       if (data.clientName === this.bestBet.username) {

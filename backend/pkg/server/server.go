@@ -10,6 +10,8 @@ import (
 	"casino.website/pkg/models"
 	"casino.website/pkg/routes"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,9 +22,9 @@ func InitServer() {
 	APP_DOMAIN := os.Getenv("APP_DOMAIN")
 	APP_PORT := os.Getenv("APP_PORT")
 
-	router := gin.Default()
+	r := gin.Default()
 	// Config CORS middleware
-	router.Use(cors.New(cors.Config{
+	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:8080"},
 		AllowMethods:     []string{"GET", "POST", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
@@ -30,14 +32,18 @@ func InitServer() {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
-	basepath := router.Group("/api/v1")
+
+	store := cookie.NewStore([]byte("secret"))
+	r.Use(sessions.Sessions("session", store))
+
+	basepath := r.Group("/")
 
 	// Add all controllers
 	routes.Register(basepath)
 
 	s := &http.Server{
 		Addr:           APP_DOMAIN + ":" + APP_PORT,
-		Handler:        router,
+		Handler:        r,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		IdleTimeout:    10 * time.Second,

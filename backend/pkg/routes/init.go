@@ -7,6 +7,10 @@ import (
 )
 
 func Register(path *gin.RouterGroup) {
-	auth.AuthRoutes(path)
-	roulette.RouletteGameRoutes(path)
+	subpath := path.Group("/api/v1")
+
+	auth.AuthRoutes(subpath)
+	roulette.RouletteGameRoutes(subpath)
+
+	roulette.InitWebsocket()
 }
