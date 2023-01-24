@@ -49,7 +49,7 @@
   </div>
 </template>
 <script>
-import { postRequest } from "@/axios/requests/postRequest";
+import { postRequest } from "@/axios/postRequest";
 
 export default {
   name: "newUsetDialog",

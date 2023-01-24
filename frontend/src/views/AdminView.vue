@@ -54,8 +54,8 @@
   </v-card>
 </template>
 <script>
-import { getRequest } from "@/axios/requests/getRequest";
-import { postRequest } from "@/axios/requests/postRequest";
+import { getRequest } from "@/axios/getRequest";
+import { postRequest } from "@/axios/postRequest";
 import EditDialog from "@/components/adminComponents/editDialog.vue";
 import NewUserDialog from "@/components/adminComponents/newUserDialog.vue";
 import PassDialog from "@/components/adminComponents/passDialog.vue";

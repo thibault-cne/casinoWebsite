@@ -54,7 +54,7 @@
   </div>
 </template>
 <script>
-import { getRequest } from "@/axios/requests/getRequest";
+import { getRequest } from "@/axios/getRequest";
 import RoulettePlayersComponent from "./RoulettePlayersComponent.vue";
 export default {
   components: {

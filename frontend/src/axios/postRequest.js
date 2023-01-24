@@ -1,12 +1,8 @@
-import { getAPI } from "@/axios/axios";
+import { getAPI } from "./axios";
+import { createHeader } from "./createHeader";
 
-function postRequest(data, url, times = 0) {
-  if (times < 0) {
-    return;
-  }
-  const header = {
-    "Content-Type": "multipart/form-data",
-  };
+function postRequest(data, url, headerType) {
+  const header = createHeader(headerType);
   return new Promise((resolve, reject) => {
     getAPI
       .post(url, data, { headers: header })

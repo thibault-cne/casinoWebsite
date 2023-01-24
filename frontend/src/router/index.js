@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { isLogged } from "@/axios/logged";
 
 const routes = [
   {
@@ -13,6 +14,7 @@ const routes = [
   {
     path: "/roulette",
     name: "roulette",
+    beforeEnter: checkAuth,
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -35,21 +37,21 @@ const router = createRouter({
   routes,
 });
 
-// This callback runs before every route change, including on page load.
-router.beforeEach((to, from, next) => {
-  // This goes through the matched routes from last to first, finding the closest route with a title.
-  // e.g., if we have `/some/deep/nested/route` and `/some`, `/deep`, and `/nested` have titles,
-  // `/nested`'s will be chosen.
-  const nearestWithTitle = to.matched
-    .slice()
-    .reverse()
-    .find((r) => r.meta && r.meta.title);
-
-  // If a route with a title was found, set the document (page) title to that value.
-  if (nearestWithTitle) {
-    document.title = nearestWithTitle.meta.title;
+async function checkAuth(to, from, next) {
+  const status = await isLogged();
+  if (!status.logged && to.name !== "login") {
+    // redirect the user to the login page
+    next({ name: "login" });
+    return;
   }
   next();
+}
+
+router.afterEach(async (to) => {
+  // check meta to put title
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
 });
 
 export default router;
