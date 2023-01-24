@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+  mariadb:
+    image: docker.io/mariadb:latest
+    container_name: mariadb
+    hostname: mariadb
+    restart: unless-stopped
+    env_file:
+      - development.env
+    ports:
+      - 3306:3306
+    networks:
+      - default
+
+  phpmyadmin:
+    image: docker.io/arm64v8/phpmyadmin
+    container_name: pma
+    links:
+      - mariadb
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: unless-stopped
+    ports:
+      - 8081:80
+    networks:
+      - default
+
+  api:
+    build: .
+    container_name: api
+    profiles: ["deploy"]
+    ports:
+      - 8000:8000
+    volumes:
+      - "./static:/code/static"
+    env_file:
+      - development.env
+    depends_on:
+      - mariadb
