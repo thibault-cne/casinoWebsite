@@ -2,6 +2,7 @@ package auth
 
 import (
 	"fmt"
+	"net/http"
 
 	"casino.website/internal/models"
 	"github.com/gin-contrib/sessions"
@@ -29,15 +30,12 @@ func Login(c *gin.Context) {
 	// Check if the user exists by username or email
 	user, err := models.GetUserByUsername(f.Username)
 	if err != nil {
-		user, err = models.GetUserByEmail(f.Username)
-		if err != nil {
-			fmt.Println(err)
-			c.JSON(400, gin.H{
-				"success": false,
-				"status":  "Nom d'utilisateur ou mot de passe incorrect",
-			})
-			return
-		}
+
+		c.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"status":  "Nom d'utilisateur ou mot de passe incorrect",
+		})
+		return
 	}
 
 	// Check if the password is correct

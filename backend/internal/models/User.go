@@ -11,7 +11,6 @@ type User struct {
 	ID        string    `json:"id"`
 	Username  string    `json:"username"`
 	Password  string    `json:"-"`
-	Email     string    `json:"email"`
 	Status    int       `json:"status"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -28,14 +27,13 @@ func (u *User) CheckPasswordHash(attempt string) bool {
 }
 
 func (u *User) Create() error {
-	_, err := db.DB.Exec("INSERT INTO users (id, username, password, email, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)", u.ID, u.Username, u.Password, u.Email, u.CreatedAt, u.UpdatedAt)
+	err := db.DB.Create(u).Error
 	return err
 }
 
 func CheckClientModerationType(id string) bool {
-	var user User
+	user, err := GetUserByID(id)
 
-	err := db.DB.QueryRow("SELECT status FROM users WHERE id = ?", id).Scan(&user.Status)
 	if err != nil {
 		return false
 	}
@@ -48,28 +46,26 @@ func CheckClientModerationType(id string) bool {
 }
 
 func GetUserByID(id string) (*User, error) {
-	var u User
-	err := db.DB.QueryRow("SELECT id, username, password, email, created_at, updated_at FROM users WHERE id = ?", id).Scan(&u.ID, &u.Username, &u.Password, &u.Email, &u.CreatedAt, &u.UpdatedAt)
+	user := &User{
+		ID: id,
+	}
+
+	err := db.DB.Find(user).Error
 	if err != nil {
 		return nil, err
 	}
-	return &u, nil
+	return user, nil
 }
 
 func GetUserByUsername(username string) (*User, error) {
-	var u User
-	err := db.DB.QueryRow("SELECT id, username, password, email, created_at, updated_at FROM users WHERE username = ?", username).Scan(&u.ID, &u.Username, &u.Password, &u.Email, &u.CreatedAt, &u.UpdatedAt)
-	if err != nil {
-		return nil, err
+	user := &User{
+		Username: username,
 	}
-	return &u, nil
-}
 
-func GetUserByEmail(email string) (*User, error) {
-	var u User
-	err := db.DB.QueryRow("SELECT id, username, password, email, created_at, updated_at FROM users WHERE email = ?", email).Scan(&u.ID, &u.Username, &u.Password, &u.Email, &u.CreatedAt, &u.UpdatedAt)
+	err := db.DB.Find(user).Error
+
 	if err != nil {
 		return nil, err
 	}
-	return &u, nil
+	return user, nil
 }

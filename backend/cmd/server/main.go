@@ -5,6 +5,7 @@ import (
 
 	"casino.website/api/v1/router"
 	"casino.website/internal/env"
+	"casino.website/internal/models"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -33,6 +34,7 @@ func main() {
 	app.Use(sessions.Sessions(env.Config.CookieName, store))
 
 	router.Route(app)
+	models.Migrate()
 
 	app.Run(":8000")
 }

@@ -5,30 +5,36 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "@/views/LoginView.vue"),
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "@/views/RegisterView.vue"),
   },
   {
     path: "/roulette",
     name: "roulette",
     beforeEnter: checkAuth,
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "@/views/RouletteView.vue"),
   },
   {
     path: "/admin",
     name: "admin",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "@/views/AdminView.vue"),
+  },
+  {
+    path: "/",
+    name: "home",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/AdminView.vue"),
+      import(/* webpackChunkName: "about" */ "@/views/HomeView.vue"),
   },
 ];
 
@@ -39,7 +45,7 @@ const router = createRouter({
 
 async function checkAuth(to, from, next) {
   const status = await isLogged();
-  if (!status.logged && to.name !== "login") {
+  if (!status && to.name !== "login") {
     // redirect the user to the login page
     next({ name: "login" });
     return;

@@ -1,25 +1,25 @@
 package db
 
 import (
-	"database/sql"
 	"log"
 
 	"casino.website/internal/env"
-	_ "github.com/go-sql-driver/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
-var DB *sql.DB
+var DB *gorm.DB
 
 func init() {
 	// Open up our database connection.
-	db, err := sql.Open("mysql", env.Config.MysqlDSN())
+	db, err := gorm.Open(mysql.Open(env.Config.MysqlDSN()), &gorm.Config{})
 	if err != nil {
 		panic(err.Error())
 	}
 
 	// Connect and check the server version
 	var version string
-	err = db.QueryRow("SELECT VERSION()").Scan(&version)
+	err = db.Raw("SELECT VERSION()").Scan(&version).Error
 	if err != nil {
 		panic(err.Error())
 	}

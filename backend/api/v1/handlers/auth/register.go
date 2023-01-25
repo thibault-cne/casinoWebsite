@@ -13,21 +13,19 @@ import (
 // registerForm is the struct that will be used to bind the request body
 type registerForm struct {
 	Username       string `json:"username" binding:"required"`
-	Email          string `json:"email" binding:"required"`
 	Password       string `json:"password" binding:"required"`
 	PasswordVerify string `json:"passwordVerify" binding:"required"`
 }
 
 var (
 	usernameRegex = regexp.MustCompile(`^[a-zA-Z0-9_]{3,16}$`)
-	emailRegex    = regexp.MustCompile(`^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$`)
 	passwordRegex = regexp.MustCompile(`^[a-zA-Z0-9!@#$%^&*()_+-=]{8,32}$`)
 )
 
 func Register(c *gin.Context) {
 	var f registerForm
 	// Bind the request body to the struct
-	if err := c.ShouldBindBodyWith(&f, binding.JSON); err != nil {
+	if err := c.MustBindWith(&f, binding.JSON); err != nil {
 		c.JSON(400, gin.H{
 			"success": false,
 			"status":  "Les informations fournies ne sont pas valides",
@@ -45,19 +43,10 @@ func Register(c *gin.Context) {
 	}
 
 	// Check if the username is already taken
-	if _, err := models.GetUserByUsername(f.Username); err == nil {
+	if _, err := models.GetUserByUsername(f.Username); err != nil {
 		c.JSON(400, gin.H{
 			"success": false,
 			"status":  "Nom d'utilisateur déjà pris",
-		})
-		return
-	}
-
-	// Check if the email is already taken
-	if _, err := models.GetUserByEmail(f.Email); err == nil {
-		c.JSON(400, gin.H{
-			"success": false,
-			"status":  "Email déjà utilisée",
 		})
 		return
 	}
@@ -67,14 +56,6 @@ func Register(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"success": false,
 			"status":  "Nom d'utilisateur invalide, doit être compris entre 3 et 16 caractères et ne contenir que des lettres, des chiffres et des underscores",
-		})
-		return
-	}
-
-	if !emailRegex.MatchString(f.Email) {
-		c.JSON(400, gin.H{
-			"success": false,
-			"status":  "Email invalide, doit être une adresse email valide",
 		})
 		return
 	}
@@ -101,7 +82,6 @@ func Register(c *gin.Context) {
 	user := models.User{
 		ID:        utils.Generate(),
 		Username:  f.Username,
-		Email:     f.Email,
 		Password:  pHash,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),

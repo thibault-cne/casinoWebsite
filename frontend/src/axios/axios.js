@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const base_backend_url = `${process.env.VUE_APP_BACKEND_URI}/api`;
+const backendDomain = `${process.env.VUE_APP_BACKEND_DOMAIN}:${process.env.VUE_APP_BACKEND_PORT}`;
+const base_backend_url = "http://" + backendDomain + "/api/v1";
 
 axios.defaults.withCredentials = true;
 const getAPI = axios.create({
