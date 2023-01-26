@@ -80,7 +80,9 @@ func Register(c *gin.Context) {
 
 	// Create the user
 	user := models.User{
-		ID:        utils.Generate(),
+		ID:        utils.GenerateUserId(),
+		Wallet:    0,
+		Status:    "user",
 		Username:  f.Username,
 		Password:  pHash,
 		CreatedAt: time.Now(),

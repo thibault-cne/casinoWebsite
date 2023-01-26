@@ -3,7 +3,6 @@
     <WheelComponent class="wheel" :isSpinning="isSpinning" :outcome="outcome" />
     <RouletteInputComponent
       :newMessage="this.newMessage"
-      :ws="this.ws"
       :loggedIn="this.loggedIn"
     />
   </v-sheet>
@@ -11,31 +10,25 @@
 <script>
 import WheelComponent from "@/components/rouletteComponents/WheelComponent.vue";
 import RouletteInputComponent from "@/components/rouletteComponents/RouletteInputComponent.vue";
-import socket from "@/websocket/roulette";
+import { socket } from "@/websocket/roulette";
 
 export default {
   components: {
     WheelComponent,
     RouletteInputComponent,
   },
-  created() {
-    socket.connect();
-
-    socket.on("bet", (msg) => {
-      console.log(msg);
-    });
-  },
-  beforeUnmount() {
-    socket.disconnect();
-  },
   data() {
     return {
       newMessage: "",
       isSpinning: false,
       outcome: 9,
-      ws: null,
-      loggedIn: false,
+      loggedIn: true,
     };
+  },
+  mounted() {
+    socket.on("endgame", () => {
+      this.roll();
+    });
   },
   methods: {
     roll() {

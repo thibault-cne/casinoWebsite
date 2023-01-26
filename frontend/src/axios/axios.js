@@ -11,4 +11,4 @@ const getAPI = axios.create({
   },
 });
 
-export { getAPI, base_backend_url };
+export { getAPI, base_backend_url, backendDomain };

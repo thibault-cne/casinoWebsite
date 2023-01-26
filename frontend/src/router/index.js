@@ -3,12 +3,6 @@ import { isLogged } from "@/axios/logged";
 
 const routes = [
   {
-    path: "/login",
-    name: "login",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/LoginView.vue"),
-  },
-  {
     path: "/register",
     name: "register",
     component: () =>

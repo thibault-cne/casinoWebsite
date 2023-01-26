@@ -1,108 +1,100 @@
 package models
 
 import (
-	"fmt"
+	"math/rand"
 	"time"
 
 	"casino.website/internal/utils"
-	"github.com/gorilla/websocket"
+	"github.com/yyewolf/gosf"
 )
 
-type RouletteBets struct {
-	ClientId    string `json:"id"`
-	BetPosition string `json:"position"`
-	BetAmount   int    `json:"amount"`
+type Roulette struct {
+	ID    string
+	Users map[string]int
+	Wager map[string]*[3]int
 }
 
-type Broadcast struct {
-	DataType string                 `json:"dataType"`
-	Data     map[string]interface{} `json:"data"`
-}
+var (
+	colorMap = map[string]int{"green": 0, "red": 1, "black": 2}
+)
 
-type FrontBet struct {
-	Color  string `json:"color"`
-	Amount int    `json:"amount"`
-}
-
-type RouletteGame struct {
-	Id                   string
-	RegisterBet          chan *RouletteBets
-	RegisterPlayerConn   chan *websocket.Conn
-	UnregisterPlayerConn chan *websocket.Conn
-	Bets                 map[*RouletteBets]bool
-	ConnectedPlayers     map[*websocket.Conn]bool
-	Broadcast            chan *Broadcast
-}
-
-func NewRouletteGame() *RouletteGame {
-	return &RouletteGame{
-		Id:                   utils.GenerateRandomId(),
-		RegisterBet:          make(chan *RouletteBets),
-		RegisterPlayerConn:   make(chan *websocket.Conn),
-		UnregisterPlayerConn: make(chan *websocket.Conn),
-		Bets:                 make(map[*RouletteBets]bool),
-		ConnectedPlayers:     make(map[*websocket.Conn]bool),
-		Broadcast:            make(chan *Broadcast),
+func NewRoulette() *Roulette {
+	return &Roulette{
+		ID:    utils.GenerateRouletteId(),
+		Users: make(map[string]int),
+		Wager: make(map[string]*[3]int),
 	}
 }
 
-func (rGame *RouletteGame) cleanRouletteGame() {
-	rGame.Bets = make(map[*RouletteBets]bool)
+func (r *Roulette) AddUser(u *User) {
+	r.Users[u.ID] += 1
 }
 
-func (rGame *RouletteGame) Start() {
-	for {
-		select {
-		case bet := <-rGame.RegisterBet:
-			fmt.Printf("Registering a new bet %+v\n", bet)
-			rGame.Bets[bet] = true
-			break
-		case conn := <-rGame.RegisterPlayerConn:
-			fmt.Printf("Registering a new player.\n")
-			rGame.ConnectedPlayers[conn] = true
-			break
-		case conn := <-rGame.UnregisterPlayerConn:
-			delete(rGame.ConnectedPlayers, conn)
-			break
-		case broadcast := <-rGame.Broadcast:
-			for conn := range rGame.ConnectedPlayers {
-				if err := conn.WriteJSON(broadcast); err != nil {
-					fmt.Printf("An error occured while broadcasting : %s", err.Error())
-					return
-				}
-			}
-			break
-		}
+func (r *Roulette) RemoveUser(u *User) {
+	r.Users[u.ID] -= 1
+}
+
+func (r *Roulette) RegisterBet(b *Bet) {
+	if b.User.Wallet < b.Amount {
+		return
 	}
+
+	_, ok := r.Wager[b.User.ID]
+
+	if !ok {
+		r.Wager[b.User.ID] = &[3]int{0, 0, 0}
+	}
+
+	b.User.RemoveMoney(b.Amount)
+	r.Wager[b.User.ID][colorMap[b.Color]] += b.Amount
 }
 
-func (rGame *RouletteGame) End() {
+func (r *Roulette) Roll() {
 	defer func() {
-		fmt.Printf("Ended a roulette game.\n")
-		rGame.cleanRouletteGame()
-		fmt.Printf("Game cleaned.\n")
-		go rGame.End()
+		r.reset()
+
+		go r.Roll()
 	}()
 
 	time.Sleep(30 * time.Second)
 
-	result, color := utils.GenerateRouletteColor()
+	result, color := generateRouletteColor()
 
-	fmt.Printf("The good color is : %s\n", color)
-
-	for bet := range rGame.Bets {
-		if bet.BetPosition == color {
-			fmt.Printf("Client %s won %d\n", bet.ClientId, bet.BetAmount)
+	for userId, wager := range r.Wager {
+		if wager[colorMap[color]] > 0 {
+			user, _ := GetUserByID(userId)
+			user.AddMoney(wager[colorMap[color]] * 2)
 		}
 	}
 
-	endBroadcast := Broadcast{
-		DataType: "endGame",
-		Data: map[string]interface{}{
-			"color":  color,
-			"number": result,
-		},
+	res := &Result{
+		Number: result,
+		Color:  color,
 	}
 
-	rGame.Broadcast <- &endBroadcast
+	gosf.Broadcast("roulette", "endgame", res.Message())
+}
+
+func generateRouletteColor() (int, string) {
+	result := randInt(0, 14)
+	var color string
+
+	if result == 0 {
+		color = "green"
+	} else if result < 8 {
+		color = "red"
+	} else {
+		color = "black"
+	}
+
+	return result, color
+}
+
+func randInt(min int, max int) int {
+	return min + rand.Intn(max-min)
+}
+
+func (r *Roulette) reset() {
+	r.ID = utils.GenerateRouletteId()
+	r.Wager = make(map[string]*[3]int)
 }

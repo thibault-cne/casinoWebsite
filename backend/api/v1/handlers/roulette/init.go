@@ -6,14 +6,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func HandleRouletteGame(rg *gin.RouterGroup) {
-	rGame := models.NewRouletteGame()
+var (
+	Engine   *gin.Engine
+	Roulette *models.Roulette
+)
+
+func LoadRoulette(rg *gin.RouterGroup, engine *gin.Engine) {
+	Roulette = models.NewRoulette()
+
+	Engine = engine
 
 	routerGroup := rg.Group("/roulette")
-	routerGroup.GET("/connect", middlewares.AuthRequired(), func(ctx *gin.Context) {
-		connectRoulette(ctx, rGame)
-	})
+	routerGroup.Any("/ws/", middlewares.AuthRequired(), Wrapper())
 
-	go rGame.Start()
-	go rGame.End()
+	go Roulette.Roll()
 }

@@ -7,11 +7,16 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+var (
+	statusMap = map[string]int{"user": 1, "admin": 2, "superAdmin": 3}
+)
+
 type User struct {
 	ID        string    `json:"id"`
 	Username  string    `json:"username"`
 	Password  string    `json:"-"`
-	Status    int       `json:"status"`
+	Status    string    `json:"status"`
+	Wallet    int       `json:"wallet"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -31,6 +36,10 @@ func (u *User) Create() error {
 	return err
 }
 
+func (u *User) Save() error {
+	return db.DB.Save(u).Error
+}
+
 func CheckClientModerationType(id string) bool {
 	user, err := GetUserByID(id)
 
@@ -38,7 +47,7 @@ func CheckClientModerationType(id string) bool {
 		return false
 	}
 
-	if user.Status >= 2 {
+	if statusMap[user.Status] >= 2 {
 		return true
 	}
 
@@ -68,4 +77,26 @@ func GetUserByUsername(username string) (*User, error) {
 		return nil, err
 	}
 	return user, nil
+}
+
+func (u *User) AddMoney(amount int) error {
+	u.Wallet += amount
+
+	return u.Save()
+}
+
+func (u *User) RemoveMoney(amount int) error {
+	u.Wallet -= amount
+
+	return u.Save()
+}
+
+func GetAllUsers() ([]*User, error) {
+	var users []*User
+
+	if err := db.DB.Find(&users).Error; err != nil {
+		return nil, err
+	}
+
+	return users, nil
 }

@@ -26,23 +26,19 @@
           <span class="sr-only">Open user menu</span>
           <img
             class="w-8 h-8 rounded-full"
-            src="/docs/images/people/profile-picture-3.jpg"
+            src="https://placeimg.com/192/192/people"
             alt="user photo"
           />
         </button>
         <!-- Dropdown menu -->
         <div
-          class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+          class="z-50 hidden my-4 text-base list-none bg-gray-50 divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
           id="user-dropdown"
         >
           <div class="px-4 py-3">
-            <span class="block text-sm text-gray-900 dark:text-white"
-              >Bonnie Green</span
-            >
-            <span
-              class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400"
-              >name@flowbite.com</span
-            >
+            <span class="block text-sm text-gray-900 dark:text-white">{{
+              user.username
+            }}</span>
           </div>
           <ul class="py-2" aria-labelledby="user-menu-button">
             <li>
@@ -103,10 +99,12 @@
           class="flex flex-col p-4 mt-4 bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:bg-white dark:bg-gray-800 md:dark:bg-gray-900"
         >
           <li>
-            <router-link
-              to="/login"
+            <a
+              data-modal-target="authentication-modal"
+              data-modal-show="authentication-modal"
+              type="button"
               class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-              >Login</router-link
+              >Login</a
             >
           </li>
         </ul>
@@ -139,10 +137,14 @@ export default defineComponent({
   name: "navBar",
   props: {
     loggedProps: { type: Boolean, required: true },
+    userProps: { type: Object, required: false },
   },
   watch: {
     loggedProps: function (newVal) {
       this.logged = newVal;
+    },
+    userProps: function (newVal) {
+      this.user = newVal;
     },
   },
   mounted() {
@@ -152,6 +154,7 @@ export default defineComponent({
   data() {
     return {
       logged: false,
+      user: {},
       index: [
         {
           name: "Roulette",

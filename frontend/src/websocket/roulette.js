@@ -1,11 +1,19 @@
-import { io } from "socket.io-client";
+import io from "socket.io-client";
+import { backendDomain } from "@/axios/axios";
 
-const URL = "http://localhost:5454";
-const socket = io(URL, {
+const socket = io("ws://" + backendDomain, {
   transports: ["websocket"],
   withCredentials: true,
-  autoConnect: false,
-  path: "/api/v1/roulette/ws",
+  autoConnect: true,
+  path: "/api/v1/roulette/ws/",
 });
 
-export default socket;
+function sendMsg(endpoint, data) {
+  socket.emit(endpoint, { body: data });
+}
+
+socket.on("connect", () => {
+  console.log("connected");
+});
+
+export { sendMsg, socket };

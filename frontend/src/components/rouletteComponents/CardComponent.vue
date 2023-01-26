@@ -1,13 +1,17 @@
 <template>
   <div class="card" v-bind:class="this.color">{{ number }}</div>
 </template>
+
 <script>
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "cardComp",
   props: {
     color: String,
     number: Number,
   },
-};
+});
 </script>
 <style scoped lang="scss">
 .roulette-wrapper .wheel .row .card {

@@ -18,13 +18,14 @@
 </template>
 <script>
 import RoulettePlayersList from "./RoulettePlayersList.vue";
+import { sendMsg } from "@/websocket/roulette";
+
 export default {
   props: {
     playerAmount: Number,
     color: String,
     displayedText: String,
     newBet: {},
-    ws: WebSocket,
   },
   data() {
     return {
@@ -62,8 +63,7 @@ export default {
         return;
       }
       let data = { color: this.color, amount: this.playerAmount };
-      console.log(data);
-      // sendMsg(this.ws, JSON.stringify(data));
+      sendMsg("bet", data);
     },
     registerNewBet(data) {
       if (data.clientName === this.bestBet.username) {

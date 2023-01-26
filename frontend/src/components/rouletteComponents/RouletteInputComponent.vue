@@ -56,7 +56,10 @@
 <script>
 import { getRequest } from "@/axios/getRequest";
 import RoulettePlayersComponent from "./RoulettePlayersComponent.vue";
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "rouletteInputComp",
   components: {
     RoulettePlayersComponent,
   },
@@ -108,8 +111,8 @@ export default {
     },
     updateWallet() {
       if (this.loggedIn) {
-        getRequest("/client/data/wallet").then((r) => {
-          this.playerWallet = r.data.Wallet;
+        getRequest("/user/get/wallet").then((r) => {
+          this.playerWallet = r.data.wallet;
         });
       }
     },
@@ -127,7 +130,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 <style scoped lang="scss">
 .input {

@@ -14,8 +14,12 @@ require (
 )
 
 require (
+	github.com/ambelovsky/go-structs v1.1.0 // indirect
+	github.com/ambelovsky/gosf-socketio v0.0.0-20220810204405-0f97832ec7af // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/yyewolf/gosf v0.0.0-20230126083732-3ca431867496 // direct
 )
 
 require (
