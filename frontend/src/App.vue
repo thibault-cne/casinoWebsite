@@ -3,7 +3,7 @@
     <loginModal v-if="!logged" @login="(u) => login(u)" />
     <navBar :logged-props="logged" :user-props="user" @logout="logout" />
     <v-main>
-      <router-view />
+      <router-view :user-props="user" />
     </v-main>
   </v-app>
 </template>

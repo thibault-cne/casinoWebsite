@@ -12,6 +12,7 @@
     "@vueuse/core": "^9.11.1",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
+    "daisyui": "^2.49.0",
     "flowbite": "^1.6.3",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
