@@ -1,9 +1,9 @@
 <template>
   <span>
-    <span v-if="d == '.'" data-test="digit">.</span>
-    <span v-else-if="d == ' '" data-test="digit">&nbsp;</span>
+    <span v-if="d == '.'">.</span>
+    <span v-else-if="d == ' '">&nbsp;</span>
     <span v-else class="single-digit">
-      <span :style="{ '--value': d }" data-test="digit"></span>
+      <span :style="{ '--value': d }"></span>
     </span>
   </span>
 </template>

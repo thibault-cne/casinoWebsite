@@ -7,8 +7,7 @@
         <div class="flex justify-around">
           <span>{{ user.user.username }}</span>
           <div>
-            <span>{{ user.wager }}</span>
-            <span>&nbsp;$</span>
+            <money :amount="user.wager" />
           </div>
         </div>
       </li>
@@ -18,11 +17,15 @@
 
 <script>
 import { defineComponent } from "vue";
+import money from "@/components/money.vue";
 
 export default defineComponent({
   name: "playerList",
   props: {
     listProps: { required: true },
+  },
+  components: {
+    money,
   },
 });
 </script>

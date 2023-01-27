@@ -59,6 +59,10 @@ export default defineComponent({
       return map[this.$props.range];
     },
     bet() {
+      if (this.$props.amount <= 0) {
+        return;
+      }
+
       const data = {
         color: this.getColorFromRange(),
         amount: this.$props.amount,

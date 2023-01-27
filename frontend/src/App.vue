@@ -10,6 +10,7 @@
             update(u);
           }
         "
+        @refresh="refresh"
       />
     </v-main>
   </v-app>
@@ -32,12 +33,7 @@ export default {
   },
   mounted() {
     initModals();
-    getRequest("/auth/connected").then((r) => {
-      if (r.status == 200) {
-        this.user = r.data.user;
-        this.logged = true;
-      }
-    });
+    this.refresh();
   },
   data() {
     return {
@@ -55,6 +51,14 @@ export default {
     },
     update(u) {
       this.u = u;
+    },
+    refresh() {
+      getRequest("/auth/connected").then((r) => {
+        if (r.status == 200) {
+          this.user = r.data.user;
+          this.logged = true;
+        }
+      });
     },
   },
 };

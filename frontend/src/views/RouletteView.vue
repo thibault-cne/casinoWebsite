@@ -10,7 +10,7 @@
           <input
             type="number"
             placeholder="Amount"
-            class="input input-bordered w-full max-w-xs"
+            class="input input-bordered w-full max-w-xs dark:text-white"
             v-model="wager"
           />
         </div>
@@ -91,6 +91,7 @@ export default {
       this.isSpinning = !this.isSpinning;
       setTimeout(() => {
         this.isSpinning = !this.isSpinning;
+        this.$emit("refresh");
       }, 6 * 1000);
     },
     addWager(n) {

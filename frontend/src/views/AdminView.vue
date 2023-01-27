@@ -47,7 +47,7 @@
         >
           <td class="px-6 py-4">{{ user.username }}</td>
           <td class="px-6 py-4">
-            {{ user.wallet }}
+            <money :amount="user.wallet" />
           </td>
           <td class="px-6 py-4">{{ user.status }}</td>
           <td class="px-6 py-4">
@@ -70,6 +70,7 @@ import { getRequest } from "@/axios/getRequest";
 import { defineComponent } from "vue";
 import { initModals } from "flowbite";
 import editUser from "@/components/editUser.vue";
+import money from "@/components/money.vue";
 
 export default defineComponent({
   name: "userManagement",
@@ -91,7 +92,7 @@ export default defineComponent({
         initModals();
       });
   },
-  components: { editUser },
+  components: { editUser, money },
 });
 </script>
 <style scoped lang="scss"></style>
