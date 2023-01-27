@@ -1,8 +1,10 @@
 <template>
-  <span class="single-digit">
+  <span>
     <span v-if="d == '.'" data-test="digit">.</span>
     <span v-else-if="d == ' '" data-test="digit">&nbsp;</span>
-    <span v-else :style="{ '--value': d }" data-test="digit"></span>
+    <span v-else class="single-digit">
+      <span :style="{ '--value': d }" data-test="digit"></span>
+    </span>
   </span>
 </template>
 
@@ -30,10 +32,9 @@ export default defineComponent({
 <style scoped lang="scss">
 .single-digit {
   line-height: 1em;
-}
-.single-digit {
   display: inline-flex;
 }
+
 .single-digit > * {
   height: 1em;
   display: inline-block;

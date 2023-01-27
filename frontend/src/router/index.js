@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { isLogged } from "@/axios/logged";
+import { isAdmin } from "@/axios/admin";
 
 const routes = [
   {
@@ -18,6 +19,7 @@ const routes = [
   {
     path: "/admin",
     name: "admin",
+    beforeEnter: checkAdmin,
     component: () =>
       import(/* webpackChunkName: "about" */ "@/views/AdminView.vue"),
   },
@@ -42,6 +44,16 @@ async function checkAuth(to, from, next) {
   if (!status && to.name !== "login") {
     // redirect the user to the login page
     next({ name: "login" });
+    return;
+  }
+  next();
+}
+
+async function checkAdmin(to, from, next) {
+  const status = await isAdmin();
+  if (!status) {
+    // redirect the user to the from page
+    from();
     return;
   }
   next();

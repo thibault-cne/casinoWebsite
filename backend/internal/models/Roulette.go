@@ -4,14 +4,19 @@ import (
 	"math/rand"
 	"time"
 
+	"casino.website/internal/db"
 	"casino.website/internal/utils"
 	"github.com/yyewolf/gosf"
 )
 
 type Roulette struct {
-	ID    string
-	Users map[string]int
-	Wager map[string]*[3]int
+	ID         string             `gorm:"primaryKey"`
+	Users      map[string]int     `gorm:"-:all"`
+	Wager      map[string]*[3]int `gorm:"-:all"`
+	Color      string
+	Number     int
+	CreatedAt  time.Time
+	FinishedAt time.Time
 }
 
 var (
@@ -20,10 +25,15 @@ var (
 
 func NewRoulette() *Roulette {
 	return &Roulette{
-		ID:    utils.GenerateRouletteId(),
-		Users: make(map[string]int),
-		Wager: make(map[string]*[3]int),
+		ID:        utils.GenerateRouletteId(),
+		Users:     make(map[string]int),
+		Wager:     make(map[string]*[3]int),
+		CreatedAt: time.Now(),
 	}
+}
+
+func (r *Roulette) Save() error {
+	return db.DB.Save(r).Error
 }
 
 func (r *Roulette) AddUser(u *User) {
@@ -45,8 +55,11 @@ func (r *Roulette) RegisterBet(b *Bet) {
 		r.Wager[b.User.ID] = &[3]int{0, 0, 0}
 	}
 
+	b.RouletteId = r.ID
+	b.Save()
 	b.User.RemoveMoney(b.Amount)
 	r.Wager[b.User.ID][colorMap[b.Color]] += b.Amount
+	gosf.Broadcast("roulette", "newbet", b.Message())
 }
 
 func (r *Roulette) Roll() {
@@ -59,6 +72,10 @@ func (r *Roulette) Roll() {
 	time.Sleep(30 * time.Second)
 
 	result, color := generateRouletteColor()
+	r.Color = color
+	r.Number = result
+	r.FinishedAt = time.Now()
+	r.Save()
 
 	for userId, wager := range r.Wager {
 		if wager[colorMap[color]] > 0 {

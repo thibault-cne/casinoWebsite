@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <CardComponent
+    <cardComponent
       v-for="card in rowCards"
       :color="card.type"
       :number="card.number"
@@ -9,10 +9,12 @@
   </div>
 </template>
 <script>
-import CardComponent from "./cardComponent.vue";
-export default {
+import cardComponent from "@/components/cardComponent.vue";
+import { defineComponent } from "vue";
+
+export default defineComponent({
   components: {
-    CardComponent,
+    cardComponent,
   },
   data() {
     return {
@@ -35,7 +37,7 @@ export default {
       ],
     };
   },
-};
+});
 </script>
 <style scoped lang="scss">
 .roulette-wrapper .wheel .row {

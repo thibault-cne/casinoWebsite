@@ -3,7 +3,14 @@
     <loginModal v-if="!logged" @login="(u) => login(u)" />
     <navBar :logged-props="logged" :user-props="user" @logout="logout" />
     <v-main>
-      <router-view :user-props="user" />
+      <router-view
+        :user-props="user"
+        @update="
+          (u) => {
+            update(u);
+          }
+        "
+      />
     </v-main>
   </v-app>
 </template>
@@ -45,6 +52,9 @@ export default {
     login(u) {
       this.user = u;
       this.logged = true;
+    },
+    update(u) {
+      this.u = u;
     },
   },
 };

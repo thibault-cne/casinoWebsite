@@ -6,10 +6,9 @@ import (
 )
 
 func bet(c *gosf.Client, r *gosf.Request) *gosf.Message {
-	// msg := r.Message.Body
-	b := models.Bet{}
+	b := models.NewBet()
 
-	err := gosf.MapToStruct(r.Message.Body, &b)
+	err := gosf.MapToStruct(r.Message.Body, b)
 
 	if err != nil {
 		return gosf.NewFailureMessage()
@@ -23,7 +22,10 @@ func bet(c *gosf.Client, r *gosf.Request) *gosf.Message {
 
 	b.SetUser(u)
 
-	Roulette.RegisterBet(&b)
+	Roulette.RegisterBet(b)
 
-	return nil
+	msg := gosf.NewSuccessMessage()
+	msg.Body = r.Message.Body
+
+	return msg
 }

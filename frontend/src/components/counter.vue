@@ -1,12 +1,8 @@
 <template>
-  <div
-    v-for="digit in split(num)"
-    :key="digit"
-    class="flex flex-col text-neutral-content justify-center"
-  >
-    <i-digit :digit="digit"></i-digit>
+  <div class="flex text-neutral-content justify-center">
+    <i-digit :digit="digit" v-for="digit in split(num)" :key="digit"></i-digit>
+    <span>&nbsp;$</span>
   </div>
-  <div class="flex flex-col text-neutral-content justify-center">&nbsp;$</div>
 </template>
 
 <script>

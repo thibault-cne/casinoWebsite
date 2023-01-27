@@ -11,13 +11,13 @@
         />
         <span
           class="self-center text-xl font-semibold whitespace-nowrap dark:text-gray-50 text-slate-700"
-          >Flowbite</span
+          >Casino website</span
         >
       </router-link>
       <div class="flex items-center md:order-2" v-if="logged">
         <div class="flex items-center">
           <div
-            class="flex flex-col p-4 bg-gray-50 md:flex-row md:mt-0 md:text-sm md:font-medium md:bg-white dark:bg-gray-800 md:dark:bg-gray-900"
+            class="flex flex-col p-4 md:flex-row md:mt-0 md:text-sm md:font-medium md:bg-white md:dark:bg-gray-900"
           >
             <counter :num="this.user.wallet" />
           </div>
@@ -49,11 +49,11 @@
               }}</span>
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
-              <li>
+              <li v-if="user.status !== 'user'">
                 <a
-                  href="#"
+                  href="/admin"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >Dashboard</a
+                  >Dashboard admin</a
                 >
               </li>
               <li>

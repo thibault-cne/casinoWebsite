@@ -1,8 +1,6 @@
 package models
 
 import (
-	"encoding/json"
-
 	"github.com/yyewolf/gosf"
 )
 
@@ -11,19 +9,9 @@ type Result struct {
 	Number int    `json:"number"`
 }
 
-func (r *Result) Unwrap() string {
-	b, err := json.Marshal(r)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return string(b)
-}
-
 func (r *Result) Message() *gosf.Message {
 	msg := gosf.NewSuccessMessage()
-	msg.Text = r.Unwrap()
+	msg.Body = gosf.StructToMap(r)
 
 	return msg
 }
