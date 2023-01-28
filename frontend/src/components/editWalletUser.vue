@@ -1,7 +1,7 @@
 <template>
   <!-- Edit user modal -->
   <div
-    :id="user.id"
+    :id="user.id + 'wallet'"
     tabindex="-1"
     aria-hidden="true"
     class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
@@ -22,7 +22,7 @@
           <button
             type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            :data-modal-hide="user.id"
+            :data-modal-hide="user.id + 'wallet'"
           >
             <svg
               aria-hidden="true"
@@ -44,21 +44,6 @@
           <div class="grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
               <label
-                for="first-name"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Username</label
-              >
-              <input
-                type="text"
-                name="first-name"
-                id="first-name"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Thibault"
-                v-model="user.username"
-              />
-            </div>
-            <div class="col-span-6 sm:col-span-3">
-              <label
                 for="wallet"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Wallet</label
@@ -72,23 +57,6 @@
                 v-model="user.wallet"
               />
             </div>
-            <div class="col-span-6 sm:col-span-3">
-              <label
-                for="status"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Status</label
-              >
-              <select
-                name="status"
-                id="status"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                v-model="user.status"
-              >
-                <option>user</option>
-                <option>admin</option>
-                <option>super admin</option>
-              </select>
-            </div>
           </div>
         </div>
         <!-- Modal footer -->
@@ -99,9 +67,9 @@
             type="button"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             :onclick="saveEdit"
-            :data-modal-hide="user.id"
+            :data-modal-hide="user.id + 'wallet'"
           >
-            Save all
+            Save
           </button>
         </div>
       </form>
@@ -113,7 +81,7 @@ import { postRequest } from "@/axios/postRequest";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "editUser",
+  name: "editWalletUser",
   props: {
     propsUser: { type: Object, required: true },
   },
@@ -127,8 +95,7 @@ export default defineComponent({
   },
   methods: {
     saveEdit() {
-      console.log(this.user);
-      postRequest(this.user, "/superadmin/user/modify", "json");
+      postRequest(this.user, "/admin/user/modify", "json");
     },
   },
 });

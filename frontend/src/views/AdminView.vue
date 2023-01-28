@@ -50,14 +50,24 @@
             <money :amount="user.wallet" />
           </td>
           <td class="px-6 py-4">{{ user.status }}</td>
-          <td class="px-6 py-4">
-            <edit-user :props-user="user" />
+          <td class="px-6 py-4 flex">
+            <div v-if="user.status === 'super admin'">
+              <edit-user :props-user="user" />
+              <a
+                type="button"
+                :data-modal-target="user.id"
+                :data-modal-show="user.id"
+                class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-4"
+                >Edit user</a
+              >
+            </div>
+            <editWalletUser :props-user="user" />
             <a
               type="button"
-              :data-modal-target="user.id"
-              :data-modal-show="user.id"
-              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              >Edit user</a
+              :data-modal-target="user.id + 'wallet'"
+              :data-modal-show="user.id + 'wallet'"
+              class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-4"
+              >Edit user wallet</a
             >
           </td>
         </tr>
@@ -70,6 +80,7 @@ import { getRequest } from "@/axios/getRequest";
 import { defineComponent } from "vue";
 import { initModals } from "flowbite";
 import editUser from "@/components/editUser.vue";
+import editWalletUser from "@/components/editWalletUser.vue";
 import money from "@/components/money.vue";
 
 export default defineComponent({
@@ -92,7 +103,7 @@ export default defineComponent({
         initModals();
       });
   },
-  components: { editUser, money },
+  components: { editUser, editWalletUser, money },
 });
 </script>
 <style scoped lang="scss"></style>
