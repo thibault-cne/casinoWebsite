@@ -19,5 +19,5 @@ func LoadRoulette(rg *gin.RouterGroup, engine *gin.Engine) {
 	routerGroup := rg.Group("/roulette")
 	routerGroup.Any("/ws/", middlewares.AuthRequired(), Wrapper())
 
-	go Roulette.Roll()
+	Roulette.Start()
 }

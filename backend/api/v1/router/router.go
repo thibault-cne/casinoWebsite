@@ -4,6 +4,7 @@ import (
 	"casino.website/api/v1/handlers/admin"
 	"casino.website/api/v1/handlers/auth"
 	"casino.website/api/v1/handlers/roulette"
+	"casino.website/api/v1/handlers/superadmin"
 	"casino.website/api/v1/handlers/user"
 	"github.com/gin-gonic/gin"
 )
@@ -15,4 +16,5 @@ func Route(engine *gin.Engine) {
 	roulette.LoadRoulette(path, engine)
 	user.LoadUser(path)
 	admin.LoadAdmin(path)
+	superadmin.LoadSuperAdmin(path)
 }

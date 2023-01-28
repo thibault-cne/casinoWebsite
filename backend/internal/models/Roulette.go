@@ -20,7 +20,9 @@ type Roulette struct {
 }
 
 var (
-	colorMap = map[string]int{"green": 0, "red": 1, "black": 2}
+	colorMap      = map[string]int{"green": 0, "red": 1, "black": 2}
+	multiplierMap = map[string]int{"green": 14, "red": 2, "black": 2}
+	isActive      = false
 )
 
 func NewRoulette() *Roulette {
@@ -62,9 +64,22 @@ func (r *Roulette) RegisterBet(b *Bet) {
 	gosf.Broadcast("roulette", "newbet", b.Message())
 }
 
+func (r *Roulette) Start() {
+	isActive = true
+	go r.Roll()
+}
+
+func (r *Roulette) Stop() {
+	isActive = false
+}
+
 func (r *Roulette) Roll() {
 	defer func() {
 		r.reset()
+
+		if !isActive {
+			return
+		}
 
 		go r.Roll()
 	}()
@@ -80,7 +95,7 @@ func (r *Roulette) Roll() {
 	for userId, wager := range r.Wager {
 		if wager[colorMap[color]] > 0 {
 			user, _ := GetUserByID(userId)
-			user.AddMoney(wager[colorMap[color]] * 2)
+			user.AddMoney(wager[colorMap[color]] * multiplierMap[color])
 		}
 	}
 
