@@ -19,7 +19,7 @@
           <div
             class="flex flex-col p-4 md:flex-row md:mt-0 md:text-sm md:font-medium md:bg-white md:dark:bg-gray-900"
           >
-            <counter :num="this.user.wallet" />
+            <counter :num="this.$props.userProps.wallet" />
           </div>
         </div>
         <div class="flex items-center md:order-2">
@@ -45,22 +45,22 @@
           >
             <div class="px-4 py-3">
               <span class="block text-sm text-gray-900 dark:text-white">{{
-                user.username
+                this.$props.userProps.username
               }}</span>
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
-              <li v-if="user.status !== 'user'">
-                <a
-                  href="/admin"
+              <li v-if="this.$props.userProps.status !== 'user'">
+                <router-link
+                  to="/admin"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >Dashboard admin</a
+                  >Dashboard admin</router-link
                 >
               </li>
               <li>
-                <a
-                  href="#"
+                <router-link
+                  to="/settings"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >Settings</a
+                  >Settings</router-link
                 >
               </li>
               <li>
@@ -156,9 +156,6 @@ export default defineComponent({
     loggedProps: function (newVal) {
       this.logged = newVal;
     },
-    userProps: function (newVal) {
-      this.user = newVal;
-    },
   },
   mounted() {
     this.logged = this.loggedProps;
@@ -167,7 +164,7 @@ export default defineComponent({
   data() {
     return {
       logged: false,
-      user: {},
+      dropdown: null,
       index: [
         {
           name: "Roulette",
