@@ -1,4 +1,4 @@
-package roulette
+package websocket
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 	"github.com/yyewolf/gosf"
 )
 
-func getUser(c *gosf.Client) (*models.User, error) {
+func GetUser(c *gosf.Client) (*models.User, error) {
 	w := NewCustomResponseWriter()
 	ctx, _ := gin.CreateTestContext(w)
 	ctx.Request = c.GetChannel().Request()

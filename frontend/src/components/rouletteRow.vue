@@ -14,7 +14,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import { socket, sendMsg } from "@/websocket/roulette";
+import { socket, sendMsg } from "@/websocket/websocket";
 import playerList from "@/components/playerList.vue";
 
 export default defineComponent({

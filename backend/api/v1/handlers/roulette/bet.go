@@ -1,6 +1,7 @@
 package roulette
 
 import (
+	"casino.website/api/v1/handlers/websocket"
 	"casino.website/internal/models"
 	"github.com/yyewolf/gosf"
 )
@@ -21,7 +22,7 @@ func bet(c *gosf.Client, r *gosf.Request) *gosf.Message {
 		return msg
 	}
 
-	u, err := getUser(c)
+	u, err := websocket.GetUser(c)
 
 	if err != nil {
 		msg.Text = "Invalid user"

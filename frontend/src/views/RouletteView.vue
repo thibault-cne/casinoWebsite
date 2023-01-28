@@ -48,7 +48,7 @@
 <script>
 import wheelComponent from "@/components/wheelComponent.vue";
 import rouletteRow from "@/components/rouletteRow.vue";
-import { socket } from "@/websocket/roulette";
+import { socket } from "@/websocket/websocket";
 
 export default {
   components: {

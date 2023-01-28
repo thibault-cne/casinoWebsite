@@ -4,8 +4,8 @@ import { backendDomain } from "@/axios/axios";
 const socket = io("ws://" + backendDomain, {
   transports: ["websocket"],
   withCredentials: true,
-  autoConnect: true,
-  path: "/api/v1/roulette/ws/",
+  autoConnect: false,
+  path: "/api/v1/ws/",
 });
 
 function sendMsg(endpoint, data) {

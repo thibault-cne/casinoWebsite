@@ -1,4 +1,4 @@
-package roulette
+package websocket
 
 import (
 	"bufio"

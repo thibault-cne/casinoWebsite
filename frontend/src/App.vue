@@ -22,6 +22,7 @@ import navBar from "@/components/navBar.vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { getRequest } from "./axios/getRequest";
 import { initModals } from "flowbite";
+import { socket } from "@/websocket/websocket";
 
 export default {
   name: "App",
@@ -34,6 +35,7 @@ export default {
   mounted() {
     initModals();
     this.refresh();
+    socket.connect();
   },
   data() {
     return {

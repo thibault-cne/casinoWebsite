@@ -1,23 +1,23 @@
 package roulette
 
 import (
-	"casino.website/api/v1/middlewares"
 	"casino.website/internal/models"
 	"github.com/gin-gonic/gin"
+	"github.com/yyewolf/gosf"
 )
 
 var (
-	Engine   *gin.Engine
 	Roulette *models.Roulette
 )
 
-func LoadRoulette(rg *gin.RouterGroup, engine *gin.Engine) {
+func LoadRoulette(rg *gin.RouterGroup) {
 	Roulette = models.NewRoulette()
 
-	Engine = engine
-
-	routerGroup := rg.Group("/roulette")
-	routerGroup.Any("/ws/", middlewares.AuthRequired(), Wrapper())
+	// routerGroup := rg.Group("/roulette")
 
 	Roulette.Start()
+}
+
+func ListenEndpoint() {
+	gosf.Listen("bet", bet)
 }
