@@ -25,7 +25,9 @@ func modify(ctx *gin.Context) {
 	}
 
 	// Get authorized fields
+	u.Username = dataUser.Username
 	u.Wallet = dataUser.Wallet
+	u.Status = dataUser.Status
 
 	err = u.Save()
 

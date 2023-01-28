@@ -7,7 +7,6 @@ import (
 )
 
 func LoadAdmin(path *gin.RouterGroup) {
-	// TODO: add middlewares
 	subpath := path.Group("/admin", middlewares.AuthRequired(), middlewares.IsAdmin())
 
 	subpath.GET("/isAdmin", isAdmin)
