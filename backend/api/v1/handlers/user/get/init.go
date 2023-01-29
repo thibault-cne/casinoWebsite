@@ -7,4 +7,5 @@ func LoadGet(path *gin.RouterGroup) {
 
 	subpath.GET("/wallet", wallet)
 	subpath.GET("/all", all)
+	subpath.GET("/picture/:userId", getPicture)
 }
