@@ -34,7 +34,10 @@
             <span class="sr-only">Open user menu</span>
             <img
               class="w-8 h-8 rounded-full"
-              src="https://placeimg.com/192/192/people"
+              :src="
+                'http://localhost:8000/api/v1/user/get/picture/' +
+                this.$props.userProps.id
+              "
               alt="user photo"
             />
           </button>
@@ -160,11 +163,16 @@ export default defineComponent({
   mounted() {
     this.logged = this.loggedProps;
     initDropdowns();
+    this.imageSrc =
+      "http://localhost:8000/api/v1/user/get/picture?userId=" +
+      this.$props.userProps.id;
+    console.log(this.$props.userProps.id);
   },
   data() {
     return {
       logged: false,
       dropdown: null,
+      imageSrc: "",
       index: [
         {
           name: "Roulette",

@@ -35,7 +35,12 @@
             >
             <div class="avatar">
               <div class="w-14 rounded-full">
-                <img src="https://placeimg.com/192/192/people" />
+                <img
+                  :src="
+                    'http://localhost:8000/api/v1/user/get/picture/' +
+                    this.user.id
+                  "
+                />
               </div>
             </div>
             <input
@@ -44,6 +49,7 @@
               id="picture"
               type="file"
               accept="image/*"
+              @change="handleFileUpdate($event)"
             />
             <p
               class="mt-1 text-sm text-gray-500 dark:text-gray-300"
@@ -84,11 +90,18 @@ export default {
   data() {
     return {
       user: {},
+      file: "",
     };
   },
   methods: {
+    handleFileUpdate(event) {
+      this.file = event.target.files[0];
+    },
     saveEdit() {
-      postRequest(this.user, "/user/modify/", "json")
+      var data = new FormData();
+      data.append("user", JSON.stringify(this.user));
+      data.append("picture", this.file);
+      postRequest(data, "/user/modify/", "file")
         .then((r) => {
           if (r.status === 200) {
             console.log("emit");

@@ -2,7 +2,6 @@ package get
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +15,5 @@ func getPicture(ctx *gin.Context) {
 		filePath = "./images/webp/default.webp"
 	}
 
-	ctx.Header("Content-Type", "image/webp")
 	ctx.File(filePath)
-	ctx.Status(http.StatusOK)
 }
