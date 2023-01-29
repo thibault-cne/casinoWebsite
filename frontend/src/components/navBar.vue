@@ -158,15 +158,14 @@ export default defineComponent({
   watch: {
     loggedProps: function (newVal) {
       this.logged = newVal;
+      if (this.logged) {
+        initDropdowns();
+      }
     },
   },
   mounted() {
     this.logged = this.loggedProps;
     initDropdowns();
-    this.imageSrc =
-      "http://localhost:8000/api/v1/user/get/picture?userId=" +
-      this.$props.userProps.id;
-    console.log(this.$props.userProps.id);
   },
   data() {
     return {
