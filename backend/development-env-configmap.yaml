@@ -6,7 +6,7 @@ data:
   FRONTEND_PORT: "8080"
   MODE: dev
   MYSQL_DATABASE: casino-website
-  MYSQL_HOST: localhost
+  MYSQL_HOST: mariadb
   MYSQL_PASSWORD: password
   MYSQL_PORT: "3306"
   MYSQL_ROOT_PASSWORD: password
