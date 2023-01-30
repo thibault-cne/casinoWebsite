@@ -19,9 +19,9 @@ spec:
         app: frontend
     spec:
       containers:
+        - name: frontend
           image: casinowebsite/frontend
           imagePullPolicy: IfNotPresent
-          name: frontend
           ports:
             - containerPort: 8080
       restartPolicy: Always
