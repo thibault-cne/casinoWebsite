@@ -28,7 +28,7 @@ spec:
       containers:
         - envFrom:
             - configMapRef:
-              value: development-env
+                name: development-env
           image: api
           name: api
           ports:

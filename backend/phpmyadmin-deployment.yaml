@@ -27,7 +27,7 @@ spec:
       containers:
         - envFrom:
             - configMapRef:
-              name: development-env
+                name: development-env
           image: docker.io/arm64v8/phpmyadmin
           name: pma
           ports:
