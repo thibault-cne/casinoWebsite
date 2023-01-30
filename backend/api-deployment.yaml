@@ -29,7 +29,7 @@ spec:
         - envFrom:
             - configMapRef:
                 name: development-env
-          image: api
+          image: casinoWebsite/backend
           name: api
           ports:
             - containerPort: 8000
