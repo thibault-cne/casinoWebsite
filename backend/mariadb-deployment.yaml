@@ -25,14 +25,14 @@ spec:
         io.kompose.service: mariadb
     spec:
       containers:
-        envFrom:
+        - envFrom:
           - configMapRef:
               name: development-env
-        image: docker.io/mariadb:latest
-        name: mariadb
-        ports:
-          - containerPort: 3306
-        resources: {}
+          image: docker.io/mariadb:latest
+          name: mariadb
+          ports:
+            - containerPort: 3306
+          resources: {}
       hostname: mariadb
       restartPolicy: Always
 status: {}
