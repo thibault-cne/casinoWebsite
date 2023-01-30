@@ -17,6 +17,13 @@ const routes = [
       import(/* webpackChunkName: "about" */ "@/views/RouletteView.vue"),
   },
   {
+    path: "/earnings",
+    name: "earnings",
+    beforeEnter: checkAuth,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "@/views/EarningsView.vue"),
+  },
+  {
     path: "/settings",
     name: "settings",
     beforeEnter: checkAuth,

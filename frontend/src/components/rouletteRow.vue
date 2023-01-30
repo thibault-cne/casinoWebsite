@@ -15,6 +15,7 @@
 <script>
 import { defineComponent } from "vue";
 import { socket, sendMsg } from "@/websocket/websocket";
+import { getRequest } from "@/axios/getRequest";
 import playerList from "@/components/playerList.vue";
 
 export default defineComponent({
@@ -32,8 +33,18 @@ export default defineComponent({
     };
   },
   mounted() {
+    getRequest("/roulette/bet", "json").then((r) => {
+      if (r.data) {
+        for (let elem of r.data) {
+          if (elem.color === this.getColorFromRange()) {
+            this.addPlayer(elem);
+          }
+        }
+      }
+    });
+
     socket.on("newbet", (res) => {
-      if (res.body.color == this.getColorFromRange()) {
+      if (res.body.color === this.getColorFromRange()) {
         this.addPlayer(res.body);
       }
     });

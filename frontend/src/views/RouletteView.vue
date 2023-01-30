@@ -77,11 +77,8 @@ export default {
       this.outcome = res.body.number;
       this.roll();
     });
-    socket.on(this.user.id, () => {
-      console.log("User pinged");
-    });
+    socket.on(this.user.id, () => {});
     socket.on("bet", (res) => {
-      console.log(res);
       this.user.wallet -= res.body.amount;
       this.$emit("update", this.user);
     });

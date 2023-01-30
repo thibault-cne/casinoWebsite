@@ -3,11 +3,11 @@
     <ul
       class="max-w-md space-y-1 text-gray-500 list-none list-inside dark:text-gray-400"
     >
-      <li v-for="user in listProps" :key="user.id">
+      <li v-for="item in listProps" :key="item.id">
         <div class="flex justify-around">
-          <span>{{ user.user.username }}</span>
+          <span>{{ item.user.username }}</span>
           <div>
-            <money :amount="user.wager" />
+            <money :amount="item.wager" />
           </div>
         </div>
       </li>

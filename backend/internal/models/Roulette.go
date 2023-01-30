@@ -21,6 +21,7 @@ type Roulette struct {
 
 var (
 	colorMap      = map[string]int{"green": 0, "red": 1, "black": 2}
+	toColorMap    = map[int]string{0: "green", 1: "red", 2: "black"}
 	multiplierMap = map[string]int{"green": 14, "red": 2, "black": 2}
 	isActive      = false
 )
@@ -46,7 +47,7 @@ func (r *Roulette) RemoveUser(u *User) {
 	r.Users[u.ID] -= 1
 }
 
-func (r *Roulette) RegisterBet(b *Bet) {
+func (r *Roulette) RegisterBet(b *RouletteBet) {
 	if b.User.Wallet < b.Amount {
 		return
 	}
@@ -57,7 +58,7 @@ func (r *Roulette) RegisterBet(b *Bet) {
 		r.Wager[b.User.ID] = &[3]int{0, 0, 0}
 	}
 
-	b.RouletteId = r.ID
+	b.GameId = r.ID
 	b.Save()
 	b.User.RemoveMoney(b.Amount)
 	r.Wager[b.User.ID][colorMap[b.Color]] += b.Amount
@@ -128,5 +129,27 @@ func randInt(min int, max int) int {
 
 func (r *Roulette) reset() {
 	r.ID = utils.GenerateRouletteId()
+	r.CreatedAt = time.Now()
 	r.Wager = make(map[string]*[3]int)
+}
+
+func (r *Roulette) GetBets() []map[string]interface{} {
+	var res []map[string]interface{}
+
+	for userId, wager := range r.Wager {
+		u, _ := GetUserByID(userId)
+		for i, amount := range wager {
+			if amount == 0 {
+				continue
+			}
+			b := RouletteBet{
+				User:   u,
+				Amount: amount,
+				Color:  toColorMap[i],
+			}
+			res = append(res, gosf.StructToMap(b))
+		}
+	}
+
+	return res
 }

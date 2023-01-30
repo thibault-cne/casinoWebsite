@@ -37,6 +37,7 @@ func (u *User) Create() error {
 }
 
 func (u *User) Save() error {
+	u.UpdatedAt = time.Now()
 	return db.DB.Save(u).Error
 }
 
@@ -99,4 +100,20 @@ func GetAllUsers() ([]*User, error) {
 	}
 
 	return users, nil
+}
+
+func (u *User) GetUserStat(gameType string) []*BetResult {
+	var res []*BetResult
+
+	if gameType == "roulette" {
+		var bets []*RouletteBet
+
+		db.DB.Where("user_id = ?", u.ID).Find(&bets)
+
+		for _, bet := range bets {
+			res = append(res, bet.ToResult())
+		}
+	}
+
+	return res
 }
