@@ -1,5 +1,6 @@
 # Ignore .env files
 development.env
+development-env-configmap.yaml
 
 # Ignore wepb files except default.webp
 *.webp
