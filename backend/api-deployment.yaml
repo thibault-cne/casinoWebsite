@@ -30,6 +30,7 @@ spec:
             - configMapRef:
                 name: development-env
           image: casinowebsite/backend
+          imagePullPolicy: IfNotPresent
           name: api
           ports:
             - containerPort: 8000
