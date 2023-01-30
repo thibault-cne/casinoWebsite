@@ -5,6 +5,9 @@ metadata:
   name: frontend
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mariadb
   strategy:
     type: Recreate
   template:
