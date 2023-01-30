@@ -11,10 +11,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-# Build the app
-RUN npm run build
-
-EXPOSE 3000
+EXPOSE 8080
 
 # Execute the app
-CMD ["serve", "-s", "dist"]
+CMD ["npm" ,"start"]
