@@ -52,7 +52,11 @@ spec:
           resources: {}
           volumeMounts:
             - mountPath: /var/lib/mysql
-              name: mariadb-claim0
+              name: mariadb-storage
+      volumes:
+        - name: mariadb-storage
+          persistentVolumeClaim:
+            claimName: mariadb-claim0
       hostname: mariadb
       restartPolicy: Always
 status: {}
