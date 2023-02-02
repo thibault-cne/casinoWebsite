@@ -55,7 +55,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
 spec:
   rules:
-    - host: frontend.casino.thibault-cne
+    - host: frontend.casino.thibault-cne.fr
       http:
         paths:
           - path: /
@@ -68,4 +68,4 @@ spec:
   tls:
     - secretName: frontend-tls
       hosts:
-        - frontend.casino.thibault-cne
+        - frontend.casino.thibault-cne.fr
