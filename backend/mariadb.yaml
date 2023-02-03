@@ -45,7 +45,7 @@ spec:
         - envFrom:
           - configMapRef:
               name: development-env
-          image: linuxserver/mariadb:arm32v7-latest
+          image: linuxserver/mariadb:latest
           name: mariadb
           ports:
             - containerPort: 3306
