@@ -11,7 +11,15 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
-
 # Execute the app
-CMD ["npm" ,"run", "serve"]
+CMD ["npm" ,"run", "build"]
+
+FROM nginx:alpine
+
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf ./*
+
+COPY --from=builder /app/build .
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
