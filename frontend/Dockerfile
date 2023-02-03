@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:latest AS builder
 
 # Create app directory
 WORKDIR /app
