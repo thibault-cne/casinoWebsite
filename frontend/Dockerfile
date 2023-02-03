@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 
 # Execute the app
-CMD ["npm" ,"run", "build"]
+RUN npm run build
 
 FROM nginx:alpine
 
