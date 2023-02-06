@@ -31,11 +31,25 @@ const routes = [
       import(/* webpackChunkName: "about" */ "@/views/UserSettingsView.vue"),
   },
   {
-    path: "/admin",
-    name: "admin",
+    path: "/admin/user",
+    name: "admin user panel",
     beforeEnter: checkAdmin,
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/AdminView.vue"),
+      import(/* webpackChunkName: "about" */ "@/views/AdminUserPanel.vue"),
+  },
+  {
+    path: "/admin/claims",
+    name: "admin claims panel",
+    beforeEnter: checkAdmin,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "@/views/AdminClaimsPanel.vue"),
+  },
+  {
+    path: "/admin/panel",
+    name: "admin panel",
+    beforeEnter: checkAdmin,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "@/views/AdminPanel.vue"),
   },
   {
     path: "/",

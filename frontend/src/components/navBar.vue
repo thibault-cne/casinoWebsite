@@ -52,12 +52,50 @@
               }}</span>
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
-              <li v-if="this.$props.userProps.status !== 'user'">
-                <router-link
-                  to="/admin"
+              <li
+                aria-labelledby="dropdownNavbarLink"
+                v-if="this.$props.userProps.status !== 'user'"
+              >
+                <button
+                  id="doubleDropdownButton"
+                  data-dropdown-toggle="doubleDropdown"
+                  data-dropdown-placement="right-start"
+                  type="button"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >Dashboard admin</router-link
                 >
+                  Administration
+                </button>
+                <div
+                  id="doubleDropdown"
+                  class="z-10 hidden bg-slate-50 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                >
+                  <ul
+                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    aria-labelledby="doubleDropdownButton"
+                  >
+                    <li>
+                      <router-link
+                        to="/admin/panel"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        >Dashboard administrateur</router-link
+                      >
+                    </li>
+                    <li>
+                      <router-link
+                        to="/admin/user"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        >Dashboard utilisteurs</router-link
+                      >
+                    </li>
+                    <li>
+                      <router-link
+                        to="/admin/claims"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        >Dashboard claims</router-link
+                      >
+                    </li>
+                  </ul>
+                </div>
               </li>
               <li>
                 <router-link

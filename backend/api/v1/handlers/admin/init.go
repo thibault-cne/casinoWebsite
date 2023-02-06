@@ -1,6 +1,8 @@
 package admin
 
 import (
+	"casino.website/api/v1/handlers/admin/claims"
+	"casino.website/api/v1/handlers/admin/games"
 	"casino.website/api/v1/handlers/admin/user"
 	"casino.website/api/v1/middlewares"
 	"github.com/gin-gonic/gin"
@@ -12,4 +14,6 @@ func LoadAdmin(path *gin.RouterGroup) {
 	subpath.GET("/isAdmin", isAdmin)
 
 	user.LoadUser(subpath)
+	claims.LoadClaims(subpath)
+	games.LoadAdminGames(subpath)
 }
