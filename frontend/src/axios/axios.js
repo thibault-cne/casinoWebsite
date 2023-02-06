@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const backendDomain = `${process.env.VUE_APP_BACKEND_DOMAIN}:${process.env.VUE_APP_BACKEND_PORT}`;
-const base_backend_url = "http://" + backendDomain + "/api/v1";
+const base_backend_domain = `${process.env.VUE_APP_BACKEND_DOMAIN}`;
+const base_backend_url = `${process.env.VUE_APP_BACKEND_URL}` + "/api/v1";
 
 axios.defaults.withCredentials = true;
 const getAPI = axios.create({
@@ -11,4 +11,4 @@ const getAPI = axios.create({
   },
 });
 
-export { getAPI, base_backend_url, backendDomain };
+export { getAPI, base_backend_domain, base_backend_url };
