@@ -15,6 +15,7 @@ type registerForm struct {
 	Username       string `json:"username" binding:"required"`
 	Password       string `json:"password" binding:"required"`
 	PasswordVerify string `json:"passwordVerify" binding:"required"`
+	Code           string `json:"code" binding:"required"`
 }
 
 var (
@@ -38,6 +39,25 @@ func Register(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"success": false,
 			"status":  "Les mots de passe ne correspondent pas",
+		})
+		return
+	}
+
+	// Check if the code is valid
+	claim, err := models.GetClaim(f.Code)
+
+	if err != nil {
+		c.JSON(400, gin.H{
+			"success": false,
+			"status":  "Le code entrée n'existe pas",
+		})
+		return
+	}
+
+	if claim.Use <= 0 {
+		c.JSON(400, gin.H{
+			"success": false,
+			"status":  "Le code utilisée n'est plus actifs",
 		})
 		return
 	}
@@ -87,6 +107,18 @@ func Register(c *gin.Context) {
 		Password:  pHash,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
+	}
+
+	// Update the code used
+	claim.Use -= 1
+	err = claim.Save()
+
+	if err != nil {
+		c.JSON(500, gin.H{
+			"success": false,
+			"status":  "Erreur interne",
+		})
+		return
 	}
 
 	// Save the user in the database

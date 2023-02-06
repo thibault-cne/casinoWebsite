@@ -74,6 +74,14 @@ func (r *Roulette) Stop() {
 	isActive = false
 }
 
+func (r *Roulette) Toggle() {
+	if isActive {
+		r.Stop()
+	} else {
+		r.Start()
+	}
+}
+
 func (r *Roulette) Roll() {
 	defer func() {
 		r.reset()

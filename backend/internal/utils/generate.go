@@ -6,6 +6,7 @@ var (
 	userGenerator     *snowflake.Node
 	rouletteGenerator *snowflake.Node
 	betGenerator      *snowflake.Node
+	claimsGenerator   *snowflake.Node
 )
 
 func init() {
@@ -33,6 +34,14 @@ func init() {
 	}
 
 	betGenerator = node
+
+	node, err = snowflake.NewNode(4)
+
+	if err != nil {
+		panic(err)
+	}
+
+	claimsGenerator = node
 }
 
 func GenerateUserId() string {
@@ -45,4 +54,8 @@ func GenerateRouletteId() string {
 
 func GenerateBetId() string {
 	return betGenerator.Generate().String()
+}
+
+func GenerateClaimsCode() string {
+	return claimsGenerator.Generate().String()
 }
