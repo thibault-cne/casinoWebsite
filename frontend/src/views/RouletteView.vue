@@ -1,6 +1,9 @@
 <template>
   <div>
-    <wheelComponent class="pa-10" :isSpinning="isSpinning" :outcome="outcome" />
+    <div class="pa-10">
+      <progressBar :time="this.time" />
+      <wheelComponent :isSpinning="isSpinning" :outcome="outcome" />
+    </div>
     <div>
       <div class="flex justify-around">
         <div class="form-control w-full max-w-xs">
@@ -48,12 +51,15 @@
 <script>
 import wheelComponent from "@/components/wheelComponent.vue";
 import rouletteRow from "@/components/rouletteRow.vue";
+import progressBar from "@/components/progressBar.vue";
 import { socket } from "@/websocket/websocket";
+import { getRequest } from "@/axios/getRequest";
 
 export default {
   components: {
     wheelComponent,
     rouletteRow,
+    progressBar,
   },
   props: {
     userProps: Object,
@@ -69,15 +75,23 @@ export default {
       isSpinning: false,
       outcome: 9,
       wager: 0,
+      time: 30,
     };
   },
   mounted() {
+    getRequest("/roulette/time", "json").then((r) => {
+      this.setProgress(r.data.time);
+    });
+
     this.user = this.$props.userProps;
     socket.on("endgame", (res) => {
       this.outcome = res.body.number;
       this.roll();
     });
     socket.on(this.user.id, () => {});
+    socket.on("start", (res) => {
+      this.setProgress(res.body.time);
+    });
     socket.on("bet", (res) => {
       this.user.wallet -= res.body.amount;
       this.$emit("update", this.user);
@@ -96,6 +110,9 @@ export default {
     },
     multiplyWager(i) {
       this.wager = Math.trunc(this.wager * i);
+    },
+    setProgress(endTime) {
+      this.time = endTime - Date.now();
     },
   },
 };

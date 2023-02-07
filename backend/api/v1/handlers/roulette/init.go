@@ -21,6 +21,7 @@ func LoadRoulette(rg *gin.RouterGroup) {
 	subpath := rg.Group("/roulette", middlewares.AuthRequired())
 
 	subpath.GET("/bet", getBet)
+	subpath.GET("/time", getTime)
 
 	go Roulette.Start()
 }

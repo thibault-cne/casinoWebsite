@@ -93,6 +93,7 @@ func (r *Roulette) Roll() {
 		go r.Roll()
 	}()
 
+	gosf.Broadcast("roulette", "start", r.startTimeMessage())
 	time.Sleep(30 * time.Second)
 
 	result, color := generateRouletteColor()
@@ -160,4 +161,13 @@ func (r *Roulette) GetBets() []map[string]interface{} {
 	}
 
 	return res
+}
+
+func (r *Roulette) startTimeMessage() *gosf.Message {
+	msg := gosf.NewSuccessMessage()
+	msg.Body = map[string]interface{}{
+		"time": r.CreatedAt.Add(time.Second * 30).UnixMilli(),
+	}
+
+	return msg
 }
