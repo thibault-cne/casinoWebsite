@@ -2,7 +2,7 @@
   <div class="flex justify-center flex-col">
     <button
       v-bind:class="computeClass()"
-      class="btn btn-wide"
+      class="btn btn-wide text-white border-solid border-r-0 border-t-0 border-l-0 border-b-4 border-black/[.2]"
       type="button"
       :onclick="bet"
     >
@@ -55,9 +55,9 @@ export default defineComponent({
   methods: {
     computeClass() {
       let map = {
-        "1 - 7": "bg-rose-700",
-        0: "bg-green-700",
-        "8 - 14": "bg-slate-900",
+        "1 - 7": "bg-[#f95146]",
+        0: "bg-[#00c74d]",
+        "8 - 14": "bg-[#2d3035]",
       };
       return map[this.$props.range];
     },

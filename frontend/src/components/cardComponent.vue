@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-bind:class="this.color">{{ number }}</div>
+  <div class="card" v-bind:class="this.computeClass()">{{ number }}</div>
 </template>
 
 <script>
@@ -10,6 +10,16 @@ export default defineComponent({
   props: {
     color: String,
     number: Number,
+  },
+  methods: {
+    computeClass() {
+      let map = {
+        red: "bg-[#f95146]",
+        green: "bg-[#00c74d]",
+        black: "bg-[#2d3035]",
+      };
+      return map[this.$props.color];
+    },
   },
 });
 </script>
@@ -25,16 +35,5 @@ export default defineComponent({
   justify-content: center;
   color: white;
   font-size: 1.5em;
-}
-.card.red {
-  background: #f95146;
-}
-
-.card.black {
-  background: #2d3035;
-}
-
-.card.green {
-  background: #00c74d;
 }
 </style>

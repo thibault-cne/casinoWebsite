@@ -1,7 +1,13 @@
 <template>
   <v-app class="bg-slate-700">
     <loginModal v-if="!logged" @login="(u) => login(u)" />
-    <navBar :logged-props="logged" :user-props="user" @logout="logout" />
+    <navBar
+      :logged-props="logged"
+      :user-props="user"
+      @logout="logout"
+      :dark-mode="this.dark"
+      @toggle="this.toggleDark"
+    />
     <v-main>
       <router-view
         :user-props="user"
@@ -27,11 +33,6 @@ import { socket } from "@/websocket/websocket";
 export default {
   name: "App",
   components: { navBar, loginModal },
-  created() {
-    const dark = useDark();
-    const toggleDark = useToggle(dark);
-    toggleDark;
-  },
   mounted() {
     initModals();
     this.refresh();
@@ -41,6 +42,7 @@ export default {
     return {
       logged: false,
       user: {},
+      dark: useDark(),
     };
   },
   methods: {
@@ -53,6 +55,12 @@ export default {
     },
     update(u) {
       this.u = u;
+    },
+    toggleDark() {
+      const dark = useDark();
+      const toggle = useToggle(dark);
+
+      toggle();
     },
     refresh() {
       getRequest("/auth/connected").then((r) => {

@@ -11,7 +11,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "progresBar",
+  name: "progressBar",
   props: {
     time: { required: true },
   },
