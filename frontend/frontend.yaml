@@ -24,6 +24,8 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
+      imagePullSecret:
+        - name: regcred
       restartPolicy: Always
 status: {}
 
