@@ -45,7 +45,7 @@ spec:
         - envFrom:
           - configMapRef:
               name: development-env
-          image: linuxserver/mariadb:latest
+          image: docker.io/linuxserver/mariadb:latest
           imagePullPolicy: IfNotPresent
           name: mariadb
           ports:
