@@ -45,7 +45,7 @@ spec:
         - envFrom:
           - configMapRef:
               name: development-env
-          image: linuxserver/mariadb:latest
+          image: docker.io/linuxserver/mariadb:latest
           name: mariadb
           ports:
             - containerPort: 3306
