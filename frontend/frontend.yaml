@@ -21,6 +21,7 @@ spec:
       containers:
         - name: frontend
           image: thibaultcne/casino:frontend
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
       restartPolicy: Always
