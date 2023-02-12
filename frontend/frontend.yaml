@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: thibaultcne/casinowebsite:frontend
+          image: thibaultcne/casino:frontend
           ports:
             - containerPort: 8080
       restartPolicy: Always
