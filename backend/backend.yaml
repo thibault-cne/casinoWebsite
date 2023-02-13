@@ -46,7 +46,7 @@ spec:
         - envFrom:
             - configMapRef:
                 name: development-env
-          image: casinowebsite/backend
+          image: thibaultcne/casino:backend
           imagePullPolicy: IfNotPresent
           name: backend
           ports:
