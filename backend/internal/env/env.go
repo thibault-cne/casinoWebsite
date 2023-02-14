@@ -78,19 +78,20 @@ func init() {
 	Config.Mode = MODE
 	if MODE == "dev" {
 		godotenv.Load("development.env")
-		Config.FrontendHost = Getenv("FRONTEND_HOST", "localhost")
-		Config.FrontendPort = Getenv("FRONTEND_PORT", "5173")
-		Config.CookieName = Getenv("COOKIE_NAME", "default")
-		Config.CookieKey = Getenv("COOKIE_KEY", "default")
-		Config.MysqlHost = Getenv("MYSQL_HOST", "localhost")
-		Config.MysqlPort = Getenv("MYSQL_PORT", "3306")
-		Config.MysqlUser = Getenv("MYSQL_USER", "root")
-		Config.MysqlPass = Getenv("MYSQL_PASSWORD", "password")
-		Config.MysqlDb = Getenv("MYSQL_DATABASE", "default")
-		Config.SuperAdminClaim = Getenv("SUPER_ADMIN_CLAIM", "default")
 		log.Println("[ENV] Loaded development.env")
 	}
 	if MODE == "prod" {
 		log.Println("[ENV] Loaded production environment variables")
 	}
+
+	Config.FrontendHost = Getenv("FRONTEND_HOST", "localhost")
+	Config.FrontendPort = Getenv("FRONTEND_PORT", "5173")
+	Config.CookieName = Getenv("COOKIE_NAME", "default")
+	Config.CookieKey = Getenv("COOKIE_KEY", "default")
+	Config.MysqlHost = Getenv("MYSQL_HOST", "localhost")
+	Config.MysqlPort = Getenv("MYSQL_PORT", "3306")
+	Config.MysqlUser = Getenv("MYSQL_USER", "root")
+	Config.MysqlPass = Getenv("MYSQL_PASSWORD", "password")
+	Config.MysqlDb = Getenv("MYSQL_DATABASE", "default")
+	Config.SuperAdminClaim = Getenv("SUPER_ADMIN_CLAIM", "default")
 }
