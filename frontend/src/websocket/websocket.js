@@ -1,7 +1,14 @@
 import io from "socket.io-client";
 import { base_backend_domain } from "@/axios/axios";
 
-const socket = io("ws://" + base_backend_domain, {
+const mode = `${process.env.MODE}`;
+var socketPrep = "ws://";
+
+if (mode === "prod") {
+  socketPrep = "wss://";
+}
+
+const socket = io(socketPrep + base_backend_domain, {
   transports: ["websocket"],
   withCredentials: true,
   autoConnect: false,

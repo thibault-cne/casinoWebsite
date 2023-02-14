@@ -35,7 +35,8 @@
             <img
               class="w-8 h-8 rounded-full"
               :src="
-                'http://localhost:8000/api/v1/user/get/picture/' +
+                base_backend_url +
+                '/user/get/picture/' +
                 this.$props.userProps.id
               "
               alt="user photo"
@@ -223,6 +224,7 @@ import { defineComponent } from "vue";
 import { initDropdowns } from "flowbite";
 import { getRequest } from "@/axios/getRequest";
 import counter from "@/components/counter.vue";
+import { base_backend_url } from "@/axios/axios";
 
 export default defineComponent({
   name: "navBar",
