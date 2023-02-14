@@ -35,7 +35,7 @@
             <img
               class="w-8 h-8 rounded-full"
               :src="
-                base_backend_url +
+                this.base_backend_url +
                 '/user/get/picture/' +
                 this.$props.userProps.id
               "
@@ -250,6 +250,7 @@ export default defineComponent({
   },
   data() {
     return {
+      base_backend_url: base_backend_url,
       logged: false,
       dropdown: null,
       imageSrc: "",
