@@ -2,21 +2,11 @@ package models
 
 import (
 	"casino.website/internal/db"
-	"casino.website/internal/env"
 )
 
 type Claims struct {
 	Code string `json:"code" gorm:"primaryKey"`
 	Use  int    `json:"use"`
-}
-
-func init() {
-	c := &Claims{
-		Code: env.Config.SuperAdminClaim,
-		Use:  1,
-	}
-
-	c.Create()
 }
 
 func (c *Claims) Create() error {

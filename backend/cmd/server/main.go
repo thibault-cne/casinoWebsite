@@ -36,5 +36,12 @@ func main() {
 	router.Route(app)
 	models.Migrate()
 
+	// Add the first admin claim
+	c := &models.Claims{
+		Code: env.Config.SuperAdminClaim,
+		Use:  1,
+	}
+	c.Create()
+
 	app.Run(":8000")
 }
