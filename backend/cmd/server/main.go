@@ -41,7 +41,7 @@ func main() {
 		Code: env.Config.SuperAdminClaim,
 		Use:  1,
 	}
-	c.Create()
+	c.Save()
 
 	app.Run(":8000")
 }
