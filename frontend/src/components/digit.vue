@@ -8,13 +8,13 @@
   </span>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "i-digit",
   props: {
-    digit: { required: true },
+    digit: { required: true, type: String },
   },
   data() {
     return {

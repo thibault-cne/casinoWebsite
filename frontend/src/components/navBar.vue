@@ -19,7 +19,7 @@
           <div
             class="flex flex-col p-4 md:flex-row md:mt-0 md:text-sm md:font-medium md:bg-white md:dark:bg-gray-900"
           >
-            <counter :num="this.$props.userProps.wallet" />
+            <counter :num="$props.userProps.wallet" />
           </div>
         </div>
         <div class="flex items-center md:order-2">
@@ -35,9 +35,7 @@
             <img
               class="w-8 h-8 rounded-full"
               :src="
-                this.base_backend_url +
-                '/user/get/picture/' +
-                this.$props.userProps.id
+                base_backend_url + '/user/get/picture/' + $props.userProps.id
               "
               alt="user photo"
             />
@@ -49,13 +47,13 @@
           >
             <div class="px-4 py-3">
               <span class="block text-sm text-gray-900 dark:text-white">{{
-                this.$props.userProps.username
+                $props.userProps.username
               }}</span>
             </div>
             <ul class="py-2" aria-labelledby="user-menu-button">
               <li
                 aria-labelledby="dropdownNavbarLink"
-                v-if="this.$props.userProps.status !== 'user'"
+                v-if="$props.userProps.status !== 'user'"
               >
                 <button
                   id="doubleDropdownButton"
@@ -219,12 +217,14 @@
     </div>
   </nav>
 </template>
-<script>
+
+<script lang="ts">
 import { defineComponent } from "vue";
 import { initDropdowns } from "flowbite";
-import { getRequest } from "@/axios/getRequest";
-import counter from "@/components/counter.vue";
-import { base_backend_url } from "@/axios/axios";
+import { getRequest } from "../axios/getRequest";
+import counter from "../components/counter.vue";
+import { base_backend_url } from "../axios/axios";
+import { User } from "../models/user";
 
 export default defineComponent({
   name: "navBar",
@@ -233,7 +233,7 @@ export default defineComponent({
   },
   props: {
     loggedProps: { type: Boolean, required: true },
-    userProps: { type: Object, required: false },
+    userProps: { type: Object as () => User, required: true },
     darkMode: { type: Boolean, required: true },
   },
   watch: {
@@ -273,4 +273,5 @@ export default defineComponent({
   },
 });
 </script>
-<style lang=""></style>
+
+<style lang="scss"></style>

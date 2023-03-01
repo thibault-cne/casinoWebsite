@@ -1,34 +1,35 @@
 <template>
-  <v-app class="bg-slate-700">
+  <div class="bg-slate-700">
     <loginModal v-if="!logged" @login="(u) => login(u)" />
     <navBar
       :logged-props="logged"
       :user-props="user"
       @logout="logout"
-      :dark-mode="this.dark"
-      @toggle="this.toggleDark"
+      :dark-mode="dark"
+      @toggle="toggleDark"
     />
-    <v-main>
+    <div>
       <router-view
         :user-props="user"
         @update="
-          (u) => {
+          (u: User) => {
             update(u);
           }
         "
         @refresh="refresh"
       />
-    </v-main>
-  </v-app>
+    </div>
+  </div>
 </template>
 
-<script>
-import loginModal from "@/components/loginModal.vue";
-import navBar from "@/components/navBar.vue";
+<script lang="ts">
+import loginModal from "./components/loginModal.vue";
+import navBar from "./components/navBar.vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { getRequest } from "./axios/getRequest";
 import { initModals } from "flowbite";
-import { socket } from "@/websocket/websocket";
+import { socket } from "./utils/websocket";
+import { User } from "./models/user";
 
 export default {
   name: "App",
@@ -41,7 +42,7 @@ export default {
   data() {
     return {
       logged: false,
-      user: {},
+      user: {} as User,
       dark: useDark(),
     };
   },
@@ -49,12 +50,12 @@ export default {
     logout() {
       this.logged = false;
     },
-    login(u) {
+    login(u: User) {
       this.user = u;
       this.logged = true;
     },
-    update(u) {
-      this.u = u;
+    update(u: User) {
+      this.user = u;
     },
     toggleDark() {
       const dark = useDark();
@@ -63,7 +64,7 @@ export default {
       toggle();
     },
     refresh() {
-      getRequest("/auth/connected").then((r) => {
+      getRequest("/auth/connected", "json").then((r) => {
         if (r.status == 200) {
           this.user = r.data.user;
           this.logged = true;
@@ -73,4 +74,5 @@ export default {
   },
 };
 </script>
+
 <style scoped lang="scss"></style>

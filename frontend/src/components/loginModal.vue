@@ -89,10 +89,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import { initModals } from "flowbite";
-import { postRequest } from "@/axios/postRequest";
+import { postRequest } from "../axios/postRequest";
 
 export default defineComponent({
   name: "loginModal",
@@ -121,4 +121,5 @@ export default defineComponent({
   },
 });
 </script>
-<style lang=""></style>
+
+<style lang="scss"></style>

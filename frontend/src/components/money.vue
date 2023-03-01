@@ -1,6 +1,6 @@
 <template>
   <div class="flex text-neutral-content">
-    <div v-for="digit in split(this.$props.amount)" :key="digit">
+    <div v-for="digit in split($props.amount)" :key="digit">
       <span v-if="digit === ' '">&nbsp;</span>
       <span v-else>{{ digit }}</span>
     </div>
@@ -8,8 +8,8 @@
   </div>
 </template>
 
-<script>
-import { splitIntoDigits } from "@/plugins/utils";
+<script lang="ts">
+import { splitIntoDigits } from "../utils/splitIntoDigits";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -18,7 +18,7 @@ export default defineComponent({
     amount: { type: Number, required: true },
   },
   methods: {
-    split(num) {
+    split(num: number) {
       return splitIntoDigits(num);
     },
   },

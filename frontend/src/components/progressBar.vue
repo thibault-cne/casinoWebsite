@@ -1,14 +1,14 @@
 <template>
   <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
     <div
-      class="h-2.5 rounded-full dark:bg-teal-500 transition-all ease-out duration-1000"
-      :style="{ width: this.width + '%' }"
-      :class="[this.getColor(this.width)]"
+      class="h-2.5 rounded-full transition-all ease-out duration-1000"
+      :style="{ width: width + '%' }"
+      :class="[getColor(width)]"
     ></div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -25,7 +25,7 @@ export default defineComponent({
   data() {
     return {
       width: 100,
-      intervalId: null,
+      intervalId: {} as NodeJS.Timer,
       timeRemaining: 30,
     };
   },
@@ -41,7 +41,7 @@ export default defineComponent({
       }, 100);
     },
 
-    getColor: function (item) {
+    getColor: function (item: number) {
       let colors = [
         "bg-[#BB0B0B]",
         "bg-[#DB1702]",
@@ -75,4 +75,5 @@ export default defineComponent({
   },
 });
 </script>
+
 <style scoped lang="scss"></style>

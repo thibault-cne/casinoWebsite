@@ -6,17 +6,19 @@
       type="button"
       :onclick="bet"
     >
-      {{ this.$props.range }}
+      {{ $props.range }}
     </button>
     <playerList :listProps="players" />
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
-import { socket, sendMsg } from "@/websocket/websocket";
-import { getRequest } from "@/axios/getRequest";
-import playerList from "@/components/playerList.vue";
+import { socket, sendMsg } from "../utils/websocket";
+import { getRequest } from "../axios/getRequest";
+import playerList from "../components/playerList.vue";
+import { RouletteBet } from "../models/bet";
+import { Players } from "../models/players";
 
 export default defineComponent({
   name: "rouletteRow",
@@ -29,7 +31,7 @@ export default defineComponent({
   },
   data() {
     return {
-      players: [],
+      players: [] as Players[],
     };
   },
   mounted() {
@@ -43,7 +45,7 @@ export default defineComponent({
       }
     });
 
-    socket.on("newbet", (res) => {
+    socket.on("newbet", (res: any) => {
       if (res.body.color === this.getColorFromRange()) {
         this.addPlayer(res.body);
       }
@@ -54,23 +56,23 @@ export default defineComponent({
   },
   methods: {
     computeClass() {
-      let map = {
-        "1 - 7": "bg-[#f95146]",
-        0: "bg-[#00c74d]",
-        "8 - 14": "bg-[#2d3035]",
-      };
-      return map[this.$props.range];
+      let map = new Map<string, string>([
+        ["1 - 7", "bg-[#f95146]"],
+        ["0", "bg-[#00c74d]"],
+        ["8 - 14", "bg-[#2d3035]"],
+      ]);
+      return map.get(this.$props.range as string);
     },
     getColorFromRange() {
-      let map = {
-        "1 - 7": "red",
-        0: "green",
-        "8 - 14": "black",
-      };
-      return map[this.$props.range];
+      let map = new Map<string, string>([
+        ["1 - 7", "red"],
+        ["0", "green"],
+        ["8 - 14", "black"],
+      ]);
+      return map.get(this.$props.range as string);
     },
     bet() {
-      if (this.$props.amount <= 0) {
+      if ((this.$props.amount as number) <= 0) {
         return;
       }
 
@@ -80,7 +82,7 @@ export default defineComponent({
       };
       sendMsg("bet", data);
     },
-    addPlayer(bet) {
+    addPlayer(bet: RouletteBet) {
       for (let p of this.players) {
         if (p.user.username == bet.user.username) {
           p.wager += bet.amount;
