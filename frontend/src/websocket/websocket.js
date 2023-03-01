@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import { base_backend_domain } from "@/axios/axios";
 
 const mode = `${process.env.MODE}`;
-const url = "";
+let url = "";
 
 if (mode == "dev") {
   url = "ws://" + base_backend_domain;
