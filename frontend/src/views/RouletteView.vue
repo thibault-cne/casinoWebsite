@@ -14,7 +14,7 @@
             type="number"
             placeholder="Amount"
             class="input input-bordered w-full max-w-xs dark:text-white"
-            v-model="wager"
+            v-model="this.wager"
           />
         </div>
         <div
