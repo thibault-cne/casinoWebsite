@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
+  namespace: casino-website
   name: frontend
   labels:
     app: frontend
@@ -14,7 +14,6 @@ spec:
     type: Recreate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: frontend
     spec:
@@ -24,6 +23,13 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
       imagePullSecrets:
         - name: regcred
       restartPolicy: Always
@@ -34,6 +40,7 @@ status: {}
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: casino-website
   name: frontend
 spec:
   ports:
@@ -50,7 +57,8 @@ status:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: frontend-tls-ingress
+  namespace: casino-website
+  name: frontend-ingress
   annotations:
     kubernetes.io/ingress.class: traefik
     cert-manager.io/cluster-issuer: letsencrypt-prod

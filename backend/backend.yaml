@@ -2,8 +2,9 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    io.kompose.service: backend-claim0
-  name: backend-claim0
+    io.kompose.service: backend-claim
+  namespace: casino-website
+  name: backend-claim
 spec:
   accessModes:
     - ReadWriteOnce
@@ -22,6 +23,7 @@ metadata:
     kompose.version: 1.28.0 (HEAD)
   labels:
     io.kompose.service: backend
+  namespace: casino-website
   name: backend
 spec:
   replicas: 1
@@ -48,10 +50,16 @@ spec:
           name: backend
           ports:
             - containerPort: 8000
-          resources: {}
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
           volumeMounts:
             - mountPath: /app/images
-              name: backend-claim0
+              name: backend-claim
       restartPolicy: Always
       volumes:
         - name: backend-claim0
@@ -69,6 +77,7 @@ metadata:
     kompose.version: 1.28.0 (HEAD)
   labels:
     io.kompose.service: backend
+  namespace: casino-website
   name: backend
 spec:
   ports:
@@ -85,7 +94,8 @@ status:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: backend-tls-ingress
+  name: backend-ingress
+  namespace: casino-website
   annotations:
     kubernetes.io/ingress.class: traefik
     cert-manager.io/cluster-issuer: letsencrypt-prod

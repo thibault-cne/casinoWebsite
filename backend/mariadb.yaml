@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
   labels:
-    io.kompose.service: mariadb-claim0
-  name: mariadb-claim0
+    io.kompose.service: mariadb-claim
+  namespace: casino-website
+  name: mariadb-claim
 spec:
   accessModes:
     - ReadWriteOnce
@@ -21,9 +21,9 @@ metadata:
   annotations:
     kompose.cmd: kompose convert -f docker-compose.yaml
     kompose.version: 1.28.0 (HEAD)
-  creationTimestamp: null
   labels:
     io.kompose.service: mariadb
+  namespace: casino-website
   name: mariadb
 spec:
   replicas: 1
@@ -36,7 +36,6 @@ spec:
       annotations:
         kompose.cmd: kompose convert -f docker-compose.yaml
         kompose.version: 1.28.0 (HEAD)
-      creationTimestamp: null
       labels:
         io.kompose.network/backend-default: "true"
         io.kompose.service: mariadb
@@ -50,14 +49,20 @@ spec:
           name: mariadb
           ports:
             - containerPort: 3306
-          resources: {}
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mariadb-storage
       volumes:
         - name: mariadb-storage
           persistentVolumeClaim:
-            claimName: mariadb-claim0
+            claimName: mariadb-claim
       hostname: mariadb
       restartPolicy: Always
 status: {}
@@ -70,7 +75,6 @@ metadata:
   annotations:
     kompose.cmd: kompose convert -f docker-compose.yaml
     kompose.version: 1.28.0 (HEAD)
-  creationTimestamp: null
   labels:
     io.kompose.service: mariadb
   name: mariadb
