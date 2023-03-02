@@ -4,11 +4,6 @@
   >
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <router-link to="/" class="flex items-center">
-        <img
-          src="https://flowbite.com/docs/images/logo.svg"
-          class="h-6 mr-3 sm:h-9"
-          alt="Flowbite Logo"
-        />
         <span
           class="self-center text-xl font-semibold whitespace-nowrap dark:text-gray-50 text-slate-700"
           >Casino website</span
@@ -141,7 +136,7 @@
               ></path>
             </svg>
           </button>
-          <a @click="toggleDark">
+          <a @click="toggleDark" class="p-4">
             <svg
               viewBox="0 0 24 24"
               fill="none"
