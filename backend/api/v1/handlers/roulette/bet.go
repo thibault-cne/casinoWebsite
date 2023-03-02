@@ -29,5 +29,5 @@ func bet(c *gosf.Client, r *gosf.Request) *gosf.Message {
 
 	Roulette.RegisterBet(b)
 
-	return nil
+	return b.Message()
 }
