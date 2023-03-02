@@ -1,6 +1,8 @@
 <template>
   <div class="pa-4">
-    <ul
+    <transition-group
+      name="list"
+      tag="ul"
       class="max-w-md space-y-1 text-gray-500 list-none list-inside dark:text-gray-400"
     >
       <li v-for="item in listProps" :key="item.user.id">
@@ -11,7 +13,7 @@
           </div>
         </div>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
@@ -31,4 +33,14 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>
