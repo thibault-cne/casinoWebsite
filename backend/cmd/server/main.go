@@ -47,7 +47,13 @@ func main() {
 
 	if env.Config.Mode == "prod" {
 		path, _ := os.Getwd()
-		fmt.Println("{}", path)
+		fmt.Println(path)
+
+		f, _ := os.ReadDir(path)
+
+		for _, e := range f {
+			fmt.Println(e)
+		}
 	}
 
 	app.Run(":8000")
