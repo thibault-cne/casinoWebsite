@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-slate-700">
+  <div class="">
     <loginModal v-if="!logged" @login="(u) => login(u)" />
     <navBar
       :logged-props="logged"
@@ -55,7 +55,9 @@ export default {
       this.logged = true;
     },
     update(u: User) {
+      console.log("Update ", u);
       this.user = u;
+      console.log(this.user);
     },
     toggleDark() {
       const dark = useDark();

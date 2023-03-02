@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="pa-10">
+    <div class="p-10">
       <progressBar :time="time" />
       <wheelComponent :isSpinning="isSpinning" :outcome="outcome" />
     </div>
@@ -17,9 +17,7 @@
             v-model="wager"
           />
         </div>
-        <div
-          class="btn-group lg:btn-group-horizontal justify-center items-center"
-        >
+        <div class="btn-group lg:btn-group-horizontal justify-center items-end">
           <button class="btn" @click="addWager(5000)">+5K</button>
           <button class="btn" @click="addWager(25000)">+25K</button>
           <button class="btn" @click="addWager(100000)">+100K</button>
@@ -38,11 +36,11 @@
         </div>
       </div>
       <div
-        class="flex items-center pa-5 md:items-start flex-col md:flex-row md:justify-around"
+        class="flex items-center p-5 md:items-start flex-col md:flex-row md:justify-around"
       >
-        <rouletteRow :range="'1 - 7'" :amount="wager" />
-        <rouletteRow :range="'0'" :amount="wager" />
-        <rouletteRow :range="'8 - 14'" :amount="wager" />
+        <rouletteRow :range="'1 - 7'" :amount="wager" :rolling="isSpinning" />
+        <rouletteRow :range="'0'" :amount="wager" :rolling="isSpinning" />
+        <rouletteRow :range="'8 - 14'" :amount="wager" :rolling="isSpinning" />
       </div>
     </div>
   </div>

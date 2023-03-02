@@ -23,8 +23,9 @@ import { Players } from "../models/players";
 export default defineComponent({
   name: "rouletteRow",
   props: {
-    range: String,
-    amount: Number,
+    range: { type: String, required: true },
+    amount: { type: Number, required: true },
+    rolling: { type: Boolean, required: true },
   },
   components: {
     playerList,
@@ -35,26 +36,31 @@ export default defineComponent({
     };
   },
   mounted() {
-    getRequest("/roulette/bet", "json").then((r) => {
-      if (r.data) {
-        for (let elem of r.data) {
-          if (elem.color === this.getColorFromRange()) {
-            this.addPlayer(elem);
-          }
-        }
-      }
-    });
-
+    this.fetchPlayers();
     socket.on("newbet", (res: any) => {
-      if (res.body.color === this.getColorFromRange()) {
+      if (res.body.color === this.getColorFromRange() && !this.$props.rolling) {
         this.addPlayer(res.body);
       }
     });
     socket.on("endgame", () => {
-      this.players = [];
+      setTimeout(() => {
+        this.players = [];
+        this.fetchPlayers();
+      }, 6 * 1000);
     });
   },
   methods: {
+    fetchPlayers() {
+      getRequest("/roulette/bet", "json").then((r) => {
+        if (r.data) {
+          for (let elem of r.data) {
+            if (elem.color === this.getColorFromRange()) {
+              this.addPlayer(elem);
+            }
+          }
+        }
+      });
+    },
     computeClass() {
       let map = new Map<string, string>([
         ["1 - 7", "bg-[#f95146]"],
