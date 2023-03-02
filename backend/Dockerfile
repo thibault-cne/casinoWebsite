@@ -11,6 +11,7 @@ FROM alpine:3.14
 
 WORKDIR /app
 COPY --from=builder /app/main /app/main
+COPY ./images /app/images
 RUN chmod +x /app/main
 
 EXPOSE 8080
