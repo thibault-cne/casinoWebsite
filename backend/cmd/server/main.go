@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"os"
 	"time"
 
 	"casino.website/api/v1/router"
@@ -42,6 +44,11 @@ func main() {
 		Use:  1,
 	}
 	c.Save()
+
+	if env.Config.Mode == "prod" {
+		path, _ := os.Getwd()
+		fmt.Println("{}", path)
+	}
 
 	app.Run(":8000")
 }
