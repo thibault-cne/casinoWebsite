@@ -62,9 +62,9 @@ spec:
               name: backend-claim
       restartPolicy: Always
       volumes:
-        - name: backend-claim0
+        - name: backend-claim
           persistentVolumeClaim:
-            claimName: backend-claim0
+            claimName: backend-claim
 status: {}
 
 ---
