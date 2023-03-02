@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import blackjackCard from "../components/blackjack/blackjackCard.vue";
+import blackjackCard from "../components/blackjack/card.vue";
 import gameButton from "../components/blackjack/gameButton.vue";
 
 export default {
