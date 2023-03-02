@@ -23,5 +23,7 @@ func getPicture(ctx *gin.Context) {
 		filePath = fmt.Sprintf("%s/images/webp/default.webp", path)
 	}
 
+	fmt.Printf("%s", filePath)
+
 	ctx.File(filePath)
 }
