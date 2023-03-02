@@ -2,8 +2,8 @@
   <div class="flex text-neutral-content justify-center">
     <i-digit
       :digit="digit"
-      v-for="digit in split(num as number)"
-      :key="digit"
+      v-for="(digit, i) in split(num as number)"
+      :key="i"
     />
     <span>&nbsp;$</span>
   </div>

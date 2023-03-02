@@ -16,6 +16,11 @@ export default defineComponent({
   props: {
     digit: { required: true, type: String },
   },
+  watch: {
+    digit: function (newVal) {
+      this.d = newVal;
+    },
+  },
   data() {
     return {
       d: "",
