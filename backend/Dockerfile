@@ -16,6 +16,9 @@ COPY --from=builder /app/main /app/main
 WORKDIR /app/images
 COPY images /app/images
 
+# Get back to root
+WORKDIR /app
+
 RUN chmod +x /app/main
 
 EXPOSE 8080
