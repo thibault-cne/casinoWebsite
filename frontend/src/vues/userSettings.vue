@@ -37,7 +37,9 @@
               <div class="w-14 rounded-full">
                 <img
                   :src="
-                    'http://localhost:8000/api/v1/user/get/picture/' + user.id
+                    base_backend_url +
+                    '/user/get/picture/' +
+                    $props.userProps.id
                   "
                 />
               </div>
@@ -74,6 +76,7 @@
 </template>
 
 <script lang="ts">
+import { base_backend_url } from "../axios/axios";
 import { postRequest } from "../axios/postRequest";
 import { User } from "../models/user";
 
@@ -89,6 +92,7 @@ export default {
   },
   data() {
     return {
+      base_backend_url: base_backend_url,
       user: {} as User,
       file: {} as File,
     };
