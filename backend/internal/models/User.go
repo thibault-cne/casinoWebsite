@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+	"os"
 	"time"
 
 	"casino.website/internal/db"
@@ -116,4 +118,20 @@ func (u *User) GetUserStat(gameType string) []*BetResult {
 	}
 
 	return res
+}
+
+func (u *User) GetPicture() (string, error) {
+	path, err := os.Getwd()
+
+	if err != nil {
+		return "", err
+	}
+
+	filePath := fmt.Sprintf("%s/images/webp/%s.webp", path, u.ID)
+
+	if _, err := os.Stat(filePath); err != nil {
+		filePath = fmt.Sprintf("%s/images/webp/default.webp", path)
+	}
+
+	return filePath, nil
 }

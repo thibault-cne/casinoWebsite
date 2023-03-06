@@ -27,15 +27,10 @@ func modify(ctx *gin.Context) {
 		return
 	}
 
-	fmt.Printf("%+v Filename : %s\n", data, data.Picture.Filename)
-
 	user := ctx.MustGet("user").(*models.User)
 
 	// Retrieve authorized fields
 	user.Username = data.User.Username
-
-	// Save file to temp
-	// ctx.SaveUploadedFile(data.Picture, fmt.Sprintf("./images/temp/%s", data.Picture.Filename))
 
 	err = user.Save()
 

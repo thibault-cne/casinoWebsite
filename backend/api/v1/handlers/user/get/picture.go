@@ -1,29 +1,28 @@
 package get
 
 import (
-	"fmt"
 	"net/http"
-	"os"
 
+	"casino.website/internal/models"
 	"github.com/gin-gonic/gin"
 )
 
 func getPicture(ctx *gin.Context) {
 	userId := ctx.Param("userId")
-	path, err := os.Getwd()
+
+	user, err := models.GetUserByID(userId)
 
 	if err != nil {
-		ctx.AbortWithStatus(http.StatusInternalServerError)
+		ctx.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "user not found"})
 		return
 	}
 
-	filePath := fmt.Sprintf("%s/images/webp/%s.webp", path, userId)
+	filePath, err := user.GetPicture()
 
-	if _, err := os.Stat(filePath); err != nil {
-		filePath = fmt.Sprintf("%s/images/webp/default.webp", path)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "cannot retrive picture"})
+		return
 	}
-
-	fmt.Printf("%s", filePath)
 
 	ctx.File(filePath)
 }
