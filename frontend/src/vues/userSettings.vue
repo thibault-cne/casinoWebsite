@@ -109,7 +109,6 @@ export default {
       postRequest(data, "/user/modify/", "file")
         .then((r) => {
           if (r.status === 200) {
-            console.log("emit");
             this.$emit("update", this.user);
           }
         })

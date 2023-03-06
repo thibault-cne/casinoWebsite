@@ -224,7 +224,6 @@ export default defineComponent({
       base_backend_url: base_backend_url,
       logged: false,
       dropdown: null,
-      imageSrc: "",
       index: [
         {
           name: "Roulette",
