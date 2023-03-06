@@ -19,8 +19,8 @@
         </div>
         <div class="flex items-center md:order-2">
           <!-- Dropdown menu -->
-          <div class="dropdown dropdown-end">
-            <label tabindex="0" class="">
+          <div class="dropdown dropdown-end dropdown-hover">
+            <label tabindex="0">
               <span class="sr-only">Open user menu</span>
               <img
                 class="w-8 h-8 rounded-full"
@@ -30,68 +30,66 @@
                 alt="user photo"
               />
             </label>
-            <ul
-              tabindex="0"
+            <div
               class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li v-if="$props.userProps.status !== 'user'">
-                <div class="dropdown dropdown-left">
-                  <div
-                    tabindex="0"
-                    class="text-sm text-gray-700 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Administration
-                  </div>
-                  <ul
-                    tabindex="0"
-                    class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-                  >
-                    <li>
-                      <router-link
-                        to="/admin/panel"
-                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                        >Dashboard administrateur</router-link
-                      >
-                    </li>
-                    <li>
-                      <router-link
-                        to="/admin/user"
-                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                        >Dashboard utilisteurs</router-link
-                      >
-                    </li>
-                    <li>
-                      <router-link
-                        to="/admin/claims"
-                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                        >Dashboard claims</router-link
-                      >
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li>
-                <router-link
-                  to="/settings"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >Settings</router-link
-                >
-              </li>
-              <li>
-                <router-link
-                  to="/earnings"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >Earnings</router-link
-                >
-              </li>
-              <li>
-                <a
-                  :onclick="logout"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >Sign out</a
-                >
-              </li>
-            </ul>
+              <div v-if="userProps.status !== 'user'">
+                <ul>
+                  <li>
+                    <router-link
+                      to="/admin/panel"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      >Dashboard administrateur</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link
+                      to="/admin/user"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      >Dashboard utilisteurs</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link
+                      to="/admin/claims"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      >Dashboard claims</router-link
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="divider" v-if="userProps.status !== 'user'"></div>
+              <div>
+                <ul>
+                  <li>
+                    <router-link
+                      to="/settings"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      >Settings</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link
+                      to="/earnings"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      >Earnings</router-link
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="divider"></div>
+              <div>
+                <ul>
+                  <li>
+                    <a
+                      :onclick="logout"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      >Sign out</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
           <button
             data-collapse-toggle="mobile-menu-2"
@@ -115,12 +113,15 @@
               ></path>
             </svg>
           </button>
-          <a @click="toggleDark" class="p-4">
+          <a @click="toggleDark" class="swap swap-rotate p-4">
+            <!-- this hidden checkbox controls the state -->
+            <input type="checkbox" v-model="darkMode" />
+
+            <!-- sun icon -->
             <svg
               viewBox="0 0 24 24"
               fill="none"
-              class="w-6 h-6 cursor-pointer"
-              v-if="!darkMode"
+              class="cursor-pointer swap-off w-6 h-6"
             >
               <path
                 fill-rule="evenodd"
@@ -139,14 +140,15 @@
                 class="fill-slate-400 dark:fill-slate-500"
               ></path>
             </svg>
+
+            <!-- moon icon -->
             <svg
               aria-hidden="true"
               id="theme-toggle-light-icon"
-              class="w-5 h-5 cursor-pointer"
+              class="w-6 h-6 cursor-pointer swap-on"
               fill="white"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
-              v-else
             >
               <path
                 d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
