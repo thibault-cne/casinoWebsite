@@ -20,8 +20,7 @@ COPY images /app/images
 WORKDIR /app
 
 # Install ffmpeg for image processing
-RUN apt-get -y update
-RUN apt-get install -y ffmpeg
+RUN apk add ffmpeg
 
 RUN chmod +x /app/main
 
