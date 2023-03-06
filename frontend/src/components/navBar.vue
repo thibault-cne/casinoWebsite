@@ -18,54 +18,33 @@
           </div>
         </div>
         <div class="flex items-center md:order-2">
-          <button
-            type="button"
-            class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-            id="user-menu-button"
-            aria-expanded="false"
-            data-dropdown-toggle="user-dropdown"
-            data-dropdown-placement="bottom"
-          >
-            <span class="sr-only">Open user menu</span>
-            <img
-              class="w-8 h-8 rounded-full"
-              :src="
-                base_backend_url + '/user/get/picture/' + $props.userProps.id
-              "
-              alt="user photo"
-            />
-          </button>
           <!-- Dropdown menu -->
-          <div
-            class="z-50 hidden my-4 text-base list-none bg-gray-50 divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-            id="user-dropdown"
-          >
-            <div class="px-4 py-3">
-              <span class="block text-sm text-gray-900 dark:text-white">{{
-                $props.userProps.username
-              }}</span>
-            </div>
-            <ul class="py-2" aria-labelledby="user-menu-button">
-              <li
-                aria-labelledby="dropdownNavbarLink"
-                v-if="$props.userProps.status !== 'user'"
-              >
-                <button
-                  id="doubleDropdownButton"
-                  data-dropdown-toggle="doubleDropdown"
-                  data-dropdown-placement="right-start"
-                  type="button"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >
-                  Administration
-                </button>
-                <div
-                  id="doubleDropdown"
-                  class="z-10 hidden bg-slate-50 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-                >
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="">
+              <span class="sr-only">Open user menu</span>
+              <img
+                class="w-8 h-8 rounded-full"
+                :src="
+                  base_backend_url + '/user/get/picture/' + $props.userProps.id
+                "
+                alt="user photo"
+              />
+            </label>
+            <ul
+              tabindex="0"
+              class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li v-if="$props.userProps.status !== 'user'">
+                <div class="dropdown dropdown-left">
+                  <div
+                    tabindex="0"
+                    class="text-sm text-gray-700 dark:text-gray-200 dark:hover:text-white"
+                  >
+                    Administration
+                  </div>
                   <ul
-                    class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                    aria-labelledby="doubleDropdownButton"
+                    tabindex="0"
+                    class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                   >
                     <li>
                       <router-link
@@ -215,7 +194,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { initDropdowns } from "flowbite";
 import { getRequest } from "../axios/getRequest";
 import counter from "../components/counter.vue";
 import { base_backend_url } from "../axios/axios";
@@ -234,14 +212,10 @@ export default defineComponent({
   watch: {
     loggedProps: function (newVal) {
       this.logged = newVal;
-      if (this.logged) {
-        initDropdowns();
-      }
     },
   },
   mounted() {
     this.logged = this.loggedProps;
-    initDropdowns();
   },
   data() {
     return {
