@@ -1,0 +1,20 @@
+version: 3
+
+tasks:
+  frontend:
+    dir: frontend
+    cmds:
+      - npm run dev
+    silent: true
+  
+  backend:
+    dir: backend
+    cmds:
+      - docker-compose up -d
+      - go run ./cmd/server/main.go
+    silent: true
+  
+  run-dev:
+    cmds:
+      - task: backend
+      - task: frontend
