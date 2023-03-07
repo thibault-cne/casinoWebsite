@@ -26,8 +26,6 @@ type config struct {
 	MysqlUser string
 	MysqlPass string
 	MysqlDb   string
-
-	SuperAdminClaim string
 }
 
 func (c *config) MysqlDSN() string {
@@ -93,5 +91,5 @@ func init() {
 	Config.MysqlUser = Getenv("MYSQL_USER", "root")
 	Config.MysqlPass = Getenv("MYSQL_PASSWORD", "password")
 	Config.MysqlDb = Getenv("MYSQL_DATABASE", "default")
-	Config.SuperAdminClaim = Getenv("SUPER_ADMIN_CLAIM", "default")
+
 }

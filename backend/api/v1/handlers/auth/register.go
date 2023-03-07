@@ -4,7 +4,6 @@ import (
 	"regexp"
 	"time"
 
-	"casino.website/internal/env"
 	"casino.website/internal/models"
 	"casino.website/internal/utils"
 	"github.com/gin-gonic/gin"
@@ -108,10 +107,6 @@ func Register(c *gin.Context) {
 		Password:  pHash,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
-	}
-
-	if claim.Code == env.Config.SuperAdminClaim {
-		user.Status = "super admin"
 	}
 
 	// Update the code used
