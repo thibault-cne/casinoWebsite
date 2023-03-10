@@ -34,9 +34,9 @@ import { User } from "./models/user";
 export default {
   name: "App",
   components: { navBar, loginModal },
-  mounted() {
+  async mounted() {
     initModals();
-    this.refresh();
+    await this.refresh();
 
     if (this.logged) {
       socket.connect();
@@ -69,8 +69,8 @@ export default {
 
       toggle();
     },
-    refresh() {
-      getRequest("/auth/connected", "json").then((r) => {
+    async refresh() {
+      await getRequest("/auth/connected", "json").then((r) => {
         if (r.status == 200) {
           this.user = r.data.user;
           this.logged = true;
