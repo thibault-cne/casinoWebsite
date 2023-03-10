@@ -38,7 +38,7 @@
                 <img
                   :src="
                     base_backend_url +
-                    '/user/get/picture/' +
+                    '/user/get/picture?=' +
                     $props.userProps.id
                   "
                 />
