@@ -12,7 +12,7 @@
       <div class="flex items-center md:order-2" v-if="logged">
         <div class="flex items-center">
           <div
-            class="flex flex-col p-4 md:flex-row md:mt-0 md:text-sm md:font-medium md:bg-white md:dark:bg-gray-900"
+            class="flex flex-col p-4 md:flex-row md:mt-0 md:text-sm md:font-medium"
           >
             <counter :num="$props.userProps.wallet" />
           </div>
