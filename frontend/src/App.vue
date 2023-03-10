@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <loginModal v-if="!logged" @login="(u) => login(u)" />
     <navBar
       :logged-props="logged"

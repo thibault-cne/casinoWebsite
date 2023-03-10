@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="bg-gray-50 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900"
+    class="bg-slate-300 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900"
   >
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <router-link to="/" class="flex items-center">
@@ -163,14 +163,14 @@
       </div>
       <div v-else class="flex items-center md:order-2">
         <ul
-          class="flex flex-col p-4 mt-4 bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:bg-white dark:bg-gray-800 md:dark:bg-gray-900"
+          class="flex flex-col p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
         >
           <li>
             <a
               data-modal-target="authentication-modal"
               data-modal-show="authentication-modal"
               type="button"
-              class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white cursor-pointer"
+              class="block py-2 pl-3 pr-4 text-slate-700 rounded md:bg-transparent md:p-0 dark:text-white cursor-pointer"
               >Login</a
             >
           </li>
@@ -181,7 +181,7 @@
         id="mobile-menu-2"
       >
         <ul
-          class="flex flex-col p-4 mt-4 bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:bg-white dark:bg-gray-800 md:dark:bg-gray-900"
+          class="flex flex-col p-4 mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
         >
           <li v-for="i in index" :key="i.name">
             <router-link
