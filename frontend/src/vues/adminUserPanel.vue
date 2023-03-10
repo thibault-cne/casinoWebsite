@@ -52,7 +52,7 @@
             </td>
             <td class="px-6 py-4">{{ user.status }}</td>
             <td class="px-6 py-4 flex">
-              <div v-if="user.status === 'super admin'">
+              <div v-if="userProps.status === 'super admin'">
                 <edit-user :props-user="user" />
                 <a
                   type="button"
@@ -89,6 +89,9 @@ import { User } from "../models/user";
 
 export default defineComponent({
   name: "userManagement",
+  props: {
+    userProps: { required: true, type: Object as () => User },
+  },
   data() {
     return {
       users: [] as User[],

@@ -62,6 +62,7 @@
 <script lang="ts">
 import blackjackCard from "../components/blackjack/card.vue";
 import gameButton from "../components/blackjack/gameButton.vue";
+import { User } from "../models/user";
 
 export default {
   name: "BlackJack",
@@ -70,7 +71,7 @@ export default {
     gameButton,
   },
   props: {
-    userProps: { required: true, type: Object },
+    userProps: { required: true, type: Object as () => User },
   },
   mounted() {
     this.dealerCards.push(true);
