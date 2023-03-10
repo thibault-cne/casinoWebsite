@@ -37,7 +37,10 @@ export default {
   mounted() {
     initModals();
     this.refresh();
-    socket.connect();
+
+    if (this.logged) {
+      socket.connect();
+    }
   },
   data() {
     return {
@@ -53,6 +56,7 @@ export default {
     login(u: User) {
       this.user = u;
       this.logged = true;
+      socket.connect();
     },
     update(u: User) {
       console.log("Update ", u);

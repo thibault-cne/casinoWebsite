@@ -20,8 +20,8 @@ export default defineComponent({
   },
   watch: {
     time: function (newVal) {
-      if (newVal >= 30) {
-        this.timeRemaining = 30;
+      if (newVal >= 30_000) {
+        this.timeRemaining = 30_000;
       } else {
         this.timeRemaining = newVal;
       }
@@ -33,7 +33,7 @@ export default defineComponent({
     return {
       width: 100,
       intervalId: {} as NodeJS.Timer,
-      timeRemaining: 30,
+      timeRemaining: 30_000,
     };
   },
   methods: {
