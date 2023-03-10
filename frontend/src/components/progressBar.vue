@@ -20,7 +20,12 @@ export default defineComponent({
   },
   watch: {
     time: function (newVal) {
-      this.timeRemaining = newVal;
+      if (newVal >= 30) {
+        this.timeRemaining = 30;
+      } else {
+        this.timeRemaining = newVal;
+      }
+
       this.set();
     },
   },
