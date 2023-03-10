@@ -1,6 +1,7 @@
 package get
 
 import (
+	"fmt"
 	"net/http"
 
 	"casino.website/internal/models"
@@ -8,7 +9,9 @@ import (
 )
 
 func getPicture(ctx *gin.Context) {
-	userId := ctx.Param("userId")
+	userId := ctx.Query("userId")
+
+	fmt.Printf("%s\n", userId)
 
 	user, err := models.GetUserByID(userId)
 

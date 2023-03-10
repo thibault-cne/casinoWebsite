@@ -17,6 +17,10 @@ func (c *Claims) Save() error {
 	return db.DB.Save(c).Error
 }
 
+func (c *Claims) Delete() error {
+	return db.DB.Delete(c).Error
+}
+
 func GetAllClaims() ([]*Claims, error) {
 	var claims []*Claims
 

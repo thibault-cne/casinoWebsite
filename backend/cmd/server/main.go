@@ -19,7 +19,7 @@ func main() {
 	// Config CORS middleware
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{env.Config.FrontendURL()},
-		AllowMethods:     []string{"*"},
+		AllowMethods:     []string{"POST, GET, DELETE"},
 		AllowHeaders:     []string{"Origin, X-Requested-With, Content-Type, Accept"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,

@@ -18,6 +18,7 @@
           <tr>
             <th scope="col" class="px-6 py-3">Code</th>
             <th scope="col" class="px-6 py-3">Uses left</th>
+            <th scope="col" class="px-6 py-3">Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +29,11 @@
           >
             <td class="px-6 py-4">{{ claim.code }}</td>
             <td class="px-6 py-4">{{ claim.use }}</td>
+            <td>
+              <a @click="deleteClaim(claim.code)" class="cursor-pointer"
+                >Delete</a
+              >
+            </td>
           </tr>
         </tbody>
       </table>
@@ -36,7 +42,9 @@
 </template>
 
 <script lang="ts">
+import { deleteRequest } from "../axios/deleteRequest";
 import { getRequest } from "../axios/getRequest";
+import { postRequest } from "../axios/postRequest";
 import { Claim } from "../models/claim";
 
 export default {
@@ -53,9 +61,12 @@ export default {
   },
   methods: {
     newClaim() {
-      getRequest("/admin/claims/create", "json").then((r) => {
+      postRequest(null, "/admin/claims/create", "json").then((r) => {
         this.claims.push(r.data as Claim);
       });
+    },
+    deleteClaim(code: string) {
+      deleteRequest("/admin/claims/delete", { code: code });
     },
   },
 };

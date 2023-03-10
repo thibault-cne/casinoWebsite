@@ -18,3 +18,35 @@ tasks:
     cmds:
       - task: backend
       - task: frontend
+  
+  deploy-cert-manager:
+    internal: true
+    cmds:
+      - kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.11.0/cert-manager.yaml
+  
+  deploy-letsencrypt:
+    internal: true
+    cmds:
+      - kubectl apply -f letsencrypt-prod.yaml
+  
+  deploy-traefik:
+    internal: true
+    cmds:
+      - kubectl apply -f traefik-https-redirect-middleware.yaml
+
+  build-backend:
+    internal: true
+    dir: backend
+    vars:
+      IMAGE_NAME: thibaultcne/casino:backend
+    cmds:
+      - docker build -t {{.IMAGE_NAME}} .
+
+  deploy-backend:
+    internal: true
+    deps: [build-backend]
+    dir: backend
+    cmds:
+      - kubectl apply -f mariadb.yaml
+      - kubectl apply -f backend.yaml
+  

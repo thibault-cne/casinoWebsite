@@ -6,5 +6,6 @@ func LoadClaims(path *gin.RouterGroup) {
 	subpath := path.Group("/claims")
 
 	subpath.GET("/get", getAllClaims)
-	subpath.GET("/create", newClaim)
+	subpath.POST("/create", newClaim)
+	subpath.DELETE("/delete", deleteClaim)
 }

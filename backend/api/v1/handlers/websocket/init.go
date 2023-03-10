@@ -18,5 +18,5 @@ func LoadWebsocket(path *gin.RouterGroup, engine *gin.Engine) {
 
 	subpath := path.Group("/ws")
 
-	subpath.Any("/", middlewares.AuthRequired(), Wrapper())
+	subpath.GET("/", middlewares.AuthRequired(), Wrapper())
 }

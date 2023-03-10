@@ -11,11 +11,6 @@ function getRequest(url: string, headerType: string, params = {}): Promise<Axios
         resolve(response);
       })
       .catch((error) => {
-        if (error.response) {
-          if (error.response.status === 401) {
-            // refreshToken();
-          }
-        }
         reject(error);
       });
   });
