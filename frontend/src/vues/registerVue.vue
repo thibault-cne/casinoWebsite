@@ -28,6 +28,9 @@
                 v-model="username"
                 required
               />
+              <span class="font-medium text-red-500" v-if="msg.username">{{
+                msg.username
+              }}</span>
             </div>
             <div>
               <label
@@ -44,6 +47,9 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
               />
+              <span class="font-medium text-red-500" v-if="msg.password">{{
+                msg.password
+              }}</span>
             </div>
             <div>
               <label
@@ -60,6 +66,9 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
               />
+              <span class="font-medium text-red-500" v-if="msg.passConf">{{
+                msg.passConf
+              }}</span>
             </div>
             <div>
               <label
@@ -76,7 +85,11 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
               />
+              <span class="font-medium text-red-500" v-if="msg.code">{{
+                msg.code
+              }}</span>
             </div>
+            <!--
             <div class="flex items-start">
               <div class="flex items-center h-5">
                 <input
@@ -100,10 +113,11 @@
                 >
               </div>
             </div>
+        -->
             <button
               type="button"
               :onclick="submit"
-              class="w-full text-white bg-slate-600 hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
               Create an account
             </button>
@@ -111,7 +125,7 @@
               Already have an account?
               <a
                 href="/"
-                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                class="font-medium text-blue-700 hover:underline dark:text-blue-500"
                 >Login here</a
               >
             </p>
@@ -133,17 +147,89 @@ export default {
       password: "",
       passConf: "",
       code: "",
+      msg: {
+        username: "",
+        password: "",
+        passConf: "",
+        code: "",
+      },
     };
+  },
+  watch: {
+    username: function (newVal: string) {
+      this.username = newVal;
+      this.validUsername(newVal);
+    },
+    password: function (newVal: string) {
+      this.password = newVal;
+      this.validPassword(newVal);
+    },
+    passConf: function (newVal: string) {
+      this.passConf = newVal;
+      this.validPasswordConf(newVal);
+    },
   },
   methods: {
     submit() {
+      if (
+        !this.validUsername(this.username) ||
+        !this.validPassword(this.password) ||
+        !this.validPasswordConf(this.passConf)
+      ) {
+        return;
+      }
+
+      console.log("ok");
+
       const data = {
         username: this.username,
         password: this.password,
         passwordVerify: this.passConf,
         code: this.code,
       };
-      postRequest(data, "/auth/register", "json");
+      postRequest(data, "/auth/register", "json")
+        .then((r) => {
+          if (r.status === 200) {
+            this.$emit(
+              "_alert",
+              "Your account has successfully been created.",
+              "success"
+            );
+            this.$router.push("/");
+          } else {
+            this.$emit("_alert", "An error occured.", "error");
+          }
+        })
+        .catch(() => {
+          this.$emit("_alert", "An error occured.", "error");
+        });
+    },
+    validUsername(username: string): boolean {
+      if (username.length < 4 && username.length > 0) {
+        this.msg.username = "Username must have a length >= 4";
+        return false;
+      }
+
+      this.msg.username = "";
+      return true;
+    },
+    validPassword(password: string): boolean {
+      if (password.length < 8 && password.length > 0) {
+        this.msg.password = "Password must have a length >= 8";
+        return false;
+      }
+
+      this.msg.password = "";
+      return true;
+    },
+    validPasswordConf(passConf: string): boolean {
+      if (passConf !== this.password) {
+        this.msg.passConf = "Password and confirmation must be identical";
+        return false;
+      }
+
+      this.msg.passConf = "";
+      return true;
     },
   },
 };

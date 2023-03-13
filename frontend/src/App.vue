@@ -1,7 +1,16 @@
 <template>
   <div>
-    <loginModal v-if="!logged" @login="(u) => login(u)" />
-    <navBar
+    <div
+      class="absolute p-10 transition-transform duration-150 ease-in-out right-0"
+      :class="[alert.display ? 'translate-x-0' : 'translate-x-[100%]']"
+    >
+      <Alert :msg="alert.msg" :type="alert.type" />
+    </div>
+    <LoginModal
+      v-if="!logged && $route.name !== 'register'"
+      @login="(u) => login(u)"
+    />
+    <NavBar
       :logged-props="logged"
       :user-props="user"
       @logout="logout"
@@ -17,25 +26,27 @@
           }
         "
         @refresh="refresh"
+        @_alert="
+            (msg: string, type: string) => {
+                _alert(msg, type);
+            }
+        "
       />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import loginModal from "./components/loginModal.vue";
-import navBar from "./components/navBar.vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { getRequest } from "./axios/getRequest";
-import { initModals } from "flowbite";
 import { socket } from "./utils/websocket";
 import { User } from "./models/user";
+import { Alert, NavBar, LoginModal } from "./components";
 
 export default {
   name: "App",
-  components: { navBar, loginModal },
+  components: { NavBar, LoginModal, Alert },
   async mounted() {
-    initModals();
     await this.refresh();
 
     if (this.logged) {
@@ -47,6 +58,11 @@ export default {
       logged: false,
       user: {} as User,
       dark: useDark(),
+      alert: {
+        display: false,
+        msg: "",
+        type: "",
+      },
     };
   },
   methods: {
@@ -59,9 +75,7 @@ export default {
       socket.connect();
     },
     update(u: User) {
-      console.log("Update ", u);
       this.user = u;
-      console.log(this.user);
     },
     toggleDark() {
       const dark = useDark();
@@ -77,8 +91,31 @@ export default {
         }
       });
     },
+    _alert(msg: string, type: string) {
+      this.alert.msg = msg;
+      this.alert.type = type;
+
+      this.alert.display = true;
+      setTimeout(() => {
+        this.alert.display = false;
+      }, 5000);
+    },
   },
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.hidden {
+  right: -100%;
+  opacity: 0;
+}
+
+.show {
+  right: 0;
+  opacity: 1;
+  transition-property: tween;
+  transition-timing-function: ease-out;
+  transition-delay: 0.2s;
+  transition-duration: 1.5s;
+}
+</style>
