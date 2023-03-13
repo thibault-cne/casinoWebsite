@@ -49,4 +49,33 @@ tasks:
     cmds:
       - kubectl apply -f mariadb.yaml
       - kubectl apply -f backend.yaml
+
+  build-frontend:
+    internal: true
+    dir: frontend
+    vars:
+      IMAGE_NAME: thibaultcne/casino:frontend
+    cmds:
+      - docker build -t {{.IMAGE_NAME}} .
+    
+  deploy-frontend:
+    internal: true
+    deps: [build-frontend]
+    dir: frontend
+    cmds:
+      - kubectl apply -f frontend.yaml
+
+  deploy:
+    cmds:
+      - task: deploy-cert-manager
+      - task: deploy-letsencrypt
+      - task: deploy-traefik
+      - task: deploy-backend
+      - task: deploy-frontend
+  
+  rollout:
+    deps: [build-backend, build-frontend]
+    cmds:
+      - kubectl rollout restart deployment/backend -n casino-website
+      - kubectl rollout restart deployment/frontend -n casino-website
   
