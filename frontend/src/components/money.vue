@@ -1,5 +1,5 @@
 <template>
-  <div class="flex text-neutral-content">
+  <div class="flex text-accent-content">
     <div v-for="digit in split($props.amount)" :key="digit">
       <span v-if="digit === ' '">&nbsp;</span>
       <span v-else>{{ digit }}</span>

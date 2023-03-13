@@ -179,8 +179,6 @@ export default {
         return;
       }
 
-      console.log("ok");
-
       const data = {
         username: this.username,
         password: this.password,

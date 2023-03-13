@@ -2,16 +2,14 @@
   <div class="flex items-center justify-center w-full p-4 md:inset-0">
     <div class="relative w-full h-full max-w-2xl md:h-auto">
       <div class="flex items-start justify-between p-4">
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-          Edit user
-        </h3>
+        <h3 class="text-4xl text-primary font-bold">Edit user</h3>
       </div>
       <div class="p-6 space-y-6">
         <div class="grid grid-cols-6 gap-6">
           <div class="col-span-6 sm:col-span-3">
             <label
               for="username"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mb-2 text-2xl font-semibold text-primary"
               >Username</label
             >
             <input
@@ -30,7 +28,7 @@
           <div class="col-span-6 sm:col-span-3">
             <label
               for="picture"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              class="block mb-2 text-2xl font-semibold text-primary"
               >Picture</label
             >
             <div class="avatar">
@@ -52,10 +50,7 @@
               accept="image/*"
               @change="handleFileUpdate($event)"
             />
-            <p
-              class="mt-1 text-sm text-gray-500 dark:text-gray-300"
-              id="file_input_help"
-            >
+            <p class="mt-1 text-sm text-base-content" id="file_input_help">
               SVG, PNG, JPG or GIF (MAX. 800x400px).
             </p>
           </div>
@@ -65,7 +60,7 @@
       <div class="flex items-center p-6 space-x-2">
         <button
           type="button"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          class="bg-primary text-primary-content btn hover:bg-primary-focus border-none border-transparent"
           :onclick="saveEdit"
         >
           Save all

@@ -1,5 +1,5 @@
 <template>
-  <div class="alert shadow-lg" :class="computeClass()">
+  <div class="alert shadow-lg" :class="[computeClass()]">
     <div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -58,8 +58,9 @@ export default defineComponent({
 
       return false;
     },
-    computeClass() {
-      return `alert-${this.$props.type}`;
+    computeClass(): string {
+      const alert = "alert-" + this.$props.type;
+      return alert;
     },
   },
 });

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex text-neutral-content justify-center">
+  <div class="flex text-base-content justify-center">
     <Digit :digit="digit" v-for="(digit, i) in split(num as number)" :key="i" />
     <span>&nbsp;$</span>
   </div>

@@ -13,18 +13,43 @@
           <input
             type="number"
             placeholder="Amount"
-            class="input input-bordered w-full max-w-xs dark:text-white"
+            class="input input-bordered w-full max-w-xs bg-accent-content text-base-100"
             v-model="wager"
           />
         </div>
         <div class="btn-group lg:btn-group-horizontal justify-center items-end">
-          <button class="btn" @click="addWager(5000)">+5K</button>
-          <button class="btn" @click="addWager(25000)">+25K</button>
-          <button class="btn" @click="addWager(100000)">+100K</button>
-          <button class="btn" @click="multiplyWager(1 / 2)">1/2</button>
-          <button class="btn" @click="multiplyWager(2)">x2</button>
           <button
-            class="btn"
+            class="btn border-none bg-primary hover:bg-primary-focus text-primary-content"
+            @click="addWager(5000)"
+          >
+            +5K
+          </button>
+          <button
+            class="btn border-none bg-primary hover:bg-primary-focus text-primary-content"
+            @click="addWager(25000)"
+          >
+            +25K
+          </button>
+          <button
+            class="btn border-none bg-primary hover:bg-primary-focus text-primary-content"
+            @click="addWager(100000)"
+          >
+            +100K
+          </button>
+          <button
+            class="btn border-none bg-primary hover:bg-primary-focus text-primary-content"
+            @click="multiplyWager(1 / 2)"
+          >
+            1/2
+          </button>
+          <button
+            class="btn border-none bg-primary hover:bg-primary-focus text-primary-content"
+            @click="multiplyWager(2)"
+          >
+            x2
+          </button>
+          <button
+            class="btn border-none bg-primary hover:bg-primary-focus text-primary-content"
             :onclick="
               () => {
                 wager = user.wallet;

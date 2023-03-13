@@ -21,7 +21,6 @@ function sendMsg(endpoint: string, data: any) {
 }
 
 socket.on("connect", () => {
-  console.log("connected");
 });
 
 export { sendMsg, socket };

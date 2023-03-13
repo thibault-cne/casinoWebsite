@@ -1,11 +1,9 @@
 <template>
-  <nav
-    class="bg-slate-300 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900"
-  >
+  <nav class="bg-base-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <router-link to="/" class="flex items-center">
         <span
-          class="self-center text-xl font-semibold whitespace-nowrap dark:text-gray-50 text-slate-700"
+          class="self-center text-xl whitespace-nowrap text-primary font-bold"
           >Casino website</span
         >
       </router-link>
@@ -33,28 +31,28 @@
               />
             </label>
             <div
-              class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+              class="dropdown-content menu p-2 shadow rounded-box w-52 bg-primary"
             >
               <div v-if="userProps.status !== 'user'">
                 <ul>
                   <li>
                     <router-link
                       to="/admin/panel"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      class="block px-4 py-2 text-sm text-primary-content hover:bg-primary-focus"
                       >Dashboard administrateur</router-link
                     >
                   </li>
                   <li>
                     <router-link
                       to="/admin/user"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      class="block px-4 py-2 text-sm text-primary-content hover:bg-primary-focus"
                       >Dashboard utilisateurs</router-link
                     >
                   </li>
                   <li>
                     <router-link
                       to="/admin/claims"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      class="block px-4 py-2 text-sm text-primary-content hover:bg-primary-focus"
                       >Dashboard claims</router-link
                     >
                   </li>
@@ -66,14 +64,14 @@
                   <li>
                     <router-link
                       to="/settings"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      class="block px-4 py-2 text-sm text-primary-content hover:bg-primary-focus"
                       >Settings</router-link
                     >
                   </li>
                   <li>
                     <router-link
                       to="/earnings"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      class="block px-4 py-2 text-sm text-primary-content hover:bg-primary-focus"
                       >Earnings</router-link
                     >
                   </li>
@@ -85,7 +83,7 @@
                   <li>
                     <a
                       :onclick="logout"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      class="block px-4 py-2 text-sm text-primary-content hover:bg-primary-focus"
                       >Sign out</a
                     >
                   </li>
@@ -117,7 +115,7 @@
           </button>
           <a @click="toggleDark" class="swap swap-rotate p-4">
             <!-- this hidden checkbox controls the state -->
-            <input type="checkbox" v-model="darkMode" />
+            <input type="checkbox" v-model="dark" />
 
             <!-- sun icon -->
             <svg
@@ -170,7 +168,7 @@
               data-modal-target="authentication-modal"
               data-modal-show="authentication-modal"
               type="button"
-              class="block py-2 pl-3 pr-4 text-slate-700 rounded md:bg-transparent md:p-0 dark:text-white cursor-pointer"
+              class="block py-2 pl-3 pr-4 text-primary hover:text-primary-focus rounded md:bg-transparent md:p-0 cursor-pointer"
               >Login</a
             >
           </li>
@@ -186,7 +184,7 @@
           <li v-for="i in index" :key="i.name">
             <router-link
               :to="i.route"
-              class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              class="text-primary hover:text-primary-focus block py-2 pl-3 pr-4 rounded md:hover:bg-transparent md:p-0"
               >{{ i.name }}</router-link
             >
           </li>
@@ -211,11 +209,14 @@ export default defineComponent({
   props: {
     loggedProps: { type: Boolean, required: true },
     userProps: { type: Object as () => User, required: true },
-    darkMode: { type: Boolean, required: true },
+    darkMode: { type: String, required: true },
   },
   watch: {
     loggedProps: function (newVal) {
       this.logged = newVal;
+    },
+    darkMode: function () {
+      this.dark = !this.dark;
     },
   },
   mounted() {
@@ -226,6 +227,7 @@ export default defineComponent({
       base_backend_url: base_backend_url,
       logged: false,
       dropdown: null,
+      dark: true,
       index: [
         {
           name: "Roulette",

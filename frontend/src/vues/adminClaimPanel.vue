@@ -11,9 +11,9 @@
         </button>
       </div>
 
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <table class="w-full text-sm text-left">
         <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400"
+          class="text-xs text-accent-content bg-accent uppercase border-b border-accent-content"
         >
           <tr>
             <th scope="col" class="px-6 py-3">Code</th>
@@ -21,12 +21,8 @@
             <th scope="col" class="px-6 py-3">Delete</th>
           </tr>
         </thead>
-        <tbody>
-          <tr
-            class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-slate-300 dark:hover:bg-gray-600"
-            v-for="claim in claims"
-            :key="claim.code"
-          >
+        <tbody class="bg-accent text-accent-content">
+          <tr v-for="claim in claims" :key="claim.code">
             <td class="px-6 py-4">{{ claim.code }}</td>
             <td class="px-6 py-4">{{ claim.use }}</td>
             <td>

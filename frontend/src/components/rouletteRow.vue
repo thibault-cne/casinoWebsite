@@ -2,7 +2,7 @@
   <div class="flex justify-center flex-col">
     <button
       v-bind:class="computeClass()"
-      class="btn btn-wide text-white border-solid border-r-0 border-t-0 border-l-0 border-b-4 border-black/[.2]"
+      class="btn btn-wide text-primary-content hover:bg-neutral-focus border-solid border-r-0 border-t-0 border-l-0 border-b-4 border-black/[.2]"
       type="button"
       :onclick="bet"
     >

@@ -111,12 +111,18 @@ export default defineComponent({
         username: this.username,
         password: this.password,
       };
-      postRequest(data, "/auth/login", "json").then((r) => {
-        if (r.status == 200) {
-          console.log(r.data.user);
-          this.$emit("login", r.data.user);
-        }
-      });
+      postRequest(data, "/auth/login", "json")
+        .then((r) => {
+          if (r.status == 200) {
+            this.$emit("login", r.data.user);
+            this.$emit("_alert", "You successfully logged in.", "success");
+          } else {
+            this.$emit("_alert", "An error occured during the login.", "error");
+          }
+        })
+        .catch(() => {
+          this.$emit("_alert", "An error occured during the login.", "error");
+        });
     },
   },
 });

@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center">
-    <div class="w-11/12 relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
+    <div class="w-11/12 relative overflow-x-auto sm:rounded-lg mt-4">
       <div class="flex items-center justify-end p-4">
         <label for="table-search" class="sr-only">Search</label>
         <div class="relative">
@@ -29,9 +29,9 @@
           />
         </div>
       </div>
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <table class="w-full text-sm text-left">
         <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400"
+          class="text-xs uppercase bg-accent text-accent-content border-b border-accent-content"
         >
           <tr>
             <th scope="col" class="px-6 py-3">Username</th>
@@ -40,12 +40,8 @@
             <th scope="col" class="px-6 py-3">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr
-            class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-slate-300 dark:hover:bg-gray-600"
-            v-for="user in users"
-            :key="user.id"
-          >
+        <tbody class="bg-accent text-accent-content">
+          <tr v-for="user in users" :key="user.id">
             <td class="px-6 py-4">{{ user.username }}</td>
             <td class="px-6 py-4">
               <money :amount="user.wallet" />
@@ -58,7 +54,7 @@
                   type="button"
                   :data-modal-target="user.id"
                   :data-modal-show="user.id"
-                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-4"
+                  class="font-medium text-primary hover:underline pr-4"
                   >Edit user</a
                 >
               </div>
@@ -67,7 +63,7 @@
                 type="button"
                 :data-modal-target="user.id + 'wallet'"
                 :data-modal-show="user.id + 'wallet'"
-                class="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-4"
+                class="font-medium text-primary hover:underline pr-4"
                 >Edit user wallet</a
               >
             </td>

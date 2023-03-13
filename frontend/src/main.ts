@@ -10,3 +10,5 @@ const app = createApp(App).use(router);
 app.config.globalProperties.emitter = emitter;
 
 app.mount("#app");
+
+document.querySelector('html')?.setAttribute('data-theme', "dark");

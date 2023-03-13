@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="absolute p-10 transition-transform duration-150 ease-in-out right-0"
+      class="absolute p-10 transition-transform duration-150 ease-in-out right-0 z-10"
       :class="[alert.display ? 'translate-x-0' : 'translate-x-[100%]']"
     >
       <Alert :msg="alert.msg" :type="alert.type" />
@@ -9,6 +9,11 @@
     <LoginModal
       v-if="!logged && $route.name !== 'register'"
       @login="(u) => login(u)"
+      @_alert="
+            (msg: string, type: string) => {
+                _alert(msg, type);
+            }
+        "
     />
     <NavBar
       :logged-props="logged"
@@ -17,7 +22,7 @@
       :dark-mode="dark"
       @toggle="toggleDark"
     />
-    <div>
+    <div class="w-full h-screen bg-base-300">
       <router-view
         :user-props="user"
         @update="
@@ -37,7 +42,6 @@
 </template>
 
 <script lang="ts">
-import { useDark, useToggle } from "@vueuse/core";
 import { getRequest } from "./axios/getRequest";
 import { socket } from "./utils/websocket";
 import { User } from "./models/user";
@@ -57,7 +61,7 @@ export default {
     return {
       logged: false,
       user: {} as User,
-      dark: useDark(),
+      dark: "dark",
       alert: {
         display: false,
         msg: "",
@@ -78,18 +82,23 @@ export default {
       this.user = u;
     },
     toggleDark() {
-      const dark = useDark();
-      const toggle = useToggle(dark);
+      if (this.dark === "dark") {
+        this.dark = "light";
+      } else {
+        this.dark = "dark";
+      }
 
-      toggle();
+      document.querySelector("html")?.setAttribute("data-theme", this.dark);
     },
     async refresh() {
-      await getRequest("/auth/connected", "json").then((r) => {
-        if (r.status == 200) {
-          this.user = r.data.user;
-          this.logged = true;
-        }
-      });
+      await getRequest("/auth/connected", "json")
+        .then((r) => {
+          if (r.status == 200) {
+            this.user = r.data.user;
+            this.logged = true;
+          }
+        })
+        .catch(() => {});
     },
     _alert(msg: string, type: string) {
       this.alert.msg = msg;
@@ -104,18 +113,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.hidden {
-  right: -100%;
-  opacity: 0;
-}
-
-.show {
-  right: 0;
-  opacity: 1;
-  transition-property: tween;
-  transition-timing-function: ease-out;
-  transition-delay: 0.2s;
-  transition-duration: 1.5s;
-}
-</style>
+<style scoped lang="scss"></style>
