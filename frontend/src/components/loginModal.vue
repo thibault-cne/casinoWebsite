@@ -8,10 +8,10 @@
   >
     <div class="relative w-full h-full max-w-md md:h-auto">
       <!-- Modal content -->
-      <div class="relative bg-gray-50 rounded-lg shadow dark:bg-gray-700">
+      <div class="relative rounded-lg shadow bg-base-100">
         <button
           type="button"
-          class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+          class="absolute top-3 right-2.5 bg-transparent hover:bg-neutral-focus rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
           data-modal-hide="authentication-modal"
         >
           <svg
@@ -30,21 +30,21 @@
           <span class="sr-only">Close modal</span>
         </button>
         <div class="px-6 py-6 lg:px-8">
-          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+          <h3 class="mb-4 text-3xl font-bold text-primary-content">
             Sign in to our platform
           </h3>
           <form class="space-y-6" action="#">
             <div>
               <label
                 for="username"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="block mb-2 text-xl font-semibold text-primary"
                 >Your username</label
               >
               <input
                 type="text"
                 name="username"
                 id="username"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                class="input input-bordered input-primary w-full max-w-xs placeholder-primary-content"
                 placeholder="Vladimir Petrienko"
                 required
                 v-model="username"
@@ -53,7 +53,7 @@
             <div>
               <label
                 for="password"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                class="block mb-2 text-xl font-semibold text-primary"
                 >Your password</label
               >
               <input
@@ -61,19 +61,21 @@
                 name="password"
                 id="password"
                 placeholder="••••••••"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                class="input input-bordered input-primary w-full max-w-xs placeholder-primary-content"
                 required
                 v-model="password"
               />
             </div>
-            <button
-              :onclick="submit"
-              type="button"
-              class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              data-modal-hide="authentication-modal"
-            >
-              Login to your account
-            </button>
+            <div class="flex justify-center">
+              <button
+                :onclick="submit"
+                type="button"
+                class="btn btn-wide btn-primary"
+                data-modal-hide="authentication-modal"
+              >
+                Login to your account
+              </button>
+            </div>
             <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
               Not registered?
               <a
