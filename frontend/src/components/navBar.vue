@@ -14,7 +14,7 @@
           <div
             class="flex flex-col p-4 md:flex-row md:mt-0 md:text-sm md:font-medium"
           >
-            <counter :num="$props.userProps.wallet" />
+            <Counter :num="$props.userProps.wallet" />
           </div>
         </div>
         <div class="flex items-center md:order-2">
@@ -199,14 +199,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { getRequest } from "../axios/getRequest";
-import counter from "../components/counter.vue";
+import { Counter } from ".";
 import { base_backend_url } from "../axios/axios";
 import { User } from "../models/user";
 
 export default defineComponent({
   name: "navBar",
   components: {
-    counter,
+    Counter,
   },
   props: {
     loggedProps: { type: Boolean, required: true },

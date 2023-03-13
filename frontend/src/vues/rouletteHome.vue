@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="p-10">
-      <progressBar :time="time" />
-      <wheelComponent :isSpinning="isSpinning" :outcome="outcome" />
+      <ProgressBar :time="time" />
+      <Wheel :isSpinning="isSpinning" :outcome="outcome" />
     </div>
     <div>
       <div class="flex justify-around">
@@ -38,27 +38,25 @@
       <div
         class="flex items-center p-5 md:items-start flex-col md:flex-row md:justify-around"
       >
-        <rouletteRow :range="'1 - 7'" :amount="wager" :rolling="isSpinning" />
-        <rouletteRow :range="'0'" :amount="wager" :rolling="isSpinning" />
-        <rouletteRow :range="'8 - 14'" :amount="wager" :rolling="isSpinning" />
+        <RouletteRow :range="'1 - 7'" :amount="wager" :rolling="isSpinning" />
+        <RouletteRow :range="'0'" :amount="wager" :rolling="isSpinning" />
+        <RouletteRow :range="'8 - 14'" :amount="wager" :rolling="isSpinning" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import wheelComponent from "../components/wheel.vue";
-import rouletteRow from "../components/rouletteRow.vue";
-import progressBar from "../components/progressBar.vue";
+import { Wheel, RouletteRow, ProgressBar } from "../components";
 import { socket } from "../utils/websocket";
 import { getRequest } from "../axios/getRequest";
 import { User } from "../models/user";
 
 export default {
   components: {
-    wheelComponent,
-    rouletteRow,
-    progressBar,
+    Wheel,
+    RouletteRow,
+    ProgressBar,
   },
   props: {
     userProps: { type: Object as () => User, required: true },

@@ -12,7 +12,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "i-digit",
+  name: "digit",
   props: {
     digit: { required: true, type: String },
   },

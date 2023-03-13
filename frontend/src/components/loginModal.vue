@@ -78,7 +78,7 @@
               Not registered?
               <a
                 href="/register"
-                class="text-blue-700 hover:underline dark:text-blue-500"
+                class="text-blue-700 hover:underline dark:text-blue-500 font-medium"
                 >Create account</a
               >
             </div>

@@ -6,7 +6,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "cardComp",
+  name: "card",
   props: {
     color: String,
     number: Number,

@@ -40,7 +40,7 @@
           <td class="px-6 py-4">{{ b.game_id }}</td>
           <td class="px-6 py-4">{{ b.color }}</td>
           <td class="px-6 py-4">
-            <money :amount="b.amount" />
+            <Money :amount="b.amount" />
           </td>
         </tr>
       </tbody>
@@ -50,12 +50,12 @@
 
 <script lang="ts">
 import { getRequest } from "../axios/getRequest";
-import money from "../components/money.vue";
+import { Money } from "../components";
 import { RouletteResult } from "../models/bet";
 
 export default {
   name: "userEarnings",
-  components: { money },
+  components: { Money },
   mounted() {
     getRequest("/user/get/bets", "json", { game: this.table }).then((r) => {
       this.bets = r.data;

@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <cardComponent
+    <Card
       v-for="(card, i) in rowCards"
       :color="card.type"
       :number="card.number"
@@ -10,13 +10,13 @@
 </template>
 
 <script lang="ts">
-import cardComponent from "../components/cardComp.vue";
+import { Card } from ".";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "row-component",
   components: {
-    cardComponent,
+    Card,
   },
   data() {
     return {

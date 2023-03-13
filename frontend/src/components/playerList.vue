@@ -9,7 +9,7 @@
         <div class="flex justify-around">
           <span>{{ item.user.username }}</span>
           <div>
-            <money :amount="item.wager" />
+            <Money :amount="item.wager" />
           </div>
         </div>
       </li>
@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import money from "../components/money.vue";
+import { Money } from ".";
 import { Players } from "../models/players";
 
 export default defineComponent({
@@ -28,12 +28,12 @@ export default defineComponent({
     listProps: { required: true, type: Object as () => Players[] },
   },
   components: {
-    money,
+    Money,
   },
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s ease;

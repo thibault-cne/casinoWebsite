@@ -13,7 +13,7 @@ import { splitIntoDigits } from "../utils/splitIntoDigits";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "i-money",
+  name: "money",
   props: {
     amount: { type: Number, required: true },
   },

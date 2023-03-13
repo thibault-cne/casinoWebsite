@@ -3,18 +3,18 @@
     <div class="roulette-wrapper">
       <div class="selector"></div>
       <div class="wheel" :style="isSpinning ? spinningStyle : resetStyle">
-        <rowComponent v-for="n in 29" :key="n" />
+        <Row v-for="n in 29" :key="n" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import rowComponent from "../components/rowComp.vue";
+import Row from "./rowComp.vue";
 
 export default {
   components: {
-    rowComponent,
+    Row,
   },
   props: {
     isSpinning: { type: Boolean, required: true },

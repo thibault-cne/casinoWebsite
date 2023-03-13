@@ -8,7 +8,7 @@
     >
       {{ $props.range }}
     </button>
-    <playerList :listProps="players" />
+    <PlayerList :listProps="players" />
   </div>
 </template>
 
@@ -16,7 +16,7 @@
 import { defineComponent } from "vue";
 import { socket, sendMsg } from "../utils/websocket";
 import { getRequest } from "../axios/getRequest";
-import playerList from "../components/playerList.vue";
+import PlayerList from "./playerList.vue";
 import { RouletteBet } from "../models/bet";
 import { Players } from "../models/players";
 
@@ -28,7 +28,7 @@ export default defineComponent({
     rolling: { type: Boolean, required: true },
   },
   components: {
-    playerList,
+    PlayerList,
   },
   data() {
     return {
