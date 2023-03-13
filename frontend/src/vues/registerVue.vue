@@ -23,7 +23,7 @@
                 type="text"
                 name="username"
                 id="username"
-                class="input input-bordered input-primary w-full max-w-xs placeholder-primary-content"
+                class="input input-bordered input-primary w-full max-w-xs placeholder-base-content"
                 placeholder="Vladimir Petrienko"
                 v-model="username"
                 required
@@ -44,7 +44,7 @@
                 id="password"
                 placeholder="••••••••"
                 v-model="password"
-                class="input input-bordered input-primary w-full max-w-xs placeholder-primary-content"
+                class="input input-bordered input-primary w-full max-w-xs placeholder-base-content"
                 required
               />
               <span class="font-medium text-red-500" v-if="msg.password">{{
@@ -63,7 +63,7 @@
                 id="confirm-password"
                 placeholder="••••••••"
                 v-model="passConf"
-                class="input input-bordered input-primary w-full max-w-xs placeholder-primary-content"
+                class="input input-bordered input-primary w-full max-w-xs placeholder-base-content"
                 required
               />
               <span class="font-medium text-red-500" v-if="msg.passConf">{{
@@ -82,7 +82,7 @@
                 id="code"
                 placeholder="12345"
                 v-model="code"
-                class="input input-bordered input-primary w-full max-w-xs placeholder-primary-content"
+                class="input input-bordered input-primary w-full max-w-xs placeholder-base-content"
                 required
               />
               <span class="font-medium text-red-500" v-if="msg.code">{{

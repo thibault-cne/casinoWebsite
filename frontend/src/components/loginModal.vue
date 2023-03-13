@@ -11,7 +11,7 @@
       <div class="relative rounded-lg shadow bg-base-100">
         <button
           type="button"
-          class="absolute top-3 right-2.5 bg-transparent hover:bg-neutral-focus rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+          class="absolute top-3 right-2.5 bg-transparent hover:bg-base-300 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
           data-modal-hide="authentication-modal"
         >
           <svg
@@ -30,7 +30,7 @@
           <span class="sr-only">Close modal</span>
         </button>
         <div class="px-6 py-6 lg:px-8">
-          <h3 class="mb-4 text-3xl font-bold text-primary-content">
+          <h3 class="mb-4 text-3xl font-bold text-primary">
             Sign in to our platform
           </h3>
           <form class="space-y-6" action="#">
@@ -44,7 +44,7 @@
                 type="text"
                 name="username"
                 id="username"
-                class="input input-bordered input-primary w-full max-w-xs placeholder-primary-content"
+                class="input input-bordered input-primary w-full max-w-xs placeholder-base-content"
                 placeholder="Vladimir Petrienko"
                 required
                 v-model="username"
@@ -61,7 +61,7 @@
                 name="password"
                 id="password"
                 placeholder="••••••••"
-                class="input input-bordered input-primary w-full max-w-xs placeholder-primary-content"
+                class="input input-bordered input-primary w-full max-w-xs placeholder-base-content"
                 required
                 v-model="password"
               />
