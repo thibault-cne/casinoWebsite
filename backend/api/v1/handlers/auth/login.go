@@ -26,6 +26,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
+	fmt.Println("Error 1")
 
 	// Check if the user exists by username or email
 	user, err := models.GetUserByUsername(f.Username)
@@ -37,6 +38,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
+	fmt.Println("Error 2")
 
 	// Check if the password is correct
 	if !user.CheckPasswordHash(f.Password) {
@@ -46,6 +48,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
+	fmt.Println("Error 3")
 
 	// Store the user ID in the session
 	session := sessions.Default(c)
