@@ -77,7 +77,7 @@ func GetUserByUsername(username string) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
-	return user, nil
+	return &user, nil
 }
 
 func (u *User) AddMoney(amount int) error {
