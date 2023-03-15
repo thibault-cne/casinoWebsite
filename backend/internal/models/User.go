@@ -72,9 +72,7 @@ func GetUserByID(id string) (*User, error) {
 func GetUserByUsername(username string) (*User, error) {
 	var user User
 
-	err := db.DB.Where(&User{
-		Username: username,
-	}).First(&user).Error
+	err := db.DB.Where("username = ?", username).First(&user).Error
 
 	if err != nil {
 		return nil, err
