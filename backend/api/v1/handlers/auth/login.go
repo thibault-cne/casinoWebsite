@@ -39,7 +39,7 @@ func Login(c *gin.Context) {
 		return
 	}
 	fmt.Println("Error 2")
-	fmt.Printf("%s %+v\n", f.Password, user)
+	fmt.Printf("%s %s %+v\n", f.Username, f.Password, user)
 
 	// Check if the password is correct
 	if !user.CheckPasswordHash(f.Password) {
