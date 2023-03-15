@@ -70,11 +70,11 @@ func GetUserByID(id string) (*User, error) {
 }
 
 func GetUserByUsername(username string) (*User, error) {
-	user := &User{
-		Username: username,
-	}
+	var user User
 
-	err := db.DB.Find(user).Error
+	err := db.DB.Where(&User{
+		Username: username,
+	}).First(&user).Error
 
 	if err != nil {
 		return nil, err
