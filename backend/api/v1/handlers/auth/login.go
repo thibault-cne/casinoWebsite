@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"net/http"
 
 	"casino.website/internal/models"
@@ -26,7 +25,6 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	fmt.Println("Error 1")
 
 	// Check if the user exists by username or email
 	user, err := models.GetUserByUsername(f.Username)
@@ -38,8 +36,6 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	fmt.Println("Error 2")
-	fmt.Printf("%s %s %+v\n", f.Username, f.Password, user)
 
 	// Check if the password is correct
 	if !user.CheckPasswordHash(f.Password) {
@@ -49,13 +45,11 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	fmt.Println("Error 3")
 
 	// Store the user ID in the session
 	session := sessions.Default(c)
 	session.Set("user", user.ID)
 	session.Save()
-	fmt.Println(session.ID())
 
 	c.JSON(200, gin.H{
 		"success": true,
